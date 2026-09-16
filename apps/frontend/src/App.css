@@ -45,6 +45,20 @@
   margin-bottom: 0.75rem;
 }
 
+.workspace-logo {
+  display: block;
+  width: 280px;
+  max-width: 280px;
+  height: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.workspace-header .workspace-welcome-title {
+  margin: 0;
+  white-space: nowrap;
+}
+
 .status-panel h3 {
   margin: 0 0 0.35rem;
   color: var(--color-text-strong);
