@@ -542,14 +542,15 @@ function WorkspaceShell({
   return (
     <section className="workspace-shell">
       <header className="status-panel authenticated-panel workspace-header flex items-center justify-between">
-        <div>
-          <p className="eyebrow">
-            Authenticated workspace ({appMode ?? 'local'} mode)
-          </p>
-          <h2>Welcome back, {userDisplayName}.</h2>
-          <p>
-            Major features are scaffolded as direct routes so refresh and browser history preserve your place.
-          </p>
+        <div className="flex items-center gap-5 min-w-0">
+          <img
+            src="/portfolio-operating-system-logo.png"
+            alt="Portfolio Operating System"
+            className="workspace-logo flex-shrink-0"
+          />
+          <h2 className="workspace-welcome-title">
+            Welcome back, {userDisplayName}.
+          </h2>
         </div>
         <div className="ml-4 flex-shrink-0">
           <ProfileSwitcher
