@@ -90,6 +90,10 @@ Project origin and vision resources:
 
 ## Changelog
 
+### 2026-09-25
+
+- Added Anthropic as a usable organization-scoped BYOK provider through the existing flat registry, encrypted credential flow, provider-neutral adapter interfaces, metadata-driven Your AI workflow, and bounded regression verification.
+
 ### 2026-09-07
 
 - Completed the in-app Help System with an authenticated `/help` master page and topic routes beside Settings in System navigation, GitHub `main`-sourced Markdown pages and plain-text tooltips, a global validated content cache with bundled fallback, and an authenticated Preferences refresh control.
