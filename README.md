@@ -90,6 +90,10 @@ Project origin and vision resources:
 
 ## Changelog
 
+### 2026-09-24
+
+- Improved the OpenAI BYOK provider flow by distinguishing exhausted quota from generic rate limits, showing billing guidance, applying quota failure escalation after three consecutive failures, and adding regression coverage for provider error paths.
+
 ### 2026-09-07
 
 - Completed the in-app Help System with an authenticated `/help` master page and topic routes beside Settings in System navigation, GitHub `main`-sourced Markdown pages and plain-text tooltips, a global validated content cache with bundled fallback, and an authenticated Preferences refresh control.
