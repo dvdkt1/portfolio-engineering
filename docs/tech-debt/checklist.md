@@ -68,6 +68,16 @@ This checklist captures technical debt and closeout follow-up recommendations th
 - Source: Security Master closeout (governance T-04.2 finding N2)
 - Why it matters: `SecurityStore.update` in `packages/database/src/securityStore.ts` scopes its write by organization with `updateMany`, then re-reads the row in a separate query. A concurrent update between the two can return a record that differs from what this request wrote. A concurrent delete can return `not_found` even though the update succeeded. Tenant isolation is not affected.
 - Suggested next action: Wrap the scoped write and re-read in a single transaction, or use an atomic update-returning pattern. Add a focused contract test for the interleaving.
+## TD-015
+
+- Title: Add parity coverage for provider-specific quota and rate-limit error classification across AI adapters
+- Status: new
+- Severity: medium
+- Classification: technical-debt
+- Area: AI / provider integrations / testing
+- Source: OpenAI BYOK provider closeout
+- Why it matters: The OpenAI adapter now distinguishes exhausted quota from generic rate limits and strips secrets from failure payloads, but the same contract should be reviewed across Azure OpenAI, Google Gemini, Anthropic, and any future adapters to prevent inconsistent user messaging or accidental secret leakage.
+- Suggested next action: Add a shared failure-classification assertion pattern to provider adapter tests so each adapter validates quota, rate-limit, auth, and timeout semantics consistently.
 - GitHub issue: none
 
 ## TD-014
@@ -161,8 +171,8 @@ This checklist captures technical debt and closeout follow-up recommendations th
 - Severity: medium
 - Classification: technical-debt
 - Area: API / AI connections / testing
-- Source: AI provider connections feature closeout
-- Why it matters: Current API tests cover limiter behavior and provider registration, while the most security-sensitive lifecycle assertions—organization scoping, OpenAI discovery, credential redaction, and persisted invalid-credential failures—still rely partly on manual verification and static review.
+- Source: AI provider connections feature closeout; Anthropic AI Provider closeout
+- Why it matters: Current API tests cover limiter behavior, provider registration, Anthropic metadata/validation, and focused adapter redaction, while the most security-sensitive authenticated lifecycle assertions—organization scoping, provider discovery through routes, credential rotation, blank-secret preservation, and persisted invalid-credential failures—still rely partly on manual verification and static review.
 - Suggested next action: Add authenticated route tests for provider discovery, create/update/test/delete, cross-organization isolation, invalid-provider credentials, and response/log secret redaction.
 - GitHub issue: none
 

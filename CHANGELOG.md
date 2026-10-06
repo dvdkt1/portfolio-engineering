@@ -16,6 +16,14 @@
 - Deferred AI-assisted classification and all Security Master import paths (catalog, spreadsheet, and copy/paste) to future specifications.
 - Completed the Security Master implementation plan and archived it under `docs/plans/closed/`.
 
+### 2026-09-25
+
+- Added Anthropic as a usable organization-scoped BYOK provider through the existing flat registry, encrypted credential flow, provider-neutral adapter interfaces, metadata-driven Your AI workflow, and bounded regression verification.
+
+### 2026-09-24
+
+- Improved the OpenAI BYOK provider flow by distinguishing exhausted quota from generic rate limits, showing billing guidance, applying quota failure escalation after three consecutive failures, and adding regression coverage for provider error paths.
+
 ### 2026-09-07
 
 - Completed the in-app Help System with an authenticated `/help` master page and topic routes beside Settings in System navigation, GitHub `main`-sourced Markdown pages and plain-text tooltips, a global validated content cache with bundled fallback, and an authenticated Preferences refresh control.
