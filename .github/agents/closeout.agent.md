@@ -55,13 +55,16 @@ Identify:
 - documentation changes
 - intentionally deferred cleanup tied to this batch
 
-### 2. Update the README changelog
+### 2. Update the canonical changelog
 
-- Add changelog entries for the current PR or batch.
+- Update the root `CHANGELOG.md` for the current PR or batch.
+- Treat `CHANGELOG.md` as the canonical release-history source; do not duplicate changelog entries in `README.md`.
+- Keep the README pointing readers to `CHANGELOG.md` rather than maintaining a second changelog there.
 - Each changelog entry must be one sentence.
 - Keep entries high-level and useful to humans scanning project progress.
 - Focus on meaningful product, platform, setup, workflow, data, or architecture changes.
 - Do not include generated-file noise or low-level implementation details.
+- If the application maintains a bundled changelog fallback, synchronize it with the canonical `CHANGELOG.md` and run the existing changelog synchronization/validation check.
 
 ### 3. Refresh schema documentation when the schema changed
 
@@ -227,7 +230,7 @@ For each ADR recommendation, include:
 At minimum, produce:
 
 1. a short closeout summary
-2. the README changelog updates made
+2. the `CHANGELOG.md` updates made, including bundled-fallback synchronization when applicable
 3. the schema documentation updates made
 4. a transient-document review table with recommendation and reason
 5. a concise documentation-debt list

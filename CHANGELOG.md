@@ -3,6 +3,7 @@
 - Added the authenticated in-app Change Log under System with a personal New indicator and accessible Markdown, freshness, and failure states.
 - Added organization- and user-scoped release-note acknowledgments that survive sessions, remain outside profile backups, and are removed during transactional profile deletion.
 - Reused the validated repository-content channel for automatic and authenticated manual changelog refresh, with cached and bundled fallback when the source is unavailable.
+- Updated the closeout workflow to maintain the canonical CHANGELOG.md, keep README pointer-only, and synchronize the bundled changelog fallback.
 - Completed and archived the In-App Change Log implementation plan after final governance and verification.
 
 ### 2026-09-26
