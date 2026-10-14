@@ -11,13 +11,13 @@ Executing agents keep this block current. It is the entry point for any agent re
 
 - Current effort: E-01
 - Completed efforts: none
-- Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-01.3 (required before E-02's baseline gate)
-- Last updated: 2026-10-13
+- Blocked tasks: T-01.3 (required browser captures and exhaustive file/line audit unavailable in this execution environment), T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
+- Next recommended task: Resume T-01.3 when browser capture and source-search tools are available; required before E-02
+- Last updated: 2026-10-14
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
-| E-01 | Design inputs, decisions, and baseline | 4 | 3 | in-progress |
+| E-01 | Design inputs, decisions, and baseline | 4 | 3 | blocked |
 | E-02 | Token layer structure (no visual change) | 4 | 0 | pending |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 0 | pending |
 | E-04 | Remove hard-coded visual values from shared layers | 4 | 0 | pending |
@@ -175,7 +175,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-01.3: Capture visual baseline and hard-coded-value audit
 
-- **Status:** pending
+- **Status:** blocked
 - **Owner:** frontend coding
 - **Depends on:** none
 - **Files:**
@@ -184,7 +184,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 - **Intent:** Screenshot every routed page (workspace shell, Journal, Journal review, Help landing/topic, Settings tabs incl. Investor Profile, Your AI, Account, Security Master, NotFound, Placeholder) plus an open Dialog and HelpTooltip at 375px and 1280px. Audit every hard-coded visual value outside token files: Tailwind palette classes (`text-white`, `bg-black/*`, `*-slate-*`, `*-red-*`, …), `shadow-lg`, `prose-slate`, alpha modifiers on token colors, undefined token classes, literals in `App.css`/`index.css`, and `packages/ui` styling.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do: "Preserve or improve … responsive behavior when migrating UI."
 - **Verify:** Doc lists each route × viewport with a screenshot reference, and an audit table of file:line → literal → proposed semantic token. No code changed.
-- **Notes:**
+- **Notes:** Added [the styling baseline audit](../uxd/research/0010-styling-baseline.md) with the full planned route/state × 375px/1280px capture matrix and static findings for global CSS, Tailwind, shared UI primitives, and representative routed components. No screenshots or screenshot references could be produced, and an exhaustive source-wide file/line scan was unavailable in this execution environment. T-01.3 remains blocked; E-01's exit gate is not satisfied, so do not start E-02. No application code changed.
 
 ### T-01.4: Confirm open decisions with the user
 
@@ -570,6 +570,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | R-14 | Foundations exports do not specify the current decorative gradients; compare against relevant page designs before deciding whether to retain or remove them. | Visual fidelity for T-04.1; does not affect token architecture or E-02. | uxd | T-04.1 |
 | R-15 | Runtime identifiers were not in the Figma exports; user specified `light`, `dark-orchid`, `pathfinder`, `warm-orchid`, and `high-contrast`. | Identifier contract fixed for later selection work. | user | resolved by user direction and ADR 0018 (2026-10-13) |
 | R-16 | Numeric spacing/radius values have no exported units; CSS realization and names were needed. | Use flattened token paths and append `px` to exported numeric magnitudes; preserve computed layout spacing. | adr-architect | resolved by ADR 0018 (2026-10-13) |
+| R-17 | T-01.3's baseline requires browser screenshots at 375px and 1280px plus an exhaustive file/line audit. Those capabilities were unavailable during the 2026-10-14 execution. | The static findings and route/state matrix are recorded in `docs/uxd/research/0010-styling-baseline.md`; complete the missing captures and source scan before closing T-01.3. Do not start E-02 until E-01's exit gate is met. | frontend coding | T-01.3 / E-02 |
 
 ## Revisions
 
@@ -579,3 +580,4 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-10-13 | Renumbered | Moved to plan 0010 because 0009 is reserved for another feature. |
 | 2026-10-13 | T-01.1 inventory | Added exported token inventory, completed T-01.1, and reconciled naming, elevation, and accessibility assumptions with the supplied files. |
 | 2026-10-13 | T-01.2 architecture | Added accepted ADR 0018 and resolved token naming/units, font hosting, identifiers/default, theme boundary, and migration-alias policy. T-01.4 decisions recorded; T-01.3 baseline remains the E-01/E-02 gate. |
+| 2026-10-14 | T-01.3 audit attempt | Added the static styling audit and complete route/state capture matrix. Marked T-01.3/E-01 blocked because screenshots and exhaustive source-line references could not be verified in this environment; E-02 remains pending. |
