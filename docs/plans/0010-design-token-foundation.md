@@ -9,15 +9,15 @@
 
 Executing agents keep this block current. It is the entry point for any agent resuming this plan.
 
-- Current effort: E-01
-- Completed efforts: none
-- Blocked tasks: T-01.3 (required browser captures and exhaustive file/line audit unavailable in this execution environment), T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: Resume T-01.3 when browser capture and source-search tools are available; required before E-02
+- Current effort: none (E-01 complete; E-02 pending and not started)
+- Completed efforts: E-01
+- Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
+- Next recommended task: T-02.1, when explicitly authorized to begin E-02
 - Last updated: 2026-10-14
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
-| E-01 | Design inputs, decisions, and baseline | 4 | 3 | blocked |
+| E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
 | E-02 | Token layer structure (no visual change) | 4 | 0 | pending |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 0 | pending |
 | E-04 | Remove hard-coded visual values from shared layers | 4 | 0 | pending |
@@ -124,7 +124,7 @@ Described only. A future spec decides scope (per browser vs per profile), defaul
 
 ### Layout-preservation rule (applies to every task)
 
-Diffs to `.css` files and `className` strings may change only: color, background(-color/-image), border-color, border-radius, box-shadow, outline/ring, font-family, font-size, font-weight, line-height, letter-spacing, text-decoration, opacity, and `color-scheme`. They must not change `display`, grid/flex properties, `gap`, widths/heights, `margin`/`padding` values, positioning, media queries, or element order — unless R-5 is resolved otherwise. Verification uses before/after screenshots against the T-01.3 baseline.
+Diffs to `.css` files and `className` strings may change only: color, background(-color/-image), border-color, border-radius, box-shadow, outline/ring, font-family, font-size, font-weight, line-height, letter-spacing, text-decoration, opacity, and `color-scheme`. They must not change `display`, grid/flex properties, `gap`, widths/heights, `margin`/`padding` values, positioning, media queries, or element order — unless R-5 is resolved otherwise. Before and after implementation, manually verify representative routes at 375px and 1280px against the committed pre-styling baseline revision recorded in [the T-01.3 audit](../uxd/research/0010-styling-baseline.md). Git history/worktrees may provide the direct comparison; screenshots are optional review evidence unless a reviewer requests them.
 
 ### Standard frontend checks (referred to as "standard checks")
 
@@ -142,9 +142,9 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ## E-01: Design inputs, decisions, and baseline
 
-**Goal:** Turn the Figma Foundations into a reviewable in-repo token inventory, record the architecture decision, and capture a visual baseline before anything changes.
+**Goal:** Turn the Figma Foundations into a reviewable in-repo token inventory, record the architecture decision, identify the committed pre-styling source baseline, and complete the styling audit before anything changes.
 
-**Exit gate:** T-01.1 inventory merged with values for all five themes; ADR 0018 accepted; T-01.3 baseline captured; the decisions in T-01.4 recorded. Open items explicitly scoped to later tasks do not block E-02.
+**Exit gate:** T-01.1 inventory merged with values for all five themes; ADR 0018 accepted; the pre-styling commit SHA recorded and confirmed; the source-wide styling audit in T-01.3 complete with file/line findings; representative routes manually checked at 375px and 1280px before styling; the decisions in T-01.4 recorded. Screenshots are optional review evidence unless requested. Open items explicitly scoped to later tasks do not block E-02.
 
 **Depends on:** none
 
@@ -173,18 +173,17 @@ Diffs to `.css` files and `className` strings may change only: color, background
 - **Verify:** ADR exists with template sections `Applicable When`, `Context`, `Decision Statement`, `Do`, and `Do Not`, plus rationale, consequences, audience guidance, and follow-up; status accepted; references ADR 0005 without contradiction.
 - **Notes:** Accepted on 2026-10-13 under the user's explicit direction to execute T-01.2 and determine these conventions. No runtime code changed.
 
-### T-01.3: Capture visual baseline and hard-coded-value audit
+### T-01.3: Record source baseline and complete hard-coded-value audit
 
-- **Status:** blocked
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** none
 - **Files:**
-  - `docs/uxd/research/0010-styling-baseline.md` (new) — route list, viewport sizes, audit table
-  - Screenshots stored in the session workspace or attached to the PR, not committed (link from the doc)
-- **Intent:** Screenshot every routed page (workspace shell, Journal, Journal review, Help landing/topic, Settings tabs incl. Investor Profile, Your AI, Account, Security Master, NotFound, Placeholder) plus an open Dialog and HelpTooltip at 375px and 1280px. Audit every hard-coded visual value outside token files: Tailwind palette classes (`text-white`, `bg-black/*`, `*-slate-*`, `*-red-*`, …), `shadow-lg`, `prose-slate`, alpha modifiers on token colors, undefined token classes, literals in `App.css`/`index.css`, and `packages/ui` styling.
+  - `docs/uxd/research/0010-styling-baseline.md` (modified) — baseline commit SHA, representative route checks, and source audit
+- **Intent:** Record the committed pre-styling Git revision as the reproducible source baseline. Manually check representative routes before implementation at 375px and 1280px; after styling, compare the same routes against this revision, using Git history/worktrees as needed. Screenshots are optional review evidence unless specifically requested. Complete a source-wide audit of hard-coded visual values outside token files, including Tailwind palette classes (`text-white`, `bg-black/*`, `*-slate-*`, `*-red-*`, …), `shadow-lg`, `prose-slate`, alpha modifiers on token colors, undefined token classes, literals in `App.css`/`index.css`, focus rings, typography, gradients, shadows/elevation, and `packages/ui`.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do: "Preserve or improve … responsive behavior when migrating UI."
-- **Verify:** Doc lists each route × viewport with a screenshot reference, and an audit table of file:line → literal → proposed semantic token. No code changed.
-- **Notes:** Added [the styling baseline audit](../uxd/research/0010-styling-baseline.md) with the full planned route/state × 375px/1280px capture matrix and static findings for global CSS, Tailwind, shared UI primitives, and representative routed components. No screenshots or screenshot references could be produced, and an exhaustive source-wide file/line scan was unavailable in this execution environment. T-01.3 remains blocked; E-01's exit gate is not satisfied, so do not start E-02. No application code changed.
+- **Verify:** The document records the full pre-styling commit SHA and manual pre-styling checks for representative routes at both widths; the source-wide audit covers all in-scope frontend styling and records file:line → literal/class → proposed semantic token or documented non-mapping; no application code changed. Post-styling manual comparison at those widths is required by styling-task exit gates. No screenshot is required unless requested by a reviewer.
+- **Notes:** Recorded pre-styling HEAD `dad2b60716fdadf9df342405c9f7d404a0daf44a`; application source had no worktree changes at capture time. Completed the source-wide static audit of `apps/frontend/src` and `packages/ui`, with file/line findings and token/non-mapping dispositions in [the baseline audit](../uxd/research/0010-styling-baseline.md). The user reported manually reviewing every listed representative route/state at 375px and 1280px against the baseline on 2026-10-14, including the specified dialog behavior and keyboard focus, with no notable existing layout issues. Screenshots are optional and do not block completion. No application code changed.
 
 ### T-01.4: Confirm open decisions with the user
 
@@ -204,7 +203,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 **Goal:** Move the token layer into its permanent location and wire Tailwind to it while the Light theme still holds today's values, so the structural change is reviewable separately from the visual change.
 
-**Exit gate:** `index.css` imports `styles/tokens.css` and `styles/themes.css`; Tailwind theme values are all `var(...)`; the token contract test runs in `pnpm test`; screenshots match the T-01.3 baseline except focus rings (now visible).
+**Exit gate:** `index.css` imports `styles/tokens.css` and `styles/themes.css`; Tailwind theme values are all `var(...)`; the token contract test runs in `pnpm test`; manually compare representative routes against pre-styling commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` at 375px and 1280px and confirm no unintended layout regressions (focus rings may become visible). Screenshots are optional unless requested by a reviewer.
 
 **Depends on:** E-01
 
@@ -219,7 +218,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
   - `apps/frontend/src/index.css` (modified)
 - **Intent:** Move the `:root` token block out of `index.css`; introduce the exact Figma code-syntax names where provided and use ADR 0018's deterministic path rule for all remaining names. Keep E-02 visually neutral: legacy component-facing variables may temporarily retain current values until consumers migrate; alias only semantically matched values and keep unmatched legacy roles explicit and temporary. Represent spacing/radius numeric values as CSS px without substituting values that alter computed layout. Add `@import`s above `@tailwind base`; tokenise the body gradient and `code` styles without changing their appearance.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do Not: "replace existing semantic tokens with arbitrary literal … values"; Do Not: "introduce new component-specific CSS files" (these are global base files). ADR 0018.
-- **Verify:** Standard checks pass; built CSS contains token declarations before preflight; `getComputedStyle(document.body)` colors/fonts equal baseline; screenshots match baseline.
+- **Verify:** Standard checks pass; built CSS contains token declarations before preflight; `getComputedStyle(document.body)` colors/fonts equal the pre-styling baseline where expected; manually compare representative routes at 375px and 1280px against commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` and confirm no unintended layout change. Screenshots optional unless requested.
 - **Notes:**
 
 ### T-02.2: Point Tailwind theme values at CSS variables
@@ -231,7 +230,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
   - `apps/frontend/tailwind.config.ts` (modified)
 - **Intent:** Replace literal `fontFamily`, `borderRadius`, named `spacing` with approved `var(...)` references; add font-size keys per Figma styles; map `ring`/`background` to existing exported semantic tokens where applicable; add box-shadow entries for the three shared elevation styles; keep existing keys only as compatibility aliases where mapped.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do: "Map semantic application design tokens to Tailwind theme tokens and use semantic token names in components."
-- **Verify:** Standard checks pass; built CSS contains rules for `.ring-ring` and `.ring-offset-background` resolving to token vars; no literal hex/rem values remain in `tailwind.config.ts` except Tailwind defaults left intentionally; screenshots match baseline apart from focus rings.
+- **Verify:** Standard checks pass; built CSS contains rules for `.ring-ring` and `.ring-offset-background` resolving to token vars; no literal hex/rem values remain in `tailwind.config.ts` except Tailwind defaults left intentionally; manually compare representative routes at 375px and 1280px against the recorded pre-styling commit, allowing intended focus-ring visibility but no unintended layout regressions.
 - **Notes:**
 
 ### T-02.3: Add a token contract test
@@ -256,7 +255,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
   - `apps/frontend/src/styles/themes.css` (modified)
 - **Intent:** Delete `--text`, `--text-h`, `--text-muted`, `--bg`, `--border`, `--panel-bg`, `--hero-bg`, `--detail-bg`, `--code-bg`, `--accent`, `--success-border`, `--warning-border`, `--error-border`, `--shadow` once a repo search shows zero `var(--<alias>)` references.
 - **ADRs:** none
-- **Verify:** Repo search for each alias returns no consumers; standard checks pass; screenshots unchanged.
+- **Verify:** Repo search for each alias returns no consumers; standard checks pass; manual representative-route comparison at 375px and 1280px confirms no unintended layout regressions.
 - **Notes:**
 
 ---
@@ -265,7 +264,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 **Goal:** Apply Figma Light-theme values, IBM Plex typography, shared spacing/radii, and shared elevations through the token layer only.
 
-**Exit gate:** Light theme matches the supplied foundations; the explicitly specified contrast assertions pass; screenshots differ from baseline only in color, type, radius, and shadow (bounding-box layout unchanged within R-5 tolerance).
+**Exit gate:** Light theme matches the supplied foundations; the explicitly specified contrast assertions pass; manual representative-route comparisons at 375px and 1280px against the recorded pre-styling Git revision show only intended visual skin changes and no unintended layout regressions within R-5 tolerance. Screenshots are optional unless requested by a reviewer.
 
 **Depends on:** E-02
 
@@ -293,7 +292,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
   - `apps/frontend/src/styles/themes.css` (modified — Light block only)
 - **Intent:** Replace Light semantic color values with the T-01.1 values; set `color-scheme: light`.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do: "Preserve or improve … contrast".
-- **Verify:** Contrast test passes; values equal `design-tokens.json`; screenshots show color-only change.
+- **Verify:** Contrast test passes; values equal `design-tokens.json`; manual representative-route comparison against the baseline at 375px and 1280px shows no unintended layout regression. Screenshots optional unless requested.
 - **Notes:**
 
 ### T-03.3: Apply the type scale to global element styles
@@ -307,7 +306,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
   - `apps/frontend/src/App.css` (modified — typographic properties only, e.g. `.eyebrow`, `.settings-metric-value`, `.settings-metric-label`, `.nav-group h3`)
 - **Intent:** Replace literal font sizes/weights/line-heights/letter-spacing with type tokens matching the closest Figma style.
 - **ADRs:** [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md); [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do Not: "replace existing semantic tokens with arbitrary literal … typography values".
-- **Verify:** No literal `font-size`/`font-weight`/`line-height`/`letter-spacing` remains in `index.css`/`App.css`; screenshots at 375px and 1280px show no clipping, overflow, or structural layout change. Record natural text reflow caused by the Figma font metrics (R-5).
+- **Verify:** No literal `font-size`/`font-weight`/`line-height`/`letter-spacing` remains in `index.css`/`App.css`; manually inspect representative routes at 375px and 1280px against the baseline for clipping, overflow, or structural layout changes. Record natural text reflow caused by the Figma font metrics (R-5); screenshots optional unless requested.
 - **Notes:**
 
 ### T-03.4: Apply radius and elevation values
@@ -321,7 +320,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
   - `apps/frontend/src/App.css` (modified — `border-radius` and `box-shadow` only)
 - **Intent:** Map radius literals to the approved CSS names/units for Figma's shared radius values; map surfaces to the three shared elevation levels where their intended usage matches. Do not create theme-specific elevation values.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do Not: arbitrary literal values.
-- **Verify:** No literal `border-radius`/`box-shadow` in `App.css`; screenshots show radius/shadow change only.
+- **Verify:** No literal `border-radius`/`box-shadow` in `App.css`; manual representative-route comparison at 375px and 1280px shows only intended radius/shadow changes and no unintended layout regressions.
 - **Notes:**
 
 ### T-03.5: Define spacing tokens without changing layout
@@ -334,7 +333,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
   - `apps/frontend/tailwind.config.ts` (modified — named spacing keys only)
 - **Intent:** Publish Figma spacing values using ADR 0018's path naming and px realization. Replace `App.css` spacing literals with tokens **only where the computed value is identical**; leave others as-is and list them in Notes for a later, explicitly approved density pass.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do: "Preserve … responsive behavior".
-- **Verify:** Element bounding boxes on baseline routes are unchanged (spot-check via devtools/Playwright at 375px and 1280px); standard checks pass.
+- **Verify:** Element bounding boxes on representative baseline routes are unchanged (spot-check via devtools/Playwright at 375px and 1280px); standard checks pass.
 - **Notes:**
 
 ---
@@ -487,7 +486,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 - **Files:** none (read-only)
 - **Intent:** Confirm the diff respects the layout-preservation rule, touches no routing/data/API logic, adds no competing token system, and matches ADR [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) and [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md).
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md), [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md)
-- **Verify:** Governance report with no unresolved findings; screenshots at 375/1280 compared to baseline for structure.
+- **Verify:** Governance report with no unresolved findings; manually compare the representative routes at 375px and 1280px against the recorded pre-styling baseline for structural/layout drift. Screenshots are optional review evidence unless requested.
 - **Notes:**
 
 ---
@@ -564,13 +563,13 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | R-8 | `tailwindcss-animate` classes in `dialog.tsx` are no-ops (plugin missing). Out of scope (motion change). | None now; recommend tech-debt entry at closeout. | closeout | none |
 | R-9 | Tailwind v3 alpha modifiers (`/90`) on `var()` colors may not generate; hover states may silently not render. `bg.inverse-subtle-light` is the only exported hover-shade token, described for primary buttons and selected chips. | Prefer that exported token only for matching hover roles; do not invent other interaction-state values. | frontend coding | T-04.2 |
 | R-10 | Supplied exports contain specific contrast/status/caption notes, but no complete accessibility handoff (global WCAG level, full text/background matrix, focus dimensions, keyboard, forced-colors, reduced-motion). No additional handoff was supplied with T-01.2. | Use exported criteria plus ADR 0005's general accessibility obligations; do not claim missing Figma criteria. Cross-theme audit can record this limitation. | user / uxd | T-06.1 (does not block E-02) |
-| R-11 | No visual-regression tooling exists. | Use manual/browser screenshot comparisons at documented viewports; do not add tooling for this plan. | adr-architect | resolved by ADR 0018 (2026-10-13) |
+| R-11 | No visual-regression tooling exists. | Use the committed pre-styling revision recorded in the baseline document and manual representative-route comparisons at 375px and 1280px; screenshots are optional review evidence unless requested. Do not add tooling for this plan. | adr-architect / user | resolved by user direction; baseline commit recorded 2026-10-14 |
 | R-12 | TD-016 source-regex tests may fail on className edits in `SecurityMasterPage`. | Test churn in T-04.3. | frontend coding | none |
 | R-13 | The exports contain a semantic `accent.strong` in each theme but no separate primitive palette. Its values differ between Dark / Orchid (`#C98AA8`) and Warm / Orchid (`#8F4A6C`); no shared Orchid ramp is supplied. | Do not merge theme-specific values or invent a primitive layer. | uxd | resolved by T-01.1 |
 | R-14 | Foundations exports do not specify the current decorative gradients; compare against relevant page designs before deciding whether to retain or remove them. | Visual fidelity for T-04.1; does not affect token architecture or E-02. | uxd | T-04.1 |
 | R-15 | Runtime identifiers were not in the Figma exports; user specified `light`, `dark-orchid`, `pathfinder`, `warm-orchid`, and `high-contrast`. | Identifier contract fixed for later selection work. | user | resolved by user direction and ADR 0018 (2026-10-13) |
 | R-16 | Numeric spacing/radius values have no exported units; CSS realization and names were needed. | Use flattened token paths and append `px` to exported numeric magnitudes; preserve computed layout spacing. | adr-architect | resolved by ADR 0018 (2026-10-13) |
-| R-17 | T-01.3's baseline requires browser screenshots at 375px and 1280px plus an exhaustive file/line audit. Those capabilities were unavailable during the 2026-10-14 execution. | The static findings and route/state matrix are recorded in `docs/uxd/research/0010-styling-baseline.md`; complete the missing captures and source scan before closing T-01.3. Do not start E-02 until E-01's exit gate is met. | frontend coding | T-01.3 / E-02 |
+| R-17 | The initial T-01.3 interpretation required screenshots of every route; the user replaced this with a committed pre-styling Git baseline. | Baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a`, source-wide audit, and user-reported manual checks of the listed routes at 375px and 1280px are recorded in `docs/uxd/research/0010-styling-baseline.md`. Screenshots are optional unless requested. | frontend coding | resolved 2026-10-14 |
 
 ## Revisions
 
@@ -580,4 +579,6 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-10-13 | Renumbered | Moved to plan 0010 because 0009 is reserved for another feature. |
 | 2026-10-13 | T-01.1 inventory | Added exported token inventory, completed T-01.1, and reconciled naming, elevation, and accessibility assumptions with the supplied files. |
 | 2026-10-13 | T-01.2 architecture | Added accepted ADR 0018 and resolved token naming/units, font hosting, identifiers/default, theme boundary, and migration-alias policy. T-01.4 decisions recorded; T-01.3 baseline remains the E-01/E-02 gate. |
-| 2026-10-14 | T-01.3 audit attempt | Added the static styling audit and complete route/state capture matrix. Marked T-01.3/E-01 blocked because screenshots and exhaustive source-line references could not be verified in this environment; E-02 remains pending. |
+| 2026-10-14 | T-01.3 baseline revision | Replaced per-route screenshots as a gate with committed pre-styling revision `dad2b60716fdadf9df342405c9f7d404a0daf44a` and manual representative-route checks at 375px/1280px before and after styling. Screenshots are optional unless requested. |
+| 2026-10-14 | T-01.3 source audit | Completed the source-wide static audit across `apps/frontend/src` and `packages/ui`, recording file/line findings. T-01.3/E-01 remain blocked only on manual pre-styling route verification requiring a running browser; E-02 remains pending. |
+| 2026-10-14 | T-01.3 manual baseline verification | Recorded user-reported checks of the representative routes/states at 375px and 1280px against the baseline commit, including dialog behavior and keyboard focus; no notable existing layout issues were reported. Marked T-01.3 and E-01 done; E-02 remains pending and has not started. |

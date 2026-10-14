@@ -1,0 +1,192 @@
+{
+  "source": {
+    "figmaFile": "4ffzXpXtH6B9JEAzZtSzmW",
+    "figmaUrl": "https://www.figma.com/design/4ffzXpXtH6B9JEAzZtSzmW/Portfolio-operating-system-Wireframes",
+    "nodes": {
+      "color": "613:8",
+      "fontFamilies": "637:2",
+      "type": "614:4528",
+      "spacingAndRadius": "614:4599",
+      "elevation": "614:4675"
+    },
+    "exports": [
+      "Light.tokens.json",
+      "Dark _ Orchid.tokens.json",
+      "Pathfinder.tokens.json",
+      "Warm _ Orchid.tokens.json",
+      "High contrast.tokens.json",
+      "Default.tokens.json",
+      "styles.tokens.json"
+    ],
+    "valuePolicy": "Color values are the exported $value.hex and $value.alpha; aliases remain Figma references. No missing CSS names or values are inferred."
+  },
+  "colorTokenMetadata": {
+    "bg.page": {"cssVariableName": "--bg-page", "variableId": "VariableID:94:3", "description": "Page background."},
+    "bg.subtle": {"cssVariableName": "--bg-subtle", "variableId": "VariableID:94:4", "description": "Cards, panels, inputs."},
+    "bg.placeholder": {"cssVariableName": "--bg-placeholder", "variableId": "VariableID:94:5", "description": "Image placeholders."},
+    "bg.inverse": {"cssVariableName": "--bg-inverse", "variableId": "VariableID:94:6", "description": "Primary buttons, selected days."},
+    "bg.selected": {"cssVariableName": "--bg-selected", "variableId": "VariableID:94:7", "description": "Hover, selected row."},
+    "bg.disabled": {"cssVariableName": "--bg-disabled", "variableId": "VariableID:94:8", "description": "Disabled controls."},
+    "bg.inverse-light": {"cssVariableName": null, "variableId": "VariableID:182:2", "description": "Soft accent tint for chart bars and decorative highlights. Not for selected text; use bg/highlight."},
+    "bg.inverse-subtle-light": {"cssVariableName": null, "variableId": "VariableID:230:123", "description": "Hover shade for primary buttons and selected chips."},
+    "bg.scrim": {"cssVariableName": null, "variableId": "VariableID:619:6082", "description": "Dims the page behind a dialog."},
+    "bg.highlight": {"cssVariableName": null, "variableId": "VariableID:649:5600", "description": "Selected text and selected rows. text/primary and text/secondary stay at 5:1 or more on it in every theme. Don't put text/muted on it."},
+    "text.primary": {"cssVariableName": "--text-primary", "variableId": "VariableID:94:9", "description": "Headings, body."},
+    "text.on-inverse": {"cssVariableName": "--text-on-inverse", "variableId": "VariableID:94:10", "description": "Text on primary buttons."},
+    "text.secondary": {"cssVariableName": "--text-secondary", "variableId": "VariableID:94:11", "description": "Supporting text, previews."},
+    "text.muted": {"cssVariableName": "--text-muted", "variableId": "VariableID:94:12", "description": "Labels, hints, timestamps."},
+    "text.faint": {"cssVariableName": "--text-faint", "variableId": "VariableID:94:13", "description": "Days outside the month."},
+    "text.disabled": {"cssVariableName": "--text-disabled", "variableId": "VariableID:94:14", "description": "Disabled labels."},
+    "text.link": {"cssVariableName": "--text-link", "variableId": "VariableID:94:15", "description": "Links."},
+    "border.default": {"cssVariableName": "--border-default", "variableId": "VariableID:94:16", "description": "Strong outlines."},
+    "border.subtle": {"cssVariableName": "--border-subtle", "variableId": "VariableID:94:17", "description": "Dividers, card edges."},
+    "border.muted": {"cssVariableName": "--border-muted", "variableId": "VariableID:94:18", "description": "Input borders."},
+    "icon.default": {"cssVariableName": null, "variableId": "VariableID:424:2", "description": "Icon stroke color. Aliases text/primary.", "figmaReference": "{text.primary}"},
+    "icon.on-inverse": {"cssVariableName": null, "variableId": "VariableID:424:3", "description": "Icon stroke color. Aliases text/on-inverse.", "figmaReference": "{text.on-inverse}"},
+    "icon.muted": {"cssVariableName": null, "variableId": "VariableID:424:4", "description": "Icon stroke color. Aliases text/muted.", "figmaReference": "{text.muted}"},
+    "icon.disabled": {"cssVariableName": null, "variableId": "VariableID:424:5", "description": "Icon stroke color. Aliases text/disabled.", "figmaReference": "{text.disabled}"},
+    "status.positive": {"cssVariableName": null, "variableId": "VariableID:551:2", "description": "Gains: a number or position that went up. Always pair with ▲ or a + sign, never color alone."},
+    "status.negative": {"cssVariableName": null, "variableId": "VariableID:551:3", "description": "Losses: a number or position that went down. Always pair with ▼ or a − sign, never color alone."},
+    "status.positive-subtle": {"cssVariableName": null, "variableId": "VariableID:664:2", "description": "Background for gain chips. status/positive text stays 5:1 or more on it."},
+    "status.negative-subtle": {"cssVariableName": null, "variableId": "VariableID:664:3", "description": "Background for loss chips. status/negative text stays 5:1 or more on it."},
+    "accent.strong": {"cssVariableName": null, "variableId": "VariableID:658:2", "description": "Non-text indicators including focus rings, Today bar, selected-tab underline, progress fill, Settings nav selected bar; 3:1 or more against bg/page, bg/subtle and bg/selected in every theme."}
+  },
+  "themes": {
+    "Light": {
+      "sourceFile": "Light.tokens.json",
+      "modeName": "Light",
+      "colors": {
+        "bg.page": "#FFFFFF", "bg.subtle": "#FAFAFA", "bg.placeholder": "#D9D9D9", "bg.inverse": "#121212", "bg.selected": "#F5F5F5", "bg.disabled": "#F2F2F2", "bg.inverse-light": "#4A4A4A", "bg.inverse-subtle-light": "#292929", "bg.scrim": {"hex": "#000000", "alpha": 0.4000000059604645}, "bg.highlight": "#E4B2C7",
+        "text.primary": "#121212", "text.on-inverse": "#FFFFFF", "text.secondary": "#333333", "text.muted": "#6B6B6B", "text.faint": "#8F8F8F", "text.disabled": "#A6A6A6", "text.link": "#595959",
+        "border.default": "#121212", "border.subtle": "#D9D9D9", "border.muted": "#878787",
+        "icon.default": "{text.primary}", "icon.on-inverse": "{text.on-inverse}", "icon.muted": "{text.muted}", "icon.disabled": "{text.disabled}",
+        "status.positive": "#116932", "status.negative": "#B91C1C", "status.positive-subtle": "#DCF2E2", "status.negative-subtle": "#FDE0E0", "accent.strong": "#121212"
+      }
+    },
+    "Dark / Orchid": {
+      "sourceFile": "Dark _ Orchid.tokens.json",
+      "modeName": "Dark / Orchid",
+      "colors": {
+        "bg.page": "#121212", "bg.subtle": "#1E1E1E", "bg.placeholder": "#333333", "bg.inverse": "#C98AA8", "bg.selected": "#2A2A2A", "bg.disabled": "#262626", "bg.inverse-light": "#E0B5C9", "bg.inverse-subtle-light": "#D49BB7", "bg.scrim": {"hex": "#000000", "alpha": 0.6000000238418579}, "bg.highlight": "#6B3F56",
+        "text.primary": "#F5F5F5", "text.on-inverse": "#121212", "text.secondary": "#D9D9D9", "text.muted": "#B3B3B3", "text.faint": "#808080", "text.disabled": "#6E6E6E", "text.link": "#CF8FB0",
+        "border.default": "#E0E0E0", "border.subtle": "#555555", "border.muted": "#8A8A8A",
+        "icon.default": "{text.primary}", "icon.on-inverse": "{text.on-inverse}", "icon.muted": "{text.muted}", "icon.disabled": "{text.disabled}",
+        "status.positive": "#4ADE80", "status.negative": "#F87171", "status.positive-subtle": "#16301F", "status.negative-subtle": "#3A1C1C", "accent.strong": "#C98AA8"
+      }
+    },
+    "Pathfinder": {
+      "sourceFile": "Pathfinder.tokens.json",
+      "modeName": "Pathfinder",
+      "colors": {
+        "bg.page": "#E8EDEB", "bg.subtle": "#F3F6F4", "bg.placeholder": "#C3D3CD", "bg.inverse": "#319587", "bg.selected": "#D2E1DB", "bg.disabled": "#E2E7E4", "bg.inverse-light": "#69CEBF", "bg.inverse-subtle-light": "#3CB8A6", "bg.scrim": {"hex": "#000000", "alpha": 0.4000000059604645}, "bg.highlight": "#A9D6CE",
+        "text.primary": "#12302D", "text.on-inverse": "#06201C", "text.secondary": "#2A4744", "text.muted": "#3F5B57", "text.faint": "#6B8580", "text.disabled": "#7F9590", "text.link": "#0B5F56",
+        "border.default": "#12302D", "border.subtle": "#C7D4CE", "border.muted": "#6F8A85",
+        "icon.default": "{text.primary}", "icon.on-inverse": "{text.on-inverse}", "icon.muted": "{text.muted}", "icon.disabled": "{text.disabled}",
+        "status.positive": "#2B6A12", "status.negative": "#B91C1C", "status.positive-subtle": "#D9EDC4", "status.negative-subtle": "#F9DCD8", "accent.strong": "#237468"
+      }
+    },
+    "Warm / Orchid": {
+      "sourceFile": "Warm _ Orchid.tokens.json",
+      "modeName": "Warm / Orchid",
+      "colors": {
+        "bg.page": "#EFE9E2", "bg.subtle": "#F6F2ED", "bg.placeholder": "#D9CFC3", "bg.inverse": "#B97092", "bg.selected": "#E4DBD0", "bg.disabled": "#E9E3DB", "bg.inverse-light": "#D5AABE", "bg.inverse-subtle-light": "#C588A4", "bg.scrim": {"hex": "#000000", "alpha": 0.4000000059604645}, "bg.highlight": "#D4A6BA",
+        "text.primary": "#2B231D", "text.on-inverse": "#121212", "text.secondary": "#463C34", "text.muted": "#5A4E45", "text.faint": "#8D8072", "text.disabled": "#8F8378", "text.link": "#86395F",
+        "border.default": "#2B231D", "border.subtle": "#D3C8BB", "border.muted": "#857769",
+        "icon.default": "{text.primary}", "icon.on-inverse": "{text.on-inverse}", "icon.muted": "{text.muted}", "icon.disabled": "{text.disabled}",
+        "status.positive": "#116932", "status.negative": "#B91C1C", "status.positive-subtle": "#D9E9CC", "status.negative-subtle": "#F5D6D0", "accent.strong": "#8F4A6C"
+      }
+    },
+    "High contrast": {
+      "sourceFile": "High contrast.tokens.json",
+      "modeName": "High contrast",
+      "colors": {
+        "bg.page": "#000000", "bg.subtle": "#0D0D0D", "bg.placeholder": "#333333", "bg.inverse": "#F4B8D1", "bg.selected": "#262626", "bg.disabled": "#1A1A1A", "bg.inverse-light": "#F9D7E6", "bg.inverse-subtle-light": "#F7C7DC", "bg.scrim": {"hex": "#000000", "alpha": 0.75}, "bg.highlight": "#5C2A44",
+        "text.primary": "#FFFFFF", "text.on-inverse": "#000000", "text.secondary": "#F0F0F0", "text.muted": "#D6D6D6", "text.faint": "#A3A3A3", "text.disabled": "#8C8C8C", "text.link": "#FFB3D4",
+        "border.default": "#FFFFFF", "border.subtle": "#8C8C8C", "border.muted": "#BFBFBF",
+        "icon.default": "{text.primary}", "icon.on-inverse": "{text.on-inverse}", "icon.muted": "{text.muted}", "icon.disabled": "{text.disabled}",
+        "status.positive": "#6EF59A", "status.negative": "#FF9B9B", "status.positive-subtle": "#0F2A17", "status.negative-subtle": "#3A1414", "accent.strong": "#F4B8D1"
+      }
+    }
+  },
+  "shared": {
+    "space": {
+      "2": {"value": 2, "unit": null, "figmaVariableId": "VariableID:453:3", "cssVariableName": null},
+      "4": {"value": 4, "unit": null, "figmaVariableId": "VariableID:453:4", "cssVariableName": null},
+      "8": {"value": 8, "unit": null, "figmaVariableId": "VariableID:453:5", "cssVariableName": null},
+      "12": {"value": 12, "unit": null, "figmaVariableId": "VariableID:453:6", "cssVariableName": null},
+      "16": {"value": 16, "unit": null, "figmaVariableId": "VariableID:453:7", "cssVariableName": null},
+      "20": {"value": 20, "unit": null, "figmaVariableId": "VariableID:453:8", "cssVariableName": null},
+      "24": {"value": 24, "unit": null, "figmaVariableId": "VariableID:453:9", "cssVariableName": null},
+      "32": {"value": 32, "unit": null, "figmaVariableId": "VariableID:453:10", "cssVariableName": null},
+      "40": {"value": 40, "unit": null, "figmaVariableId": "VariableID:453:11", "cssVariableName": null},
+      "48": {"value": 48, "unit": null, "figmaVariableId": "VariableID:453:12", "cssVariableName": null},
+      "64": {"value": 64, "unit": null, "figmaVariableId": "VariableID:453:13", "cssVariableName": null}
+    },
+    "radius": {
+      "sm": {"value": 4, "unit": null, "figmaVariableId": "VariableID:453:14", "description": "Tags, checkboxes.", "cssVariableName": null},
+      "md": {"value": 6, "unit": null, "figmaVariableId": "VariableID:453:15", "description": "Buttons, inputs, menu items, tooltips.", "cssVariableName": null},
+      "lg": {"value": 10, "unit": null, "figmaVariableId": "VariableID:453:16", "description": "Cards, menus, toasts, selection bar.", "cssVariableName": null},
+      "xl": {"value": 12, "unit": null, "figmaVariableId": "VariableID:453:17", "description": "Dialogs, popovers, panels.", "cssVariableName": null},
+      "full": {"value": 999, "unit": null, "figmaVariableId": "VariableID:453:18", "description": "Avatars, pills.", "cssVariableName": null}
+    },
+    "typography": {
+      "heading.h1": {"styleName": "Heading/H1", "family": ["IBM Plex Sans", "system-ui", "sans-serif"], "weight": 600, "sizePx": 28, "lineHeight": 1.2857, "lineHeightPx": 36, "letterSpacingPx": 0, "description": "Page-level title, e.g. Journal / Today's entry. One per screen."},
+      "heading.h2": {"styleName": "Heading/H2", "family": ["IBM Plex Sans", "system-ui", "sans-serif"], "weight": 600, "sizePx": 20, "lineHeight": 1.4, "lineHeightPx": 28, "letterSpacingPx": 0, "description": "Section titles and dates; modal titles."},
+      "heading.h3": {"styleName": "Heading/H3", "family": ["IBM Plex Sans", "system-ui", "sans-serif"], "weight": 500, "sizePx": 16, "lineHeight": 1.5, "lineHeightPx": 24, "letterSpacingPx": 0, "description": "Card and subsection titles."},
+      "body.default": {"styleName": "Body/Default", "family": ["IBM Plex Sans", "system-ui", "sans-serif"], "weight": 400, "sizePx": 14, "lineHeight": 1.4286, "lineHeightPx": 20, "letterSpacingPx": 0, "description": "Journal entry text, table row content, general UI copy."},
+      "body.small": {"styleName": "Body/Small", "family": ["IBM Plex Sans", "system-ui", "sans-serif"], "weight": 400, "sizePx": 13, "lineHeight": 1.3846, "lineHeightPx": 18, "letterSpacingPx": 0, "description": "Secondary/supporting text, helper text, descriptions under a heading."},
+      "body.strong": {"styleName": "Body/Strong", "family": ["IBM Plex Sans", "system-ui", "sans-serif"], "weight": 600, "sizePx": 14, "lineHeight": 1.4286, "lineHeightPx": 20, "letterSpacingPx": 0, "description": "Inline bold in Body/Default."},
+      "label.default": {"styleName": "Label/Default", "family": ["IBM Plex Sans", "system-ui", "sans-serif"], "weight": 500, "sizePx": 13, "lineHeight": 1.2308, "lineHeightPx": 16, "letterSpacingPx": 0, "description": "Button labels, tab labels, inline links."},
+      "label.small": {"styleName": "Label/Small", "family": ["IBM Plex Sans", "system-ui", "sans-serif"], "weight": 500, "sizePx": 12, "lineHeight": 1.3333, "lineHeightPx": 16, "letterSpacingPx": 0, "description": "Day-of-week labels, chip labels, small tags."},
+      "label.small-strong": {"styleName": "Label/Small Strong", "family": ["IBM Plex Sans", "system-ui", "sans-serif"], "weight": 600, "sizePx": 12, "lineHeight": 1.3333, "lineHeightPx": 16, "letterSpacingPx": 0, "description": "The Today label in the entries list; use sparingly."},
+      "caption.uppercase": {"styleName": "Caption/Uppercase", "family": ["IBM Plex Sans", "system-ui", "sans-serif"], "weight": 500, "sizePx": 12, "lineHeight": 1.3333, "lineHeightPx": 16, "letterSpacingPx": 0.48, "textTransform": "uppercase", "description": "Overlines and group labels; 12px minimum, keep labels short."},
+      "data.large": {"styleName": "Data/Large", "family": ["IBM Plex Mono", "ui-monospace", "monospace"], "weight": 500, "sizePx": 24, "lineHeight": 1.3333, "lineHeightPx": 32, "letterSpacingPx": 0, "description": "Large standalone numbers; available for future data displays."},
+      "data.default": {"styleName": "Data/Default", "family": ["IBM Plex Mono", "ui-monospace", "monospace"], "weight": 400, "sizePx": 14, "lineHeight": 1.4286, "lineHeightPx": 20, "letterSpacingPx": 0, "description": "Inline numeric values in tables and rows."},
+      "data.small": {"styleName": "Data/Small", "family": ["IBM Plex Mono", "ui-monospace", "monospace"], "weight": 400, "sizePx": 12, "lineHeight": 1.3333, "lineHeightPx": 16, "letterSpacingPx": 0, "description": "Small numeric labels: tickers, compact timestamps with numbers."},
+      "editor.default": {"styleName": "Editor/Default", "family": ["IBM Plex Sans", "system-ui", "sans-serif"], "weight": 400, "sizePx": 15, "lineHeight": 1.6, "lineHeightPx": 24, "letterSpacingPx": 0, "description": "Default editor font for writing entries; 160% line height."},
+      "editor.mono": {"styleName": "Editor/Mono", "family": ["IBM Plex Mono", "ui-monospace", "monospace"], "weight": 400, "sizePx": 14, "lineHeight": 1.6, "lineHeightPx": 22.4, "letterSpacingPx": 0, "description": "Optional editor font; lines up Markdown symbols."}
+    },
+    "fontFamilies": {
+      "sans": {"figmaFamily": "IBM Plex Sans", "fallbacks": ["system-ui", "sans-serif"], "weightsUsed": [400, 500, 600]},
+      "mono": {"figmaFamily": "IBM Plex Mono", "fallbacks": ["ui-monospace", "monospace"], "weightsUsed": [400, 500]}
+    },
+    "elevation": {
+      "1-menu": {"styleName": "Elevation/1 Menu", "color": {"hex": "#000000", "alpha": 0.35}, "offsetXpx": 0, "offsetYpx": 8, "blurPx": 24, "spreadPx": 0, "css": "0 8px 24px 0 rgba(0, 0, 0, 0.35)", "description": "Toasts, context menus, filter panel. Small floating surfaces just above the page."},
+      "2-popover": {"styleName": "Elevation/2 Popover", "color": {"hex": "#000000", "alpha": 0.35}, "offsetXpx": 0, "offsetYpx": 10, "blurPx": 28, "spreadPx": 0, "css": "0 10px 28px 0 rgba(0, 0, 0, 0.35)", "description": "Date range picker and other popovers anchored to a trigger."},
+      "3-dialog": {"styleName": "Elevation/3 Dialog", "color": {"hex": "#000000", "alpha": 0.45}, "offsetXpx": 0, "offsetYpx": 16, "blurPx": 40, "spreadPx": 0, "css": "0 16px 40px 0 rgba(0, 0, 0, 0.45)", "description": "Modal dialogs. Pair with a scrim so the page behind is clearly inactive."}
+    },
+    "elevationThemeScope": "Shared styles export only; no per-theme elevation variants are present in the supplied exports.",
+    "defaultModeName": "Default",
+    "spacingDescription": "Padding and gaps on the 4px grid."
+  },
+  "accessibilityNotes": [
+    "bg.highlight description: text/primary and text/secondary stay at 5:1 or more on it in every theme; do not put text/muted on it.",
+    "status.positive and status.negative descriptions require pairing with ▲ or +, and ▼ or − respectively; never use color alone.",
+    "status.positive-subtle and status.negative-subtle descriptions say their corresponding status text stays at 5:1 or more on the background.",
+    "accent.strong description specifies 3:1 or more against bg/page, bg/subtle, and bg/selected in every theme and names focus rings among its uses.",
+    "Caption/Uppercase description says 12px minimum and to keep labels short because all-caps is slower to read."
+  ],
+  "accessibilityRequirementsNotPresentInExports": [
+    "No overall WCAG conformance level.",
+    "No numeric focus-indicator width, offset, or shape.",
+    "No complete required text/background pair matrix beyond the specific descriptions recorded above.",
+    "No explicit reduced-motion, forced-colors, or keyboard interaction specification."
+  ],
+  "existingTokenMapping": {
+    "--color-text-primary": {"figmaToken": "text.primary", "figmaCssVariableName": "--text-primary", "status": "direct semantic equivalent"},
+    "--color-text-strong": {"figmaToken": "text.primary", "figmaCssVariableName": "--text-primary", "status": "candidate equivalent; verify hierarchy use"},
+    "--color-text-muted": {"figmaToken": "text.muted", "figmaCssVariableName": "--text-muted", "status": "direct semantic equivalent"},
+    "--color-bg-canvas": {"figmaToken": "bg.page", "figmaCssVariableName": "--bg-page", "status": "direct semantic equivalent"},
+    "--color-border-subtle": {"figmaToken": "border.subtle", "figmaCssVariableName": "--border-subtle", "status": "direct semantic equivalent"},
+    "--color-surface-default": {"figmaToken": "bg.subtle", "figmaCssVariableName": "--bg-subtle", "status": "candidate equivalent; confirm surface usage"},
+    "--color-surface-emphasis": {"figmaToken": null, "figmaCssVariableName": null, "status": "no direct equivalent; do not substitute bg.highlight without review"},
+    "--color-surface-muted": {"figmaToken": null, "figmaCssVariableName": null, "status": "no direct equivalent established"},
+    "--color-surface-code": {"figmaToken": null, "figmaCssVariableName": null, "status": "no code surface token in exports"},
+    "--color-action-primary": {"figmaToken": "bg.inverse", "figmaCssVariableName": "--bg-inverse", "status": "candidate equivalent; Figma description says primary buttons"},
+    "--color-action-primary-soft": {"figmaToken": null, "figmaCssVariableName": null, "status": "no direct equivalent established"},
+    "--color-state-success": {"figmaToken": "status.positive", "figmaCssVariableName": null, "status": "semantic candidate; CSS name not supplied"},
+    "--color-state-warning": {"figmaToken": null, "figmaCssVariableName": null, "status": "no warning token in exports"},
+    "--color-state-error": {"figmaToken": "status.negative", "figmaCssVariableName": null, "status": "semantic candidate; CSS name not supplied"},
+    "--shadow-elevation-soft": {"figmaToken": null, "figmaCssVariableName": null, "status": "no soft shadow equivalent; three named elevation levels are supplied"}
+  }
+}
