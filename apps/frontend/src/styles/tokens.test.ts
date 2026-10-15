@@ -9,8 +9,49 @@ interface TokenTheme {
 }
 
 interface TokenInventory {
-  colorTokenMetadata: Record<string, { cssVariableName: string | null }>
+  colorTokenMetadata: Record<
+    string,
+    { cssVariableName: string | null; figmaReference?: string }
+  >
   themes: Record<string, TokenTheme>
+}
+
+function cssVariableName(path: string, inventory: TokenInventory): string {
+  return (
+    inventory.colorTokenMetadata[path]?.cssVariableName ??
+    `--${path.replace(/[./]/g, '-')}`
+  )
+}
+
+function exportedColorToCss(
+  path: string,
+  value: ExportedColor,
+  inventory: TokenInventory,
+): string {
+  if (typeof value === 'string' && value.startsWith('{')) {
+    const reference = inventory.colorTokenMetadata[path]?.figmaReference
+    if (!reference) {
+      throw new Error(`Missing Figma reference metadata for ${path}`)
+    }
+
+    const referencePath = reference.slice(1, -1).replaceAll('/', '.')
+    return `var(${cssVariableName(referencePath, inventory)})`
+  }
+
+  if (typeof value === 'string') {
+    return value.toLowerCase()
+  }
+
+  const channels = value.hex
+    .replace('#', '')
+    .match(/.{2}/g)
+    ?.map((channel) => Number.parseInt(channel, 16))
+
+  if (!channels || channels.length !== 3) {
+    throw new Error(`Expected an RGB hex color, received ${value.hex}`)
+  }
+
+  return `rgba(${channels.join(', ')}, ${value.alpha})`
 }
 
 function resolveHex(value: ExportedColor): string {
@@ -71,17 +112,44 @@ test('theme token inventory parity, CSS names, and explicit contrast guidance', 
     /:root,\s*\[data-theme="light"\]\s*\{([\s\S]*?)\}/,
   )?.[1]
   assert.ok(lightBlock, 'Expected the default Light theme block')
+  const lightDeclarations = new Map(
+    [...lightBlock.matchAll(/^\s*(--[\w-]+|color-scheme)\s*:\s*([^;]+);/gm)].map(
+      (match) => [match[1], match[2].trim().toLowerCase()],
+    ),
+  )
+  assert.equal(lightDeclarations.get('color-scheme'), 'light')
   const declaredVariables = new Set(
-    [...lightBlock.matchAll(/^\s*(--[\w-]+)\s*:/gm)].map((match) => match[1]),
+    lightDeclarations.keys(),
   )
 
   for (const path of expectedPaths) {
-    const exportedName = inventory.colorTokenMetadata[path]?.cssVariableName
-    const cssName =
-      exportedName ?? `--${path.replace(/[./]/g, '-')}`
+    const cssName = cssVariableName(path, inventory)
     assert.ok(
       declaredVariables.has(cssName),
       `Light theme is missing ${cssName} for Figma token ${path}`,
+    )
+    const expectedValue = exportedColorToCss(
+      path,
+      lightTheme.colors[path],
+      inventory,
+    )
+    assert.equal(
+      lightDeclarations.get(cssName),
+      expectedValue.toLowerCase(),
+      `Light theme value for ${path} must match the Figma export`,
+    )
+  }
+
+  for (const [legacyName, canonicalName] of [
+    ['--color-text-primary', '--text-primary'],
+    ['--color-text-muted', '--text-muted'],
+    ['--color-bg-canvas', '--bg-page'],
+    ['--color-border-subtle', '--border-subtle'],
+  ]) {
+    assert.equal(
+      lightDeclarations.get(legacyName),
+      `var(${canonicalName})`,
+      `${legacyName} must alias the approved canonical Figma token`,
     )
   }
 

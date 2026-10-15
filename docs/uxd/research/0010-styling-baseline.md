@@ -29,6 +29,14 @@ At both widths and on the same routes after styling, verify: no change to page o
 
 The E-02 comparison against the pre-styling commit is complete for the representative routes/states at both viewport widths, including dialog and keyboard-focus behavior. No notable unintended layout or interaction changes were observed.
 
+### T-03.2 Light-color comparison
+
+T-03.2 applies the Figma Light colors through four direct legacy-variable mappings in the Light theme block: primary text `#334155` → `#121212`, muted text `#475569` → `#6B6B6B`, page background `#f8fafc` → `#FFFFFF`, and subtle border `#dbe4f0` → `#D9D9D9`. Candidate and unmapped legacy roles remain unchanged.
+
+The user reports that the representative route comparison against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` passed at 375px and 1280px, including dialog and keyboard-focus behavior. Expected changes were limited to the four Light color roles; no unintended layout, overflow, navigation, control-size, or interaction regressions were observed.
+
+The user also reports these T-03.2 checks passed: `git diff --check`; frontend tests (40/40); typecheck; lint (6 warnings, 0 errors); and production build.
+
 ### E-02 verification results
 
 The user reports the following E-02 checks passed:
@@ -132,4 +140,4 @@ The exact legacy-variable mapping and candidate status are recorded in `existing
 - [x] Record E-02 post-change comparison of the representative route/state matrix against the baseline commit at both 375px and 1280px.
 - [x] No-application-code-change condition for T-01.3/E-01 — satisfied; E-02 token infrastructure changes are limited to the planned CSS/Tailwind foundation.
 
-The source-wide styling audit, pre-styling baseline checks, and E-02 post-change representative-route comparison are **complete**. T-01.3 and E-01 are complete. E-02's automated checks, compatibility-reference analysis, and post-change comparison at 375px and 1280px are complete; no notable unintended changes were observed. E-02 is complete. E-03 and later phases have not started.
+The source-wide styling audit, pre-styling baseline checks, E-02 comparison, and T-03.2 Light-color comparison are **complete**. T-01.3, E-01, and E-02 are complete. T-03.2's automated checks and representative-route comparison at 375px and 1280px are complete; no notable unintended changes were observed. T-03.3 and later E-03 tasks have not started.

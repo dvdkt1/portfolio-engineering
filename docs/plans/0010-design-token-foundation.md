@@ -12,14 +12,14 @@ Executing agents keep this block current. It is the entry point for any agent re
 - Current effort: E-03
 - Completed efforts: E-01, E-02
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-03.2 (apply Figma Light color values)
+- Next recommended task: T-03.3 (apply the type scale to global element styles)
 - Last updated: 2026-10-15
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
 | E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
-| E-03 | Light theme, typography, radius, elevation values | 5 | 1 | in-progress |
+| E-03 | Light theme, typography, radius, elevation values | 5 | 2 | in-progress |
 | E-04 | Remove hard-coded visual values from shared layers | 4 | 0 | pending |
 | E-05 | Remaining four themes | 4 | 0 | pending |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
@@ -285,15 +285,16 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-03.2: Apply Figma Light color values
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-02.3, T-03.1
 - **Files:**
   - `apps/frontend/src/styles/themes.css` (modified — Light block only)
+  - `apps/frontend/src/styles/tokens.test.ts` (modified — assert Light export parity and approved compatibility mappings)
 - **Intent:** Replace Light semantic color values with the T-01.1 values; set `color-scheme: light`.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do: "Preserve or improve … contrast".
 - **Verify:** Contrast test passes; values equal `design-tokens.json`; manual representative-route comparison against the baseline at 375px and 1280px shows no unintended layout regression. Screenshots optional unless requested.
-- **Notes:**
+- **Notes:** The Light token values in `themes.css` match the inventory. Added `color-scheme: light` and connected only the four legacy values marked direct semantic equivalents in `design-tokens.json`: text primary changes from `#334155` to `#121212`, text muted from `#475569` to `#6B6B6B`, page background from `#f8fafc` to `#FFFFFF`, and subtle border from `#dbe4f0` to `#D9D9D9`. Candidate or unmapped values remain on their existing compatibility declarations. Strengthened `tokens.test.ts` to assert every Light CSS token value against the export and verify the approved aliases and light color scheme. The user reports `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, representative route comparison at 375px and 1280px, and dialog/keyboard-focus checks all pass. Expected visual changes are limited to primary text, muted text, page background, and subtle borders; no unintended layout, overflow, navigation, control-size, or interaction regressions were observed. No layout, spacing, typography, font application, behavior, or component changes were made.
 
 ### T-03.3: Apply the type scale to global element styles
 
@@ -572,6 +573,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | R-17 | The initial T-01.3 interpretation required screenshots of every route; the user replaced this with a committed pre-styling Git baseline. | Baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a`, source-wide audit, and user-reported manual checks of the listed routes at 375px and 1280px are recorded in `docs/uxd/research/0010-styling-baseline.md`. Screenshots are optional unless requested. | frontend coding | resolved 2026-10-14 |
 | R-18 | Initial execution lacked command/browser access; the user subsequently supplied passing command results and completed the repository-wide custom-property reference search and post-E-02 representative route comparison at 375px/1280px. The UXD handoff clarification uses 4.5:1 text and 3:1 non-text thresholds while some inventory prose/metadata retains 5:1 Figma descriptions. | Contract test uses the clarified UXD acceptance thresholds without altering exported values. Preserve referenced compatibility declarations. No E-02 verification remains outstanding. | frontend coding | resolved 2026-10-15 |
 | R-19 | This execution environment initially lacked package-manager, command, and browser tools; the user subsequently supplied completion evidence for dependency installation, lockfile generation, checks, build output, and local runtime font delivery. The computed-font check on body/code remains deferred to T-03.3 to avoid applying the typography early. | User-reported verification confirms package resolution, tests/typecheck/lint/build, and local self-hosting. Keep global typography application scoped to T-03.3. | frontend coding | resolved 2026-10-15 |
+| R-20 | The current environment had no test runner or browser at implementation time; the user subsequently supplied passing test and representative-route verification results for T-03.2. | User reports all T-03.2 checks passed at both widths; unresolved legacy values remain unchanged. | frontend coding | resolved 2026-10-15 |
 
 ## Revisions
 
@@ -590,3 +592,5 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-10-15 | E-02 baseline comparison | Recorded user-completed representative route/state comparison against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` at 375px and 1280px, including dialog and keyboard focus; no notable unintended layout changes observed. Marked T-02.1, T-02.2, and E-02 done; E-03 remains pending. |
 | 2026-10-15 | T-03.1 font loading | Added Fontsource package declarations and CSS imports for the approved Sans 400/500/600 and Mono 400/500 weights, reusing existing family variables/fallbacks. T-03.1 remains blocked pending lockfile generation and required build/runtime verification, unavailable in this environment. No typography application or T-03.2 work started. |
 | 2026-10-15 | T-03.1 verification | Recorded user-reported passing dependency installation, lockfile update, tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, and browser/network confirmation that all approved IBM Plex weights are locally served with no CDN. Marked T-03.1 done; T-03.2 is next. |
+| 2026-10-15 | T-03.2 Light color mapping | Set the Light color scheme and mapped only the four legacy color properties marked as direct equivalents in the token inventory. Added Light export-value and compatibility-alias assertions to the token contract test. Preserved candidate/unmapped legacy values. T-03.2 remains blocked pending test and 375px/1280px browser verification unavailable in this environment; no T-03.3 work started. |
+| 2026-10-15 | T-03.2 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), build, 375px/1280px representative-route comparisons, and dialog/focus checks. Expected changes were limited to the four mapped Light color roles, with no unintended regressions. Marked T-03.2 done; T-03.3 is next and remains pending. |

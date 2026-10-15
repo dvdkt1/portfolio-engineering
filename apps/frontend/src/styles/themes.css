@@ -1,5 +1,6 @@
 :root,
 [data-theme="light"] {
+  color-scheme: light;
   --bg-page: #FFFFFF;
   --bg-subtle: #FAFAFA;
   --bg-placeholder: #D9D9D9;
@@ -20,6 +21,10 @@
   --border-default: #121212;
   --border-subtle: #D9D9D9;
   --border-muted: #878787;
+  --color-text-primary: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+  --color-bg-canvas: var(--bg-page);
+  --color-border-subtle: var(--border-subtle);
   --icon-default: var(--text-primary);
   --icon-on-inverse: var(--text-on-inverse);
   --icon-muted: var(--text-muted);
