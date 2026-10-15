@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss'
-import defaultTheme from 'tailwindcss/defaultTheme'
 
 const config = {
   darkMode: ['class'],
@@ -7,11 +6,10 @@ const config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', ...defaultTheme.fontFamily.sans],
-        mono: ['ui-monospace', 'SFMono-Regular', 'Consolas', ...defaultTheme.fontFamily.mono],
+        sans: 'var(--font-family-ui-sans)',
+        mono: 'var(--font-family-ui-mono)',
       },
       colors: {
-        // Semantic token mapping to Tailwind scale
         'text-primary': 'var(--color-text-primary)',
         'text-strong': 'var(--color-text-strong)',
         'text-muted': 'var(--color-text-muted)',
@@ -25,21 +23,43 @@ const config = {
         'state-success': 'var(--color-state-success)',
         'state-warning': 'var(--color-state-warning)',
         'state-error': 'var(--color-state-error)',
+        background: 'var(--background)',
+        ring: 'var(--ring)',
       },
       boxShadow: {
         elevation: 'var(--shadow-elevation-soft)',
+        'elevation-menu': 'var(--elevation-1-menu)',
+        'elevation-popover': 'var(--elevation-2-popover)',
+        'elevation-dialog': 'var(--elevation-3-dialog)',
+      },
+      fontSize: {
+        'heading-h1': ['var(--typography-heading-h1-font-size)', { lineHeight: 'var(--typography-heading-h1-line-height)' }],
+        'heading-h2': ['var(--typography-heading-h2-font-size)', { lineHeight: 'var(--typography-heading-h2-line-height)' }],
+        'heading-h3': ['var(--typography-heading-h3-font-size)', { lineHeight: 'var(--typography-heading-h3-line-height)' }],
+        'body-default': ['var(--typography-body-default-font-size)', { lineHeight: 'var(--typography-body-default-line-height)' }],
+        'body-small': ['var(--typography-body-small-font-size)', { lineHeight: 'var(--typography-body-small-line-height)' }],
+        'body-strong': ['var(--typography-body-strong-font-size)', { lineHeight: 'var(--typography-body-strong-line-height)' }],
+        'label-default': ['var(--typography-label-default-font-size)', { lineHeight: 'var(--typography-label-default-line-height)' }],
+        'label-small': ['var(--typography-label-small-font-size)', { lineHeight: 'var(--typography-label-small-line-height)' }],
+        'label-small-strong': ['var(--typography-label-small-strong-font-size)', { lineHeight: 'var(--typography-label-small-strong-line-height)' }],
+        'caption-uppercase': ['var(--typography-caption-uppercase-font-size)', { lineHeight: 'var(--typography-caption-uppercase-line-height)' }],
+        'data-large': ['var(--typography-data-large-font-size)', { lineHeight: 'var(--typography-data-large-line-height)' }],
+        'data-default': ['var(--typography-data-default-font-size)', { lineHeight: 'var(--typography-data-default-line-height)' }],
+        'data-small': ['var(--typography-data-small-font-size)', { lineHeight: 'var(--typography-data-small-line-height)' }],
+        'editor-default': ['var(--typography-editor-default-font-size)', { lineHeight: 'var(--typography-editor-default-line-height)' }],
+        'editor-mono': ['var(--typography-editor-mono-font-size)', { lineHeight: 'var(--typography-editor-mono-line-height)' }],
       },
       borderRadius: {
-        lg: '1rem',
-        md: '0.75rem',
-        sm: '0.4rem',
+        lg: 'var(--border-radius-lg-legacy)',
+        md: 'var(--border-radius-md-legacy)',
+        sm: 'var(--border-radius-sm-legacy)',
       },
       spacing: {
-        xs: '0.35rem',
-        sm: '0.75rem',
-        base: '1rem',
-        lg: '1.5rem',
-        xl: '3rem',
+        xs: 'var(--spacing-xs-legacy)',
+        sm: 'var(--spacing-sm-legacy)',
+        base: 'var(--spacing-base-legacy)',
+        lg: 'var(--spacing-lg-legacy)',
+        xl: 'var(--spacing-xl-legacy)',
       },
     },
   },

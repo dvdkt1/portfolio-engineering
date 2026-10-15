@@ -1,0 +1,32 @@
+:root,
+[data-theme="light"] {
+  --bg-page: #FFFFFF;
+  --bg-subtle: #FAFAFA;
+  --bg-placeholder: #D9D9D9;
+  --bg-inverse: #121212;
+  --bg-selected: #F5F5F5;
+  --bg-disabled: #F2F2F2;
+  --bg-inverse-light: #4A4A4A;
+  --bg-inverse-subtle-light: #292929;
+  --bg-scrim: rgba(0, 0, 0, 0.4000000059604645);
+  --bg-highlight: #E4B2C7;
+  --text-primary: #121212;
+  --text-on-inverse: #FFFFFF;
+  --text-secondary: #333333;
+  --text-muted: #6B6B6B;
+  --text-faint: #8F8F8F;
+  --text-disabled: #A6A6A6;
+  --text-link: #595959;
+  --border-default: #121212;
+  --border-subtle: #D9D9D9;
+  --border-muted: #878787;
+  --icon-default: var(--text-primary);
+  --icon-on-inverse: var(--text-on-inverse);
+  --icon-muted: var(--text-muted);
+  --icon-disabled: var(--text-disabled);
+  --status-positive: #116932;
+  --status-negative: #B91C1C;
+  --status-positive-subtle: #DCF2E2;
+  --status-negative-subtle: #FDE0E0;
+  --accent-strong: #121212;
+}

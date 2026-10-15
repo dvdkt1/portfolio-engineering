@@ -9,16 +9,16 @@
 
 Executing agents keep this block current. It is the entry point for any agent resuming this plan.
 
-- Current effort: none (E-01 complete; E-02 pending and not started)
-- Completed efforts: E-01
+- Current effort: E-03
+- Completed efforts: E-01, E-02
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-02.1, when explicitly authorized to begin E-02
-- Last updated: 2026-10-14
+- Next recommended task: T-03.1 (self-host IBM Plex Sans and IBM Plex Mono)
+- Last updated: 2026-10-15
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
 | E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
-| E-02 | Token layer structure (no visual change) | 4 | 0 | pending |
+| E-02 | Token layer structure (no visual change) | 4 | 4 | done |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 0 | pending |
 | E-04 | Remove hard-coded visual values from shared layers | 4 | 0 | pending |
 | E-05 | Remaining four themes | 4 | 0 | pending |
@@ -209,7 +209,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-02.1: Create the token files and wire them into the cascade
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-01.2, T-01.4
 - **Files:**
@@ -219,44 +219,44 @@ Diffs to `.css` files and `className` strings may change only: color, background
 - **Intent:** Move the `:root` token block out of `index.css`; introduce the exact Figma code-syntax names where provided and use ADR 0018's deterministic path rule for all remaining names. Keep E-02 visually neutral: legacy component-facing variables may temporarily retain current values until consumers migrate; alias only semantically matched values and keep unmatched legacy roles explicit and temporary. Represent spacing/radius numeric values as CSS px without substituting values that alter computed layout. Add `@import`s above `@tailwind base`; tokenise the body gradient and `code` styles without changing their appearance.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do Not: "replace existing semantic tokens with arbitrary literal … values"; Do Not: "introduce new component-specific CSS files" (these are global base files). ADR 0018.
 - **Verify:** Standard checks pass; built CSS contains token declarations before preflight; `getComputedStyle(document.body)` colors/fonts equal the pre-styling baseline where expected; manually compare representative routes at 375px and 1280px against commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` and confirm no unintended layout change. Screenshots optional unless requested.
-- **Notes:**
+- **Notes:** Added `styles/tokens.css` and `styles/themes.css`, moved the existing legacy token declarations out of `index.css`, and imported both before Tailwind directives. Added exported semantic Light colors, shared spacing/radius/elevation, typography variables, and compatibility values; gradient/code declarations now reference values that preserve the prior CSS literals. The user reports the frontend tests, typecheck, lint, production build, and `git diff --check` pass. The user also completed the representative-route comparison against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` at 375px and 1280px, including navigation, dialog, focus, and overflow checks, with no notable unintended layout changes. No application logic/layout changed.
 
 ### T-02.2: Point Tailwind theme values at CSS variables
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-02.1
 - **Files:**
   - `apps/frontend/tailwind.config.ts` (modified)
-- **Intent:** Replace literal `fontFamily`, `borderRadius`, named `spacing` with approved `var(...)` references; add font-size keys per Figma styles; map `ring`/`background` to existing exported semantic tokens where applicable; add box-shadow entries for the three shared elevation styles; keep existing keys only as compatibility aliases where mapped.
+- **Intent:** Replace literal `fontFamily`, `borderRadius`, named `spacing` with approved `var(...)` references; add font-size keys per Figma styles; map `ring`/`background` to existing exported semantic tokens where applicable; add box-shadow entries for the three shared elevation styles; keep existing keys only as compatibility aliases where mapped. Retain legacy spacing and radius magnitudes via compatibility variables until E-03 so E-02 does not change computed layout geometry.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do: "Map semantic application design tokens to Tailwind theme tokens and use semantic token names in components."
 - **Verify:** Standard checks pass; built CSS contains rules for `.ring-ring` and `.ring-offset-background` resolving to token vars; no literal hex/rem values remain in `tailwind.config.ts` except Tailwind defaults left intentionally; manually compare representative routes at 375px and 1280px against the recorded pre-styling commit, allowing intended focus-ring visibility but no unintended layout regressions.
-- **Notes:**
+- **Notes:** Updated Tailwind font-family, color, shadow, font-size, radius, and named-spacing mappings to CSS variables; added `ring` and `background` mappings. Legacy Tailwind color keys remain backed by their existing variables, and current spacing/radius values remain the values consumed by existing utility keys. The user reports frontend tests, typecheck, lint, production build, and `git diff --check` pass, and completed the representative-route comparison against baseline at 375px and 1280px with no notable unintended visual or layout changes.
 
 ### T-02.3: Add a token contract test
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-02.1
 - **Files:**
   - `apps/frontend/src/styles/tokens.test.ts` (new)
   - `apps/frontend/package.json` (modified — append the file to the `test` script)
-- **Intent:** Without new dependencies, parse `themes.css` and assert (a) every theme defines exactly the same semantic token set as the Light theme, (b) only the specific text/background and non-text contrast ratios explicitly stated in `design-tokens.json` meet those stated ratios per theme. Do not claim a general WCAG conformance level or test unprovided pairings as design requirements.
+- **Intent:** Without new dependencies, assert (a) all five exported theme inventories define the same semantic token set, (b) the runtime Light block defines every canonical CSS name, using the ADR 0018 naming rule where Figma supplied no code name, and (c) documented text contrast requirements meet 4.5:1 and documented non-text contrast requirements meet 3:1 per exported theme. E-02 creates only the Light runtime block; E-05 adds the remaining runtime theme blocks. Do not claim a general WCAG conformance level or test unprovided pairings as design requirements.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do: "Preserve or improve … contrast".
-- **Verify:** `pnpm --filter @portfolio-engineering/frontend test` runs the new test and passes; deliberately deleting one token from a block makes it fail.
-- **Notes:**
+- **Verify:** `pnpm --filter @portfolio-engineering/frontend test` runs the new test and passes; deliberately deleting one Light CSS token or changing one exported theme token set makes it fail.
+- **Notes:** The user reported an initial 39/40 test result with only Warm / Orchid `status.negative` on `status.negative-subtle` failing at 4.75:1 against an unsupported 5:1 assertion. The test was corrected to the user-confirmed UXD text contrast threshold of 4.5:1 while retaining 3:1 for non-text accent pairs; exported token values were not changed. The user now reports the frontend test suite passes.
 
 ### T-02.4: Remove unused legacy short aliases
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-02.1
 - **Files:**
-  - `apps/frontend/src/styles/themes.css` (modified)
-- **Intent:** Delete `--text`, `--text-h`, `--text-muted`, `--bg`, `--border`, `--panel-bg`, `--hero-bg`, `--detail-bg`, `--code-bg`, `--accent`, `--success-border`, `--warning-border`, `--error-border`, `--shadow` once a repo search shows zero `var(--<alias>)` references.
+  - `apps/frontend/src/styles/tokens.css` (modified)
+- **Intent:** Use a repository-wide CSS custom-property reference search to determine whether compatibility aliases are safe to remove. Remove only aliases with no consumers; retain every alias/property that remains referenced.
 - **ADRs:** none
-- **Verify:** Repo search for each alias returns no consumers; standard checks pass; manual representative-route comparison at 375px and 1280px confirms no unintended layout regressions.
-- **Notes:**
+- **Verify:** Repository-wide search results are recorded; no referenced property is removed; frontend checks pass.
+- **Notes:** The user reports the repository-wide custom-property reference search is complete and confirms compatibility properties remain consumed, including legacy `--color-*`, spacing/radius, and `--shadow-elevation-soft` references in `tailwind.config.ts`, `index.css`, and `App.css`. The zero-reference removal condition is not met. All compatibility declarations are retained; no alias/property was removed. The user reports frontend tests, typecheck, lint, and production build pass.
 
 ---
 
@@ -570,6 +570,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | R-15 | Runtime identifiers were not in the Figma exports; user specified `light`, `dark-orchid`, `pathfinder`, `warm-orchid`, and `high-contrast`. | Identifier contract fixed for later selection work. | user | resolved by user direction and ADR 0018 (2026-10-13) |
 | R-16 | Numeric spacing/radius values have no exported units; CSS realization and names were needed. | Use flattened token paths and append `px` to exported numeric magnitudes; preserve computed layout spacing. | adr-architect | resolved by ADR 0018 (2026-10-13) |
 | R-17 | The initial T-01.3 interpretation required screenshots of every route; the user replaced this with a committed pre-styling Git baseline. | Baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a`, source-wide audit, and user-reported manual checks of the listed routes at 375px and 1280px are recorded in `docs/uxd/research/0010-styling-baseline.md`. Screenshots are optional unless requested. | frontend coding | resolved 2026-10-14 |
+| R-18 | Initial execution lacked command/browser access; the user subsequently supplied passing command results and completed the repository-wide custom-property reference search and post-E-02 representative route comparison at 375px/1280px. The UXD handoff clarification uses 4.5:1 text and 3:1 non-text thresholds while some inventory prose/metadata retains 5:1 Figma descriptions. | Contract test uses the clarified UXD acceptance thresholds without altering exported values. Preserve referenced compatibility declarations. No E-02 verification remains outstanding. | frontend coding | resolved 2026-10-15 |
 
 ## Revisions
 
@@ -582,3 +583,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-10-14 | T-01.3 baseline revision | Replaced per-route screenshots as a gate with committed pre-styling revision `dad2b60716fdadf9df342405c9f7d404a0daf44a` and manual representative-route checks at 375px/1280px before and after styling. Screenshots are optional unless requested. |
 | 2026-10-14 | T-01.3 source audit | Completed the source-wide static audit across `apps/frontend/src` and `packages/ui`, recording file/line findings. T-01.3/E-01 remain blocked only on manual pre-styling route verification requiring a running browser; E-02 remains pending. |
 | 2026-10-14 | T-01.3 manual baseline verification | Recorded user-reported checks of the representative routes/states at 375px and 1280px against the baseline commit, including dialog behavior and keyboard focus; no notable existing layout issues were reported. Marked T-01.3 and E-01 done; E-02 remains pending and has not started. |
+| 2026-10-14 | E-02 token infrastructure | Added the token/theme CSS entry files, preserved legacy visual values and aliases, mapped Tailwind theme values to CSS variables, and added the token contract test. Adjusted T-02.3 to test all exported theme inventories and the Light runtime block because adding other runtime theme blocks belongs to E-05. E-02 remains blocked pending commands, alias search, and browser verification unavailable in this environment; E-03 was not started. |
+| 2026-10-14 | E-02 contrast and alias verification follow-up | Adjusted contract-test text contrast thresholds to the clarified UXD requirement of 4.5:1; kept 3:1 for documented non-text accent pairs and made no token-value changes. Inspected `App.css` but could not run the required repository-wide alias search or rerun frontend tests in this environment. Compatibility aliases remain. |
+| 2026-10-15 | E-02 verification results | Recorded user-reported passing tests, typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, and browser review. Recorded completed repository-wide property-reference search; consumers remain, so compatibility declarations are retained and no aliases removed. T-02.3 and T-02.4 are done. T-02.1/T-02.2 and E-02 remain blocked only because the user's browser-review report did not explicitly confirm representative-route comparison against baseline at both 375px and 1280px. E-03 has not started. |
+| 2026-10-15 | E-02 baseline comparison | Recorded user-completed representative route/state comparison against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` at 375px and 1280px, including dialog and keyboard focus; no notable unintended layout changes observed. Marked T-02.1, T-02.2, and E-02 done; E-03 remains pending. |

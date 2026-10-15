@@ -1,9 +1,9 @@
 # Plan 0010: Frontend styling baseline and audit
 
-**Status:** source audit and representative pre-styling browser checks complete  
+**Status:** pre-styling baseline, source audit, and E-02 comparison complete  
 **Plan task:** [T-01.3](../../plans/0010-design-token-foundation.md)  
 **Architecture:** [ADR 0018](../../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md)  
-**Date reviewed:** 2026-10-14  
+**Date reviewed:** 2026-10-15  
 **Application source:** [`apps/frontend/src`](../../../apps/frontend/src)
 
 ## Reproducible pre-styling baseline
@@ -14,18 +14,33 @@ This is the committed pre-styling revision to compare against during the skin sw
 
 ### Manual representative-route comparison
 
-The representative routes/states below were manually reviewed against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` at 375px and 1280px on 2026-10-14. The reviewer reported no notable existing layout issues. Dialog behavior and keyboard focus were also verified where specified. After styling, check the same route/state at those widths and record the result. Use the same app mode, representative data, and interaction state for both versions. Compare directly by checking out the baseline commit or using a detached worktree. Focus on unintended changes to layout, wrapping, overflow, component order, responsive behavior, and interaction states; do not mistake intended color/type/radius/elevation changes for layout regressions.
+The representative routes/states below were manually reviewed against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` at 375px and 1280px on 2026-10-14 before styling and again after E-02 on 2026-10-15. The reviewer reported no notable existing layout issues and no notable unintended changes to layout structure, breakpoints, widths, spacing geometry, navigation, control dimensions, focus behavior, or overflow. Dialog behavior and keyboard focus were verified where specified. Future styling phases should check the same route/state at both widths, using the same app mode, representative data, and interaction state, and compare against the committed baseline. Focus on unintended changes to layout, wrapping, overflow, component order, responsive behavior, and interaction states; do not mistake intended color/type/radius/elevation changes for layout regressions.
 
 | Representative route / state | Route-specific checks | 375px baseline | 1280px baseline | 375px after styling | 1280px after styling |
 | --- | --- | --- | --- | --- | --- |
-| Authenticated workspace shell + Dashboard `/workspace/dashboard` | Logo, welcome text, profile switcher, primary navigation, and placeholder panel remain in order; mobile does not clip header controls; desktop navigation/content columns remain unchanged. | Verified; no notable issue observed | Verified; no notable issue observed | Pending | Pending |
-| Journal populated day editor `/workspace/journal?mode=day&date=<date-with-entry>` and review table `/workspace/journal?mode=month&month=<month-with-entries>` | Scope/mode controls, date input, editor, preview, save/actions retain dimensions and order; editor remains resizable; month table keeps its existing horizontal-scroll behavior and row actions stay reachable. | Verified; no notable issue observed | Verified; no notable issue observed | Pending | Pending |
-| Help landing `/help` and a real Help topic `/help/<active-help-key>` | Group cards preserve order and breakpoint behavior; topic title, status message, Markdown headings/links/tables/code, and return link remain readable and do not overflow. | Verified; no notable issue observed | Verified; no notable issue observed | Pending | Pending |
-| Settings Investor Profile form `/workspace/settings/profile` | Summary/edit form, labels, radio/checkbox groups, textareas, preview controls, feedback, and save/cancel actions preserve structure; keyboard focus stays visible and fields remain usable at narrow width. | Verified; no notable issue observed | Verified; no notable issue observed | Pending | Pending |
-| Security Master populated list `/workspace/security-master?status=active` | Filters keep existing responsive arrangement; results retain horizontal scrolling rather than compressing/overlapping columns; links and status remain visible. | Verified; no notable issue observed | Verified; no notable issue observed | Pending | Pending |
-| Open Security Master delete Dialog from a populated detail `/workspace/security-master/<existing-id>` | Dialog overlay and content remain on-screen; title/actions readable; focus is contained and visible, Escape dismisses, and the destructive action remains distinguishable. | Verified; dialog behavior and keyboard focus checked; no notable issue observed | Verified; dialog behavior and keyboard focus checked; no notable issue observed | Pending | Pending |
-| Placeholder `/workspace/portfolio` and NotFound (use an unmatched path such as `/not-a-route`) | Status/placeholder content and action remain in order; no text, links, or buttons are clipped or obscured. | Verified; no notable issue observed | Verified; no notable issue observed | Pending | Pending |
+| Authenticated workspace shell + Dashboard `/workspace/dashboard` | Logo, welcome text, profile switcher, primary navigation, and placeholder panel remain in order; mobile does not clip header controls; desktop navigation/content columns remain unchanged. | Verified; no notable issue observed | Verified; no notable issue observed | Verified; no notable unintended change | Verified; no notable unintended change |
+| Journal populated day editor `/workspace/journal?mode=day&date=<date-with-entry>` and review table `/workspace/journal?mode=month&month=<month-with-entries>` | Scope/mode controls, date input, editor, preview, save/actions retain dimensions and order; editor remains resizable; month table keeps its existing horizontal-scroll behavior and row actions stay reachable. | Verified; no notable issue observed | Verified; no notable issue observed | Verified; no notable unintended change | Verified; no notable unintended change |
+| Help landing `/help` and a real Help topic `/help/<active-help-key>` | Group cards preserve order and breakpoint behavior; topic title, status message, Markdown headings/links/tables/code, and return link remain readable and do not overflow. | Verified; no notable issue observed | Verified; no notable issue observed | Verified; no notable unintended change | Verified; no notable unintended change |
+| Settings Investor Profile form `/workspace/settings/profile` | Summary/edit form, labels, radio/checkbox groups, textareas, preview controls, feedback, and save/cancel actions preserve structure; keyboard focus stays visible and fields remain usable at narrow width. | Verified; no notable issue observed | Verified; no notable issue observed | Verified; no notable unintended change | Verified; no notable unintended change |
+| Security Master populated list `/workspace/security-master?status=active` | Filters keep existing responsive arrangement; results retain horizontal scrolling rather than compressing/overlapping columns; links and status remain visible. | Verified; no notable issue observed | Verified; no notable issue observed | Verified; no notable unintended change | Verified; no notable unintended change |
+| Open Security Master delete Dialog from a populated detail `/workspace/security-master/<existing-id>` | Dialog overlay and content remain on-screen; title/actions readable; focus is contained and visible, Escape dismisses, and the destructive action remains distinguishable. | Verified; dialog behavior and keyboard focus checked; no notable issue observed | Verified; dialog behavior and keyboard focus checked; no notable issue observed | Verified; dialog and keyboard focus behavior; no notable unintended change | Verified; dialog and keyboard focus behavior; no notable unintended change |
+| Placeholder `/workspace/portfolio` and NotFound (use an unmatched path such as `/not-a-route`) | Status/placeholder content and action remain in order; no text, links, or buttons are clipped or obscured. | Verified; no notable issue observed | Verified; no notable issue observed | Verified; no notable unintended change | Verified; no notable unintended change |
 At both widths and on the same routes after styling, verify: no change to page or component order, grid/flex structure, breakpoints, column widths, margins/padding/gaps, or control dimensions; no unexpected wrapping that clips content, horizontal overflow, or inaccessible controls; route navigation and focus order remain intact; visible keyboard focus; dialogs retain overlay, focus containment, Escape dismissal, and usable actions. Intended colors, typefaces, radii, and shadows may differ. Record the result per row and note any natural font-metric text reflow without treating it as layout approval. `HelpTooltip` is included in the source audit, but no mounted route usage was identified in the reviewed route/component tree; do not fabricate a route state for it.
+
+The E-02 comparison against the pre-styling commit is complete for the representative routes/states at both viewport widths, including dialog and keyboard-focus behavior. No notable unintended layout or interaction changes were observed.
+
+### E-02 verification results
+
+The user reports the following E-02 checks passed:
+
+- Frontend tests.
+- Frontend typecheck.
+- Frontend lint (6 warnings, 0 errors).
+- Frontend production build.
+- `git diff --check`.
+- Browser review: application renders as expected with no obvious unintended visual changes.
+
+The user also completed a repository-wide CSS custom-property reference search. It confirmed that legacy compatibility properties are still consumed, including legacy `--color-*`, spacing/radius, and `--shadow-elevation-soft` properties in `tailwind.config.ts`, `index.css`, and `App.css`. Therefore, the zero-reference condition for alias removal is not satisfied; retain the compatibility declarations and do not remove them.
 
 Route inventory was checked against [`scaffoldRoutes.ts`](../../../apps/frontend/src/scaffoldRoutes.ts), [`App.tsx`](../../../apps/frontend/src/App.tsx), and [`SettingsShell.tsx`](../../../apps/frontend/src/SettingsShell.tsx). The actual Journal page takes precedence over the scaffold placeholder at the same path. The Settings root redirects to Your AI; include its tab routes and subroutes rather than capturing the redirect as a separate page.
 
@@ -103,15 +118,18 @@ The exact legacy-variable mapping and candidate status are recorded in `existing
 
 ## E-02-relevant follow-up
 
-1. After styling, compare the same route/state matrix with the committed baseline revision at 375px and 1280px and record outcomes. No screenshots are required unless requested by a reviewer.
-2. Resolve only mappings required to establish the token layer. Unmatched legacy roles may remain documented compatibility declarations under ADR 0018; do not assign approximate Figma tokens merely to make the crosswalk look complete.
-3. Keep gradient fidelity (R-14/T-04.1), alert/warning semantics, and full accessibility criteria scoped to their later decisions. They do not require beginning E-02, but E-02 must not introduce invented values or break current behavior.
+1. The representative-route comparison against the committed baseline at 375px and 1280px is complete for E-02. Repeat the comparison after later visual phases; screenshots remain optional unless requested by a reviewer.
+2. Resolve only mappings required for each later phase. Unmatched legacy roles may remain documented compatibility declarations under ADR 0018; do not assign approximate Figma tokens merely to make the crosswalk look complete.
+3. Keep gradient fidelity (R-14/T-04.1), alert/warning semantics, and full accessibility criteria scoped to their later decisions.
 
 ## Verification and task disposition
 
 - [x] Recorded committed pre-styling source revision `dad2b60716fdadf9df342405c9f7d404a0daf44a`.
 - [x] Completed source-wide static styling audit across `apps/frontend/src` and `packages/ui`; findings include file/line locations and semantic migration dispositions.
 - [x] Manual pre-styling verification of representative route/state matrix at 375px and 1280px, including specified dialog behavior and keyboard focus.
-- [x] No-application-code-change condition — satisfied; only planning/research documentation was added.
+- [x] E-02 frontend tests, typecheck, lint, production build, and `git diff --check` reported passing by the user; lint reports 6 warnings and 0 errors.
+- [x] Repository-wide CSS custom-property search completed; compatibility properties remain referenced and were retained.
+- [x] Record E-02 post-change comparison of the representative route/state matrix against the baseline commit at both 375px and 1280px.
+- [x] No-application-code-change condition for T-01.3/E-01 — satisfied; E-02 token infrastructure changes are limited to the planned CSS/Tailwind foundation.
 
-The source-wide styling audit and manual pre-styling route checks are **complete**. T-01.3's verification requirements are satisfied, including the full baseline SHA, representative checks at both widths, and the no-application-code-change condition. E-01's exit gate is **satisfied**. E-02 remains pending and has not started.
+The source-wide styling audit, pre-styling baseline checks, and E-02 post-change representative-route comparison are **complete**. T-01.3 and E-01 are complete. E-02's automated checks, compatibility-reference analysis, and post-change comparison at 375px and 1280px are complete; no notable unintended changes were observed. E-02 is complete. E-03 and later phases have not started.
