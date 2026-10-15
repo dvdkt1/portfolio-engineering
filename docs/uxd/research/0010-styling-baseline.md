@@ -39,6 +39,14 @@ The global typography application uses the existing Figma-derived CSS variables 
 
 **Verification status:** Complete based on the user's report: `git diff --check` passed; frontend tests passed (40/40); typecheck passed; lint passed with 6 warnings and 0 errors; production build passed; representative-route comparison passed at 375px and 1280px; dialog and keyboard-focus behavior passed. No unintended layout, overflow, navigation, control-size, or interaction regressions were observed. The user did not report specific natural text reflow; no problematic wrapping or clipping was reported. These results apply to T-03.3 and are distinct from the earlier E-02 and T-03.2 comparisons.
 
+### T-03.4 radius and elevation application
+
+App.css uses the existing shared radius properties by documented role: cards use `--radius-lg` (10px), hero/status/settings panels use `--radius-xl` (12px), and navigation links/buttons use `--radius-md` (6px). The established Dialog primitive uses `--radius-xl` and `shadow-elevation-dialog`, which resolves to the shared `--elevation-3-dialog` value. No menu or popover primitive/role was identified for applying the other elevation tokens. The existing `--shadow-elevation-soft` remains on static hero, status, and settings section cards because those roles do not match an exported floating-surface elevation; no legacy shadow was guessed or removed. Compatibility aliases remain in place.
+
+The intended visible differences are updated corner curvature on the mapped App.css surfaces and the Figma dialog shadow/radius. No spacing, dimensions, layout structure, routing, content, or behavior were changed.
+
+**Verification status:** Complete based on the user's report: `git diff --check` passed; frontend tests passed (40/40); typecheck passed; lint passed with 6 warnings and 0 errors; production build passed; representative-route comparison passed at 375px and 1280px; dialog behavior and keyboard focus passed. Approved radius changes and dialog elevation render as expected. No unintended layout, spacing, overflow, navigation, control-size, or interaction regressions were observed. Static cards retain `--shadow-elevation-soft` because no approved Figma elevation role exists.
+
 The user reports that the representative route comparison against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` passed at 375px and 1280px, including dialog and keyboard-focus behavior. Expected changes were limited to the four Light color roles; no unintended layout, overflow, navigation, control-size, or interaction regressions were observed.
 
 The user also reports these T-03.2 checks passed: `git diff --check`; frontend tests (40/40); typecheck; lint (6 warnings, 0 errors); and production build.

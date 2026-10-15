@@ -12,14 +12,14 @@ Executing agents keep this block current. It is the entry point for any agent re
 - Current effort: E-03
 - Completed efforts: E-01, E-02
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-03.4 (apply radius and elevation values)
+- Next recommended task: T-03.5 (define spacing tokens without changing layout)
 - Last updated: 2026-10-15
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
 | E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
-| E-03 | Light theme, typography, radius, elevation values | 5 | 3 | in-progress |
+| E-03 | Light theme, typography, radius, elevation values | 5 | 4 | in-progress |
 | E-04 | Remove hard-coded visual values from shared layers | 4 | 0 | pending |
 | E-05 | Remaining four themes | 4 | 0 | pending |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
@@ -312,17 +312,17 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-03.4: Apply radius and elevation values
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-02.2
 - **Files:**
-  - `apps/frontend/src/styles/tokens.css` (modified — radii)
-  - `apps/frontend/src/styles/themes.css` (modified — shared elevation tokens)
-  - `apps/frontend/src/App.css` (modified — `border-radius` and `box-shadow` only)
+  - `apps/frontend/src/styles/tokens.css` (existing radius/elevation custom properties consumed)
+  - `apps/frontend/src/App.css` (modified — radius declarations only; existing unmatched legacy shadows retained)
+  - `apps/frontend/src/components/ui/dialog.tsx` (modified — established dialog radius/elevation role)
 - **Intent:** Map radius literals to the approved CSS names/units for Figma's shared radius values; map surfaces to the three shared elevation levels where their intended usage matches. Do not create theme-specific elevation values.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do Not: arbitrary literal values.
 - **Verify:** No literal `border-radius`/`box-shadow` in `App.css`; manual representative-route comparison at 375px and 1280px shows only intended radius/shadow changes and no unintended layout regressions.
-- **Notes:**
+- **Notes:** Replaced App.css radius literals with the existing shared tokens by documented role: cards use `--radius-lg` (10px), hero/status/settings panels use `--radius-xl` (12px), and navigation links/buttons use `--radius-md` (6px). The established Dialog primitive now uses `--radius-xl` and the existing `shadow-elevation-dialog` Tailwind utility, backed by `--elevation-3-dialog` (`0 16px 40px 0 rgba(0, 0, 0, 0.45)`). No menu or popover component role was identified, so those elevations were not applied. Existing `--shadow-elevation-soft` remains on static hero/status/section cards because its role has no approved Figma elevation match; compatibility declarations are retained. Spacing, dimensions, component order, and behavior were not changed. The user reports `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, and representative-route comparisons at 375px and 1280px passed, including dialog behavior and keyboard focus. Approved radius changes and dialog elevation render as expected; no unintended layout, spacing, overflow, navigation, control-size, or interaction regressions were observed. Static cards retain the unmatched legacy shadow. Marked T-03.4 complete; T-03.5 is next and was not started.
 
 ### T-03.5: Define spacing tokens without changing layout
 
@@ -575,6 +575,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | R-19 | This execution environment initially lacked package-manager, command, and browser tools; the user subsequently supplied completion evidence for dependency installation, lockfile generation, checks, build output, and local runtime font delivery. The computed-font check on body/code remains deferred to T-03.3 to avoid applying the typography early. | User-reported verification confirms package resolution, tests/typecheck/lint/build, and local self-hosting. Keep global typography application scoped to T-03.3. | frontend coding | resolved 2026-10-15 |
 | R-20 | The current environment had no test runner or browser at implementation time; the user subsequently supplied passing test and representative-route verification results for T-03.2. | User reports all T-03.2 checks passed at both widths; unresolved legacy values remain unchanged. | frontend coding | resolved 2026-10-15 |
 | R-21 | T-03.3 verification was pending because command and browser checks were unavailable in the implementation environment. | User-reported checks now pass: tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, and 375px/1280px route comparison with no unintended regressions. No specific natural reflow was reported. | frontend coding | resolved 2026-10-15 |
+| R-22 | T-03.4 radius/elevation verification was pending because command and browser checks were unavailable in the implementation environment. | User-reported checks pass: frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, 375px/1280px route comparison, and dialog/focus behavior. Approved radius/elevation changes render as expected with no unintended regressions; unmatched static-card shadows remain. | frontend coding | resolved 2026-10-15 |
 
 ## Revisions
 
@@ -597,3 +598,5 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-10-15 | T-03.2 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), build, 375px/1280px representative-route comparisons, and dialog/focus checks. Expected changes were limited to the four mapped Light color roles, with no unintended regressions. Marked T-03.2 done; T-03.3 is next and remains pending. |
 | 2026-10-15 | T-03.3 typography application | Applied existing Figma type variables to root body text, headings, code, and scoped App.css typography rules. No layout or spacing changes made. T-03.3 remains blocked pending standard frontend checks and the required 375px/1280px browser comparison, unavailable in this environment. No T-03.4 or later work started. |
 | 2026-10-15 | T-03.3 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, 375px/1280px representative-route comparison, and dialog/focus checks. No unintended layout, overflow, navigation, control-size, or interaction regressions were observed; no specific natural reflow was reported. Marked T-03.3 done; T-03.4 is next and was not started. |
+| 2026-10-15 | T-03.4 radius/elevation application | Mapped App.css card/panel, navigation, and button radii to existing shared radius tokens; applied the established dialog radius and dialog elevation utility. Retained unmatched static-card shadows and did not apply menu/popover roles without corresponding components. T-03.4 remains blocked pending frontend checks and 375px/1280px browser comparison unavailable in this environment. T-03.5 and later tasks were not started. |
+| 2026-10-15 | T-03.4 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, 375px/1280px representative-route comparison, and dialog/focus checks. Approved radius changes and dialog elevation render as expected; no unintended layout, spacing, overflow, navigation, control-size, or interaction regressions were observed. Static cards retain `--shadow-elevation-soft` because no approved Figma role exists. Marked T-03.4 done; T-03.5 is next and was not started. |

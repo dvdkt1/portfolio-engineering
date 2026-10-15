@@ -7,7 +7,7 @@
 .hero-panel,
 .status-panel {
   border: 1px solid var(--color-border-subtle);
-  border-radius: 1rem;
+  border-radius: var(--radius-xl);
   padding: 1.5rem;
   text-align: left;
   background: var(--color-surface-default);
@@ -91,7 +91,7 @@
 
 .user-details div {
   padding: 1rem;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   background: var(--color-surface-muted);
 }
 
@@ -178,7 +178,7 @@
 .nav-link {
   display: block;
   border: 1px solid transparent;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   padding: 0.45rem 0.6rem;
   color: var(--color-text-primary);
   text-decoration: none;
@@ -207,7 +207,7 @@
 
 .settings-tabs {
   border: 1px solid var(--color-border-subtle);
-  border-radius: 0.75rem;
+  border-radius: var(--radius-xl);
   padding: 0.5rem;
   background: var(--color-surface-muted);
 }
@@ -263,7 +263,7 @@
   display: grid;
   gap: 1rem;
   border: 1px solid var(--color-border-subtle);
-  border-radius: 0.9rem;
+  border-radius: var(--radius-lg);
   padding: 1.25rem;
   background: var(--color-surface-default);
   box-shadow: var(--shadow-elevation-soft);
@@ -290,7 +290,7 @@
   width: 100%;
   overflow: hidden;
   border: 1px solid var(--color-border-subtle);
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   background: var(--color-surface-muted);
 }
 
@@ -338,14 +338,14 @@
 
 .placeholder-grid li {
   border: 1px solid var(--color-border-subtle);
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   padding: 0.9rem;
   background: var(--color-surface-muted);
 }
 
 .route-note {
   border: 1px solid var(--color-border-subtle);
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   padding: 0.9rem;
   background: var(--color-surface-muted);
   display: grid;
@@ -368,7 +368,7 @@
 .primary-button,
 .secondary-button {
   border: 1px solid var(--color-border-subtle);
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   padding: 0.5rem 0.8rem;
   font: inherit;
   cursor: pointer;
