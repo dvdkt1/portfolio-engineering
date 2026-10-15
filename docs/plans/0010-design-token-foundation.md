@@ -12,14 +12,14 @@ Executing agents keep this block current. It is the entry point for any agent re
 - Current effort: E-03
 - Completed efforts: E-01, E-02
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-03.1 (self-host IBM Plex Sans and IBM Plex Mono)
+- Next recommended task: T-03.2 (apply Figma Light color values)
 - Last updated: 2026-10-15
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
 | E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
-| E-03 | Light theme, typography, radius, elevation values | 5 | 0 | pending |
+| E-03 | Light theme, typography, radius, elevation values | 5 | 1 | in-progress |
 | E-04 | Remove hard-coded visual values from shared layers | 4 | 0 | pending |
 | E-05 | Remaining four themes | 4 | 0 | pending |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
@@ -270,18 +270,18 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-03.1: Self-host IBM Plex Sans and IBM Plex Mono
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-02.1
 - **Files:**
   - `apps/frontend/package.json` (modified — `@fontsource/ibm-plex-sans`, `@fontsource/ibm-plex-mono`)
   - `pnpm-lock.yaml` (modified)
   - `apps/frontend/src/main.tsx` (modified — font CSS imports only)
-  - `apps/frontend/src/styles/tokens.css` (modified — family stacks with fallbacks)
+  - `apps/frontend/src/styles/tokens.css` (existing family stacks reused; no change required)
 - **Intent:** Load only the weights/styles Figma uses and point `--font-family-sans/-mono` at them.
 - **ADRs:** [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md) (font hosting). [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do Not: "add a second … component library" (fonts packages are not one).
-- **Verify:** Standard checks pass; devtools network shows font files served from the app origin and no third-party font requests; computed `font-family` on body resolves to IBM Plex Sans and on `code` to IBM Plex Mono.
-- **Notes:**
+- **Verify:** Standard checks pass; the production build bundles the font files from the app's installed packages; browser network confirms fonts are served from the app origin with no third-party font requests; approved weights and existing family variables/fallbacks are confirmed. Applying those families to `body`/`code` remains part of T-03.3 and is intentionally not done in T-03.1.
+- **Notes:** Added frontend dependencies for `@fontsource/ibm-plex-sans` and `@fontsource/ibm-plex-mono`, and imported only weights 400/500/600 for Sans and 400/500 for Mono in `main.tsx`. The lockfile resolves both packages to 5.3.0. Existing `--font-family-sans` and `--font-family-mono` variables already name IBM Plex with system fallbacks and were left unchanged. The user reports frontend tests pass (40/40), typecheck passes, lint passes (6 warnings, 0 errors), production build passes, `git diff --check` passes, and browser/network inspection confirms locally served font assets with no CDN. No global typography or layout styles changed; actual font application remains in T-03.3.
 
 ### T-03.2: Apply Figma Light color values
 
@@ -571,6 +571,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | R-16 | Numeric spacing/radius values have no exported units; CSS realization and names were needed. | Use flattened token paths and append `px` to exported numeric magnitudes; preserve computed layout spacing. | adr-architect | resolved by ADR 0018 (2026-10-13) |
 | R-17 | The initial T-01.3 interpretation required screenshots of every route; the user replaced this with a committed pre-styling Git baseline. | Baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a`, source-wide audit, and user-reported manual checks of the listed routes at 375px and 1280px are recorded in `docs/uxd/research/0010-styling-baseline.md`. Screenshots are optional unless requested. | frontend coding | resolved 2026-10-14 |
 | R-18 | Initial execution lacked command/browser access; the user subsequently supplied passing command results and completed the repository-wide custom-property reference search and post-E-02 representative route comparison at 375px/1280px. The UXD handoff clarification uses 4.5:1 text and 3:1 non-text thresholds while some inventory prose/metadata retains 5:1 Figma descriptions. | Contract test uses the clarified UXD acceptance thresholds without altering exported values. Preserve referenced compatibility declarations. No E-02 verification remains outstanding. | frontend coding | resolved 2026-10-15 |
+| R-19 | This execution environment initially lacked package-manager, command, and browser tools; the user subsequently supplied completion evidence for dependency installation, lockfile generation, checks, build output, and local runtime font delivery. The computed-font check on body/code remains deferred to T-03.3 to avoid applying the typography early. | User-reported verification confirms package resolution, tests/typecheck/lint/build, and local self-hosting. Keep global typography application scoped to T-03.3. | frontend coding | resolved 2026-10-15 |
 
 ## Revisions
 
@@ -587,3 +588,5 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-10-14 | E-02 contrast and alias verification follow-up | Adjusted contract-test text contrast thresholds to the clarified UXD requirement of 4.5:1; kept 3:1 for documented non-text accent pairs and made no token-value changes. Inspected `App.css` but could not run the required repository-wide alias search or rerun frontend tests in this environment. Compatibility aliases remain. |
 | 2026-10-15 | E-02 verification results | Recorded user-reported passing tests, typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, and browser review. Recorded completed repository-wide property-reference search; consumers remain, so compatibility declarations are retained and no aliases removed. T-02.3 and T-02.4 are done. T-02.1/T-02.2 and E-02 remain blocked only because the user's browser-review report did not explicitly confirm representative-route comparison against baseline at both 375px and 1280px. E-03 has not started. |
 | 2026-10-15 | E-02 baseline comparison | Recorded user-completed representative route/state comparison against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` at 375px and 1280px, including dialog and keyboard focus; no notable unintended layout changes observed. Marked T-02.1, T-02.2, and E-02 done; E-03 remains pending. |
+| 2026-10-15 | T-03.1 font loading | Added Fontsource package declarations and CSS imports for the approved Sans 400/500/600 and Mono 400/500 weights, reusing existing family variables/fallbacks. T-03.1 remains blocked pending lockfile generation and required build/runtime verification, unavailable in this environment. No typography application or T-03.2 work started. |
+| 2026-10-15 | T-03.1 verification | Recorded user-reported passing dependency installation, lockfile update, tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, and browser/network confirmation that all approved IBM Plex weights are locally served with no CDN. Marked T-03.1 done; T-03.2 is next. |
