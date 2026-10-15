@@ -12,14 +12,14 @@ Executing agents keep this block current. It is the entry point for any agent re
 - Current effort: E-03
 - Completed efforts: E-01, E-02
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-03.3 (apply the type scale to global element styles)
+- Next recommended task: T-03.4 (apply radius and elevation values)
 - Last updated: 2026-10-15
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
 | E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
-| E-03 | Light theme, typography, radius, elevation values | 5 | 2 | in-progress |
+| E-03 | Light theme, typography, radius, elevation values | 5 | 3 | in-progress |
 | E-04 | Remove hard-coded visual values from shared layers | 4 | 0 | pending |
 | E-05 | Remaining four themes | 4 | 0 | pending |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
@@ -298,7 +298,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-03.3: Apply the type scale to global element styles
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-03.1
 - **Files:**
@@ -308,7 +308,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 - **Intent:** Replace literal font sizes/weights/line-heights/letter-spacing with type tokens matching the closest Figma style.
 - **ADRs:** [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md); [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do Not: "replace existing semantic tokens with arbitrary literal … typography values".
 - **Verify:** No literal `font-size`/`font-weight`/`line-height`/`letter-spacing` remains in `index.css`/`App.css`; manually inspect representative routes at 375px and 1280px against the baseline for clipping, overflow, or structural layout changes. Record natural text reflow caused by the Figma font metrics (R-5); screenshots optional unless requested.
-- **Notes:**
+- **Notes:** Applied existing type tokens to root body text, `h1`, `h2`, and `code` global styles, plus `.eyebrow`, `.user-details dt`, `.nav-group h3`, `.nav-link.active`, `.settings-metric-value`, and `.settings-metric-label` in `App.css`. The active navigation link's existing weight of 600 now uses the equivalent Body/Strong token. IBM Plex Sans is used for body/headings/labels, and IBM Plex Mono for code/data values, through existing variables with their fallbacks. Typography properties only were changed; no layout, spacing, or component structure was edited. The user reports `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, and representative-route comparisons at 375px and 1280px all pass, including dialog and keyboard-focus behavior. No unintended layout, overflow, navigation, control-size, or interaction regressions were observed. The user did not report specific natural text reflow; no problematic wrapping or clipping was reported. Marked T-03.3 complete. No later task started.
 
 ### T-03.4: Apply radius and elevation values
 
@@ -574,6 +574,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | R-18 | Initial execution lacked command/browser access; the user subsequently supplied passing command results and completed the repository-wide custom-property reference search and post-E-02 representative route comparison at 375px/1280px. The UXD handoff clarification uses 4.5:1 text and 3:1 non-text thresholds while some inventory prose/metadata retains 5:1 Figma descriptions. | Contract test uses the clarified UXD acceptance thresholds without altering exported values. Preserve referenced compatibility declarations. No E-02 verification remains outstanding. | frontend coding | resolved 2026-10-15 |
 | R-19 | This execution environment initially lacked package-manager, command, and browser tools; the user subsequently supplied completion evidence for dependency installation, lockfile generation, checks, build output, and local runtime font delivery. The computed-font check on body/code remains deferred to T-03.3 to avoid applying the typography early. | User-reported verification confirms package resolution, tests/typecheck/lint/build, and local self-hosting. Keep global typography application scoped to T-03.3. | frontend coding | resolved 2026-10-15 |
 | R-20 | The current environment had no test runner or browser at implementation time; the user subsequently supplied passing test and representative-route verification results for T-03.2. | User reports all T-03.2 checks passed at both widths; unresolved legacy values remain unchanged. | frontend coding | resolved 2026-10-15 |
+| R-21 | T-03.3 verification was pending because command and browser checks were unavailable in the implementation environment. | User-reported checks now pass: tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, and 375px/1280px route comparison with no unintended regressions. No specific natural reflow was reported. | frontend coding | resolved 2026-10-15 |
 
 ## Revisions
 
@@ -594,3 +595,5 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-10-15 | T-03.1 verification | Recorded user-reported passing dependency installation, lockfile update, tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, and browser/network confirmation that all approved IBM Plex weights are locally served with no CDN. Marked T-03.1 done; T-03.2 is next. |
 | 2026-10-15 | T-03.2 Light color mapping | Set the Light color scheme and mapped only the four legacy color properties marked as direct equivalents in the token inventory. Added Light export-value and compatibility-alias assertions to the token contract test. Preserved candidate/unmapped legacy values. T-03.2 remains blocked pending test and 375px/1280px browser verification unavailable in this environment; no T-03.3 work started. |
 | 2026-10-15 | T-03.2 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), build, 375px/1280px representative-route comparisons, and dialog/focus checks. Expected changes were limited to the four mapped Light color roles, with no unintended regressions. Marked T-03.2 done; T-03.3 is next and remains pending. |
+| 2026-10-15 | T-03.3 typography application | Applied existing Figma type variables to root body text, headings, code, and scoped App.css typography rules. No layout or spacing changes made. T-03.3 remains blocked pending standard frontend checks and the required 375px/1280px browser comparison, unavailable in this environment. No T-03.4 or later work started. |
+| 2026-10-15 | T-03.3 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, 375px/1280px representative-route comparison, and dialog/focus checks. No unintended layout, overflow, navigation, control-size, or interaction regressions were observed; no specific natural reflow was reported. Marked T-03.3 done; T-03.4 is next and was not started. |

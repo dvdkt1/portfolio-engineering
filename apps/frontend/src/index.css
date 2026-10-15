@@ -6,7 +6,11 @@
 @tailwind utilities;
 
 :root {
-  font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--typography-body-default-font-family);
+  font-size: var(--typography-body-default-font-size);
+  font-weight: var(--typography-body-default-font-weight);
+  line-height: var(--typography-body-default-line-height);
+  letter-spacing: var(--typography-body-default-letter-spacing);
   color-scheme: light;
   color: var(--color-text-primary);
   background: var(--color-bg-canvas);
@@ -39,15 +43,22 @@ h1,
 h2 {
   margin: 0 0 0.75rem;
   color: var(--color-text-strong);
-  line-height: 1.1;
 }
 
 h1 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-family: var(--typography-heading-h1-font-family);
+  font-size: var(--typography-heading-h1-font-size);
+  font-weight: var(--typography-heading-h1-font-weight);
+  line-height: var(--typography-heading-h1-line-height);
+  letter-spacing: var(--typography-heading-h1-letter-spacing);
 }
 
 h2 {
-  font-size: clamp(1.4rem, 2vw, 2rem);
+  font-family: var(--typography-heading-h2-font-family);
+  font-size: var(--typography-heading-h2-font-size);
+  font-weight: var(--typography-heading-h2-font-weight);
+  line-height: var(--typography-heading-h2-line-height);
+  letter-spacing: var(--typography-heading-h2-letter-spacing);
 }
 
 p {
@@ -55,7 +66,11 @@ p {
 }
 
 code {
-  font-family: var(--font-family-code-legacy);
+  font-family: var(--typography-editor-mono-font-family);
+  font-size: var(--typography-editor-mono-font-size);
+  font-weight: var(--typography-editor-mono-font-weight);
+  line-height: var(--typography-editor-mono-line-height);
+  letter-spacing: var(--typography-editor-mono-letter-spacing);
   display: inline-block;
   padding: var(--code-padding-legacy);
   border-radius: var(--code-radius-legacy);

@@ -33,6 +33,12 @@ The E-02 comparison against the pre-styling commit is complete for the represent
 
 T-03.2 applies the Figma Light colors through four direct legacy-variable mappings in the Light theme block: primary text `#334155` → `#121212`, muted text `#475569` → `#6B6B6B`, page background `#f8fafc` → `#FFFFFF`, and subtle border `#dbe4f0` → `#D9D9D9`. Candidate and unmapped legacy roles remain unchanged.
 
+### T-03.3 typography application
+
+The global typography application uses the existing Figma-derived CSS variables in `index.css` for the root body text, `h1`, `h2`, and `code`, and in `App.css` for `.eyebrow`, `.user-details dt`, `.nav-group h3`, `.nav-link.active`, `.settings-metric-value`, and `.settings-metric-label`. The active navigation link retains its existing weight through the Body/Strong weight token. IBM Plex Sans is selected through the existing variables for body, headings, and labels; IBM Plex Mono is selected for code and data values. Both retain the configured fallback stacks. The only intended visual differences are approved typeface, weight, size, line-height, and letter-spacing changes; natural wrapping/reflow is expected where font metrics differ. No layout or spacing adjustments were made.
+
+**Verification status:** Complete based on the user's report: `git diff --check` passed; frontend tests passed (40/40); typecheck passed; lint passed with 6 warnings and 0 errors; production build passed; representative-route comparison passed at 375px and 1280px; dialog and keyboard-focus behavior passed. No unintended layout, overflow, navigation, control-size, or interaction regressions were observed. The user did not report specific natural text reflow; no problematic wrapping or clipping was reported. These results apply to T-03.3 and are distinct from the earlier E-02 and T-03.2 comparisons.
+
 The user reports that the representative route comparison against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` passed at 375px and 1280px, including dialog and keyboard-focus behavior. Expected changes were limited to the four Light color roles; no unintended layout, overflow, navigation, control-size, or interaction regressions were observed.
 
 The user also reports these T-03.2 checks passed: `git diff --check`; frontend tests (40/40); typecheck; lint (6 warnings, 0 errors); and production build.
