@@ -377,7 +377,7 @@
 .primary-button {
   background: var(--color-action-primary);
   border-color: var(--color-action-primary);
-  color: #ffffff;
+  color: var(--text-on-inverse);
 }
 
 .secondary-button {

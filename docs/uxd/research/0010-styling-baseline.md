@@ -55,6 +55,14 @@ App.css was audited against the root's 14px font size. None of its distinct rem 
 
 **Verification status:** Complete based on the user's report: `git diff --check` passed; frontend tests passed (40/40); typecheck passed; lint passed with 6 warnings and 0 errors; production build passed; representative bounding-box/geometry spot-checks passed at 375px and 1280px. No unintended changes to widths, spacing geometry, wrapping, clipping, overflow, or component dimensions were observed. The exported Figma spacing values are available through the deterministic Tailwind named keys. App.css spacing remains unchanged because its audited literals do not exactly match exported token lengths at the current 14px root size.
 
+### T-04.1 App.css/index.css color literal mapping
+
+In `App.css`, the primary button's literal white text color now uses the approved canonical `--text-on-inverse` variable. Its Light theme value is `#FFFFFF`, so the current computed appearance is preserved while the value follows the Figma semantic token. `index.css` already routes the page gradient through `--gradient-canvas-accent`; no raw color literal remained there, and no edit was needed.
+
+The radial gradient remains unchanged because Foundations do not supply a gradient equivalent (R-14). Unmatched warning roles, generic shadows, and other existing values are also retained rather than guessed. Source review found no hex/rgb/hsl color literals in either target stylesheet; the only code change is the primary button text color declaration, with no layout properties changed.
+
+**Verification status:** Complete based on the user's report: `git diff --check` passed; frontend tests passed (40/40); typecheck passed; lint passed with 6 warnings and 0 errors; production build passed. The runtime CSS change replaces a literal white with `--text-on-inverse`, which resolves to the same `#FFFFFF` in Light mode. Source review confirms no hex/rgb/hsl literals remain in App.css or index.css. The gradient, warning, generic shadow, and compatibility values lacking an approved Figma mapping remain unchanged.
+
 The user reports that the representative route comparison against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` passed at 375px and 1280px, including dialog and keyboard-focus behavior. Expected changes were limited to the four Light color roles; no unintended layout, overflow, navigation, control-size, or interaction regressions were observed.
 
 The user also reports these T-03.2 checks passed: `git diff --check`; frontend tests (40/40); typecheck; lint (6 warnings, 0 errors); and production build.

@@ -12,7 +12,7 @@ Executing agents keep this block current. It is the entry point for any agent re
 - Current effort: E-03
 - Completed efforts: E-01, E-02
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-04.1 (tokenise remaining App.css and index.css literals)
+- Next recommended task: T-04.2 (tokenise components/ui primitives)
 - Last updated: 2026-10-15
 
 | Effort | Title | Tasks | Done | Status |
@@ -349,7 +349,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-04.1: Tokenise remaining App.css and index.css literals
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-03.4
 - **Files:**
@@ -358,7 +358,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 - **Intent:** Remove the last literal colors so all themes apply. Visual properties only.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do Not: "expand App.css for ordinary component styling" (edits only, no new rules).
 - **Verify:** No hex/rgb/hsl literals in `App.css`/`index.css`; diff touches no layout properties.
-- **Notes:**
+- **Notes:** Replaced the only direct color literal found in App.css/index.css, `.primary-button { color: #ffffff; }`, with the approved canonical `var(--text-on-inverse)` mapping; the Light token is `#FFFFFF`, preserving the current computed color. `index.css` already uses the existing `--gradient-canvas-accent` custom property for the radial gradient and contains no raw hex/rgb/hsl color, so it was left unchanged. The gradient has no approved Figma equivalent and remains a documented exception (R-14); warning roles, generic shadows, and other unmatched values were not remapped. Source review confirms no hex/rgb/hsl literals remain in App.css or index.css and the code diff changes only a color declaration. The user reports `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), and production build all passed. Marked T-04.1 complete; T-04.2 is next and was not started.
 
 ### T-04.2: Tokenise components/ui primitives
 
@@ -577,6 +577,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | R-21 | T-03.3 verification was pending because command and browser checks were unavailable in the implementation environment. | User-reported checks now pass: tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, and 375px/1280px route comparison with no unintended regressions. No specific natural reflow was reported. | frontend coding | resolved 2026-10-15 |
 | R-22 | T-03.4 radius/elevation verification was pending because command and browser checks were unavailable in the implementation environment. | User-reported checks pass: frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, 375px/1280px route comparison, and dialog/focus behavior. Approved radius/elevation changes render as expected with no unintended regressions; unmatched static-card shadows remain. | frontend coding | resolved 2026-10-15 |
 | R-23 | T-03.5 verification was pending because automated checks and browser geometry spot-checks were unavailable in the implementation environment. | User-reported checks pass: `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, and 375px/1280px representative bounding-box/geometry spot-checks. No unintended width, spacing, wrapping, clipping, overflow, or component-dimension changes were observed. | frontend coding | resolved 2026-10-15 |
+| R-24 | T-04.1 verification was pending because automated checks were unavailable in the implementation environment. | User-reported `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), and production build all pass; source review confirms no hex/rgb/hsl literals remain in App.css/index.css and the diff is limited to color styling. | frontend coding | resolved 2026-10-15 |
 
 ## Revisions
 
@@ -603,3 +604,5 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-10-15 | T-03.4 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, 375px/1280px representative-route comparison, and dialog/focus checks. Approved radius changes and dialog elevation render as expected; no unintended layout, spacing, overflow, navigation, control-size, or interaction regressions were observed. Static cards retain `--shadow-elevation-soft` because no approved Figma role exists. Marked T-03.4 done; T-03.5 is next and was not started. |
 | 2026-10-15 | T-03.5 spacing tokens | Reused the existing shared spacing custom properties and added deterministic named Tailwind spacing keys. Compared App.css rem literals against the 14px root size and exported pixel values; none computed to an exact token match, so no App.css spacing was changed. T-03.5 remained pending verification. |
 | 2026-10-15 | T-03.5 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, and 375px/1280px representative bounding-box/geometry checks. No unintended width, spacing, wrapping, clipping, overflow, or component-dimension changes were observed. Marked T-03.5 and E-03 complete; T-04.1 is next and was not started. |
+| 2026-10-15 | T-04.1 token mapping | Replaced App.css primary-button white with the canonical `--text-on-inverse` token. index.css already used its existing gradient custom property and had no raw color literals; preserved that gradient and unmatched warning/shadow values. Source review found no hex/rgb/hsl literals in either target file and no layout changes. T-04.1 remains blocked pending standard frontend checks unavailable in this environment. No T-04.2 or later task started. |
+| 2026-10-15 | T-04.1 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), and production build. The only runtime CSS change preserves the Light-mode computed white value; unmatched gradient, warning, generic shadow, and compatibility values remain unchanged. Marked T-04.1 done; T-04.2 is next and was not started. |
