@@ -12,14 +12,14 @@ Executing agents keep this block current. It is the entry point for any agent re
 - Current effort: E-03
 - Completed efforts: E-01, E-02
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-03.5 (define spacing tokens without changing layout)
+- Next recommended task: T-04.1 (tokenise remaining App.css and index.css literals)
 - Last updated: 2026-10-15
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
 | E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
-| E-03 | Light theme, typography, radius, elevation values | 5 | 4 | in-progress |
+| E-03 | Light theme, typography, radius, elevation values | 5 | 5 | done |
 | E-04 | Remove hard-coded visual values from shared layers | 4 | 0 | pending |
 | E-05 | Remaining four themes | 4 | 0 | pending |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
@@ -326,16 +326,16 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-03.5: Define spacing tokens without changing layout
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-02.2
 - **Files:**
-  - `apps/frontend/src/styles/tokens.css` (modified)
+  - `apps/frontend/src/styles/tokens.css` (existing exported spacing properties reused; no edit needed)
   - `apps/frontend/tailwind.config.ts` (modified — named spacing keys only)
 - **Intent:** Publish Figma spacing values using ADR 0018's path naming and px realization. Replace `App.css` spacing literals with tokens **only where the computed value is identical**; leave others as-is and list them in Notes for a later, explicitly approved density pass.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do: "Preserve … responsive behavior".
 - **Verify:** Element bounding boxes on representative baseline routes are unchanged (spot-check via devtools/Playwright at 375px and 1280px); standard checks pass.
-- **Notes:**
+- **Notes:** The shared spacing properties `--space-2` through `--space-64` were already defined in `tokens.css` with the authoritative exported values, so they were reused without editing that file. Added named Tailwind keys `space-2`, `space-4`, `space-8`, `space-12`, `space-16`, `space-20`, `space-24`, `space-32`, `space-40`, `space-48`, and `space-64`, each mapped to its corresponding CSS property; legacy spacing keys remain unchanged. Audited App.css spacing literals against the active 14px root font size: its distinct rem values (`0.25`, `0.35`, `0.4`, `0.45`, `0.5`, `0.6`, `0.65`, `0.75`, `0.8`, `0.9`, `1`, `1.1`, `1.25`, `1.5`, `2`, `3`, and `4rem`) compute to lengths that do not equal any exported spacing token (2, 4, 8, 12, 16, 20, 24, 32, 40, 48, or 64px). Therefore no App.css spacing declarations were replaced; these values remain for a separately approved density pass. No layout or computed geometry was intentionally changed. The user reports `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, and representative bounding-box/geometry spot-checks at 375px and 1280px all passed. No unintended changes to widths, spacing geometry, wrapping, clipping, overflow, or component dimensions were observed. Marked T-03.5 done; T-04.1 is next and was not started.
 
 ---
 
@@ -576,6 +576,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | R-20 | The current environment had no test runner or browser at implementation time; the user subsequently supplied passing test and representative-route verification results for T-03.2. | User reports all T-03.2 checks passed at both widths; unresolved legacy values remain unchanged. | frontend coding | resolved 2026-10-15 |
 | R-21 | T-03.3 verification was pending because command and browser checks were unavailable in the implementation environment. | User-reported checks now pass: tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, and 375px/1280px route comparison with no unintended regressions. No specific natural reflow was reported. | frontend coding | resolved 2026-10-15 |
 | R-22 | T-03.4 radius/elevation verification was pending because command and browser checks were unavailable in the implementation environment. | User-reported checks pass: frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, 375px/1280px route comparison, and dialog/focus behavior. Approved radius/elevation changes render as expected with no unintended regressions; unmatched static-card shadows remain. | frontend coding | resolved 2026-10-15 |
+| R-23 | T-03.5 verification was pending because automated checks and browser geometry spot-checks were unavailable in the implementation environment. | User-reported checks pass: `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, and 375px/1280px representative bounding-box/geometry spot-checks. No unintended width, spacing, wrapping, clipping, overflow, or component-dimension changes were observed. | frontend coding | resolved 2026-10-15 |
 
 ## Revisions
 
@@ -600,3 +601,5 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-10-15 | T-03.3 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, 375px/1280px representative-route comparison, and dialog/focus checks. No unintended layout, overflow, navigation, control-size, or interaction regressions were observed; no specific natural reflow was reported. Marked T-03.3 done; T-03.4 is next and was not started. |
 | 2026-10-15 | T-03.4 radius/elevation application | Mapped App.css card/panel, navigation, and button radii to existing shared radius tokens; applied the established dialog radius and dialog elevation utility. Retained unmatched static-card shadows and did not apply menu/popover roles without corresponding components. T-03.4 remains blocked pending frontend checks and 375px/1280px browser comparison unavailable in this environment. T-03.5 and later tasks were not started. |
 | 2026-10-15 | T-03.4 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, 375px/1280px representative-route comparison, and dialog/focus checks. Approved radius changes and dialog elevation render as expected; no unintended layout, spacing, overflow, navigation, control-size, or interaction regressions were observed. Static cards retain `--shadow-elevation-soft` because no approved Figma role exists. Marked T-03.4 done; T-03.5 is next and was not started. |
+| 2026-10-15 | T-03.5 spacing tokens | Reused the existing shared spacing custom properties and added deterministic named Tailwind spacing keys. Compared App.css rem literals against the 14px root size and exported pixel values; none computed to an exact token match, so no App.css spacing was changed. T-03.5 remained pending verification. |
+| 2026-10-15 | T-03.5 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, and 375px/1280px representative bounding-box/geometry checks. No unintended width, spacing, wrapping, clipping, overflow, or component-dimension changes were observed. Marked T-03.5 and E-03 complete; T-04.1 is next and was not started. |

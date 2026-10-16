@@ -47,6 +47,14 @@ The intended visible differences are updated corner curvature on the mapped App.
 
 **Verification status:** Complete based on the user's report: `git diff --check` passed; frontend tests passed (40/40); typecheck passed; lint passed with 6 warnings and 0 errors; production build passed; representative-route comparison passed at 375px and 1280px; dialog behavior and keyboard focus passed. Approved radius changes and dialog elevation render as expected. No unintended layout, spacing, overflow, navigation, control-size, or interaction regressions were observed. Static cards retain `--shadow-elevation-soft` because no approved Figma elevation role exists.
 
+### T-03.5 spacing-token publication
+
+The shared spacing tokens were already present in `tokens.css` at the exported values: `--space-2`, `--space-4`, `--space-8`, `--space-12`, `--space-16`, `--space-20`, `--space-24`, `--space-32`, `--space-40`, `--space-48`, and `--space-64`. Tailwind now exposes matching named spacing keys (`space-2` through `space-64`) mapped to those properties. Existing legacy Tailwind spacing keys remain unchanged.
+
+App.css was audited against the root's 14px font size. None of its distinct rem spacing values (`0.25`, `0.35`, `0.4`, `0.45`, `0.5`, `0.6`, `0.65`, `0.75`, `0.8`, `0.9`, `1`, `1.1`, `1.25`, `1.5`, `2`, `3`, and `4rem`) computes to an exported spacing-token value. No App.css spacing declarations were replaced, and no visual change is expected from this task.
+
+**Verification status:** Complete based on the user's report: `git diff --check` passed; frontend tests passed (40/40); typecheck passed; lint passed with 6 warnings and 0 errors; production build passed; representative bounding-box/geometry spot-checks passed at 375px and 1280px. No unintended changes to widths, spacing geometry, wrapping, clipping, overflow, or component dimensions were observed. The exported Figma spacing values are available through the deterministic Tailwind named keys. App.css spacing remains unchanged because its audited literals do not exactly match exported token lengths at the current 14px root size.
+
 The user reports that the representative route comparison against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` passed at 375px and 1280px, including dialog and keyboard-focus behavior. Expected changes were limited to the four Light color roles; no unintended layout, overflow, navigation, control-size, or interaction regressions were observed.
 
 The user also reports these T-03.2 checks passed: `git diff --check`; frontend tests (40/40); typecheck; lint (6 warnings, 0 errors); and production build.
