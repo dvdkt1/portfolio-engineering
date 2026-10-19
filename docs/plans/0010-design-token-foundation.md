@@ -9,18 +9,18 @@
 
 Executing agents keep this block current. It is the entry point for any agent resuming this plan.
 
-- Current effort: E-03
-- Completed efforts: E-01, E-02
-- Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-04.2 (tokenise components/ui primitives)
-- Last updated: 2026-10-15
+- Current effort: E-04
+- Completed efforts: E-01, E-02, E-03
+- Blocked tasks: T-04.2 (paused; do not resume until explicitly directed), T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
+- Next recommended task: Resume T-04.2 verification only when explicitly directed; it remains paused
+- Last updated: 2026-10-19
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
 | E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 5 | done |
-| E-04 | Remove hard-coded visual values from shared layers | 4 | 0 | pending |
+| E-04 | Remove hard-coded visual values from shared layers | 4 | 1 | blocked |
 | E-05 | Remaining four themes | 4 | 0 | pending |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
 | E-07 | Theme selection and persistence (deferred) | 4 | 0 | blocked |
@@ -308,7 +308,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 - **Intent:** Replace literal font sizes/weights/line-heights/letter-spacing with type tokens matching the closest Figma style.
 - **ADRs:** [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md); [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do Not: "replace existing semantic tokens with arbitrary literal … typography values".
 - **Verify:** No literal `font-size`/`font-weight`/`line-height`/`letter-spacing` remains in `index.css`/`App.css`; manually inspect representative routes at 375px and 1280px against the baseline for clipping, overflow, or structural layout changes. Record natural text reflow caused by the Figma font metrics (R-5); screenshots optional unless requested.
-- **Notes:** Applied existing type tokens to root body text, `h1`, `h2`, and `code` global styles, plus `.eyebrow`, `.user-details dt`, `.nav-group h3`, `.nav-link.active`, `.settings-metric-value`, and `.settings-metric-label` in `App.css`. The active navigation link's existing weight of 600 now uses the equivalent Body/Strong token. IBM Plex Sans is used for body/headings/labels, and IBM Plex Mono for code/data values, through existing variables with their fallbacks. Typography properties only were changed; no layout, spacing, or component structure was edited. The user reports `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, and representative-route comparisons at 375px and 1280px all pass, including dialog and keyboard-focus behavior. No unintended layout, overflow, navigation, control-size, or interaction regressions were observed. The user did not report specific natural text reflow; no problematic wrapping or clipping was reported. Marked T-03.3 complete. No later task started.
+- **Notes:** A side-by-side comparison with baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` found an unintended global geometry regression: setting `:root` font-size to Body/Default's 14px changed the rem basis from 16px to 14px and shrank rem-based layout. Corrected `index.css` to use `--font-size-root-legacy: 16px` on `:root` and apply Body/Default's 14px font size on `body`, preserving rem geometry while retaining IBM Plex and approved body type metrics. On 2026-10-19, the user reported fresh passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, computed root 16px/body 14px, and side-by-side baseline comparisons at 375px and 1280px. The user confirmed the application-wide shrinkage is no longer present and rem geometry is restored. No specific natural text reflow observation was provided; no clipping, overflow, or structural regression was reported. T-03.3 is complete. No routing, component structure, or behavior changes.
 
 ### T-03.4: Apply radius and elevation values
 
@@ -330,12 +330,13 @@ Diffs to `.css` files and `className` strings may change only: color, background
 - **Owner:** frontend coding
 - **Depends on:** T-02.2
 - **Files:**
-  - `apps/frontend/src/styles/tokens.css` (existing exported spacing properties reused; no edit needed)
+  - `apps/frontend/src/styles/tokens.css` (existing exported spacing properties reused)
+  - `apps/frontend/src/App.css` (modified — exact computed-value matches only)
   - `apps/frontend/tailwind.config.ts` (modified — named spacing keys only)
 - **Intent:** Publish Figma spacing values using ADR 0018's path naming and px realization. Replace `App.css` spacing literals with tokens **only where the computed value is identical**; leave others as-is and list them in Notes for a later, explicitly approved density pass.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do: "Preserve … responsive behavior".
 - **Verify:** Element bounding boxes on representative baseline routes are unchanged (spot-check via devtools/Playwright at 375px and 1280px); standard checks pass.
-- **Notes:** The shared spacing properties `--space-2` through `--space-64` were already defined in `tokens.css` with the authoritative exported values, so they were reused without editing that file. Added named Tailwind keys `space-2`, `space-4`, `space-8`, `space-12`, `space-16`, `space-20`, `space-24`, `space-32`, `space-40`, `space-48`, and `space-64`, each mapped to its corresponding CSS property; legacy spacing keys remain unchanged. Audited App.css spacing literals against the active 14px root font size: its distinct rem values (`0.25`, `0.35`, `0.4`, `0.45`, `0.5`, `0.6`, `0.65`, `0.75`, `0.8`, `0.9`, `1`, `1.1`, `1.25`, `1.5`, `2`, `3`, and `4rem`) compute to lengths that do not equal any exported spacing token (2, 4, 8, 12, 16, 20, 24, 32, 40, 48, or 64px). Therefore no App.css spacing declarations were replaced; these values remain for a separately approved density pass. No layout or computed geometry was intentionally changed. The user reports `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, and representative bounding-box/geometry spot-checks at 375px and 1280px all passed. No unintended changes to widths, spacing geometry, wrapping, clipping, overflow, or component dimensions were observed. Marked T-03.5 done; T-04.1 is next and was not started.
+- **Notes:** The shared spacing properties `--space-2` through `--space-64` and named Tailwind keys were already present. The prior audit incorrectly used a 14px root size; baseline uses 16px, so the audit was redone and matching `App.css` literals were replaced with exact CSS custom properties: `0.25rem` (4px)→`--space-4`, `0.5rem` (8px)→`--space-8`, `0.75rem` (12px)→`--space-12`, `1rem` (16px)→`--space-16`, `1.25rem` (20px)→`--space-20`, `1.5rem` (24px)→`--space-24`, `2rem` (32px)→`--space-32`, `3rem` (48px)→`--space-48`, and `4rem` (64px)→`--space-64`. Non-matching values such as `0.35rem`, `0.4rem`, `0.45rem`, `0.6rem`, `0.65rem`, `0.8rem`, `0.9rem`, and `1.1rem` remain unchanged. Existing layout dimensions expressed in rem were not treated as spacing-token candidates. On 2026-10-19, the user confirmed fresh standard checks passed (`git diff --check`, frontend tests 40/40, typecheck, lint with 6 warnings and 0 errors, and production build), and representative baseline comparisons passed at 375px and 1280px. The exact-match substitutions preserve their previous computed pixel lengths under the restored 16px root. T-03.5 is complete.
 
 ---
 
@@ -362,15 +363,16 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-04.2: Tokenise components/ui primitives
 
-- **Status:** pending
+- **Status:** blocked
 - **Owner:** frontend coding
 - **Depends on:** T-02.2
 - **Files:**
   - `apps/frontend/src/components/ui/button.tsx`, `card.tsx`, `dialog.tsx`, `input.tsx`, `select.tsx`, `textarea.tsx`, `alert.tsx`, `copy-button.tsx` (modified as needed)
+  - `apps/frontend/tailwind.config.ts` (modified — semantic token utilities)
 - **Intent:** Replace `text-white`, `bg-black/50`, `shadow-lg`, and alpha-modifier hovers with the matching exported tokens (`text.on-inverse`, `bg.scrim`, the appropriate shared elevation level, and `bg.inverse-subtle-light` where its described hover role matches). Use ADR 0018's deterministic CSS names for tokens without exported code syntax and map focus rings to `accent.strong`. Do not invent `on-accent`, `overlay`, or hover tokens absent from the export; do not change variants, sizes, props, Radix usage, or layout classes.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do Not: "assume a shadcn/ui component is accessible after customization; retain and verify its accessible behavior."
 - **Verify:** Standard checks pass; keyboard focus visible on Button/Input/Select/Textarea/Dialog close; Dialog still traps focus and closes on Escape.
-- **Notes:**
+- **Notes:** Added Tailwind semantic color utilities for `text-on-inverse`, `bg-scrim`, `bg-inverse-subtle-light`, and `accent-strong`; mapped the existing `ring` color to `--accent-strong`. Button's primary/default variant now uses `text-on-inverse` and the exported `bg-inverse-subtle-light` hover value; its focus ring explicitly uses `accent-strong`. Dialog overlay now uses `bg-scrim`; its dialog elevation was already mapped to the approved dialog elevation in T-03.4. Input, Select, and Textarea focus rings now use `accent-strong`; the button focus ring was updated likewise. Destructive button `text-white` and `/90` hover remain because no approved on-error or destructive-hover token exists. Alert status alpha borders and dark-mode variants remain; Figma provides no warning token or matching role mappings. Card's `shadow-elevation` remains the documented unmatched generic legacy shadow; no speculative elevation mapping was made. No component API, variant, size, padding, markup, Radix usage, or layout class changed. T-04.2 verification is paused per user direction; its standard and browser accessibility checks have not been reported. Do not resume until explicitly directed.
 
 ### T-04.3: Tokenise feature components and Markdown prose
 
@@ -578,6 +580,8 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | R-22 | T-03.4 radius/elevation verification was pending because command and browser checks were unavailable in the implementation environment. | User-reported checks pass: frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, `git diff --check`, 375px/1280px route comparison, and dialog/focus behavior. Approved radius/elevation changes render as expected with no unintended regressions; unmatched static-card shadows remain. | frontend coding | resolved 2026-10-15 |
 | R-23 | T-03.5 verification was pending because automated checks and browser geometry spot-checks were unavailable in the implementation environment. | User-reported checks pass: `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, and 375px/1280px representative bounding-box/geometry spot-checks. No unintended width, spacing, wrapping, clipping, overflow, or component-dimension changes were observed. | frontend coding | resolved 2026-10-15 |
 | R-24 | T-04.1 verification was pending because automated checks were unavailable in the implementation environment. | User-reported `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), and production build all pass; source review confirms no hex/rgb/hsl literals remain in App.css/index.css and the diff is limited to color styling. | frontend coding | resolved 2026-10-15 |
+| R-25 | T-04.2 primitive token mappings are applied, but automated checks and browser-based focus/Dialog interaction verification are unavailable in this environment. | Run `git diff --check`, frontend tests, typecheck, lint, production build, verify visible keyboard focus on Button/Input/Select/Textarea/Dialog close, and confirm Dialog focus trapping and Escape dismissal before marking T-04.2 done. | frontend coding | T-04.2 |
+| R-26 | Baseline comparison found the T-03.3 root font-size change from 16px to 14px shrank rem-based application geometry. The previous T-03.5 spacing audit and route geometry verification used that incorrect root basis. | Resolved 2026-10-19: the 16px root rem basis is preserved through `--font-size-root-legacy`, Body/Default 14px applies to `body`, and App.css exact-match spacing substitutions preserve computed lengths. The user reports fresh standard checks, computed font sizes, and 375px/1280px baseline comparison all pass. T-03.3 and T-03.5 are complete; T-04.2 remains paused independently. | frontend coding / user | resolved 2026-10-19 |
 
 ## Revisions
 
@@ -605,4 +609,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-10-15 | T-03.5 spacing tokens | Reused the existing shared spacing custom properties and added deterministic named Tailwind spacing keys. Compared App.css rem literals against the 14px root size and exported pixel values; none computed to an exact token match, so no App.css spacing was changed. T-03.5 remained pending verification. |
 | 2026-10-15 | T-03.5 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, and 375px/1280px representative bounding-box/geometry checks. No unintended width, spacing, wrapping, clipping, overflow, or component-dimension changes were observed. Marked T-03.5 and E-03 complete; T-04.1 is next and was not started. |
 | 2026-10-15 | T-04.1 token mapping | Replaced App.css primary-button white with the canonical `--text-on-inverse` token. index.css already used its existing gradient custom property and had no raw color literals; preserved that gradient and unmatched warning/shadow values. Source review found no hex/rgb/hsl literals in either target file and no layout changes. T-04.1 remains blocked pending standard frontend checks unavailable in this environment. No T-04.2 or later task started. |
+| 2026-10-15 | T-04.2 primitive token mapping | Added semantic Tailwind utilities and mapped the approved primary-button foreground/hover, Dialog scrim, and primitive focus rings to Figma tokens. Retained destructive/warning alpha styles and generic card shadow where no approved equivalent exists; Dialog elevation was already mapped in T-03.4. APIs, variants, dimensions, structure, and Radix behavior were unchanged. T-04.2 remains blocked pending automated and browser accessibility verification. No T-04.3 or later task started. |
+| 2026-10-15 | T-03.3/T-03.5 regression correction | User's side-by-side comparison exposed that the 14px root font-size changed rem geometry from the 16px baseline. Preserved the 16px root basis through `--font-size-root-legacy` and applied Body/Default 14px to body text. Re-audited App.css using the correct root and mapped exact spacing matches to existing tokens; non-matching values remain. Fresh automated and browser checks remained pending; T-04.2 was paused. |
 | 2026-10-15 | T-04.1 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), and production build. The only runtime CSS change preserves the Light-mode computed white value; unmatched gradient, warning, generic shadow, and compatibility values remain unchanged. Marked T-04.1 done; T-04.2 is next and was not started. |
+| 2026-10-19 | T-03.3/T-03.5 corrective verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), production build, computed root/body sizes (16px/14px), and baseline comparison at 375px and 1280px. The application-wide shrinkage is resolved and exact-match spacing substitutions preserve their prior computed lengths. Marked T-03.3, T-03.5, and E-03 done; T-04.2 remains paused. |

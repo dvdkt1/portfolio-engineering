@@ -7,7 +7,7 @@
 
 :root {
   font-family: var(--typography-body-default-font-family);
-  font-size: var(--typography-body-default-font-size);
+  font-size: var(--font-size-root-legacy);
   font-weight: var(--typography-body-default-font-weight);
   line-height: var(--typography-body-default-line-height);
   letter-spacing: var(--typography-body-default-letter-spacing);
@@ -25,6 +25,7 @@
 }
 
 body {
+  font-size: var(--typography-body-default-font-size);
   margin: 0;
   min-width: 320px;
   min-height: 100vh;

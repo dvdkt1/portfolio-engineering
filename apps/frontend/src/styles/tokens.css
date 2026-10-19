@@ -39,6 +39,7 @@
   --font-family-ui-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-family-ui-mono: ui-monospace, SFMono-Regular, Consolas, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-family-code-legacy: ui-monospace, SFMono-Regular, SFMono-Regular, Consolas, monospace;
+  --font-size-root-legacy: 16px;
   --code-padding-legacy: 0.15rem 0.45rem;
   --code-radius-legacy: 0.4rem;
 

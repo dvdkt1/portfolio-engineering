@@ -3,7 +3,7 @@
 **Status:** pre-styling baseline, source audit, and E-02 comparison complete  
 **Plan task:** [T-01.3](../../plans/0010-design-token-foundation.md)  
 **Architecture:** [ADR 0018](../../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md)  
-**Date reviewed:** 2026-10-15  
+**Date reviewed:** 2026-10-19
 **Application source:** [`apps/frontend/src`](../../../apps/frontend/src)
 
 ## Reproducible pre-styling baseline
@@ -14,7 +14,7 @@ This is the committed pre-styling revision to compare against during the skin sw
 
 ### Manual representative-route comparison
 
-The representative routes/states below were manually reviewed against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` at 375px and 1280px on 2026-10-14 before styling and again after E-02 on 2026-10-15. The reviewer reported no notable existing layout issues and no notable unintended changes to layout structure, breakpoints, widths, spacing geometry, navigation, control dimensions, focus behavior, or overflow. Dialog behavior and keyboard focus were verified where specified. Future styling phases should check the same route/state at both widths, using the same app mode, representative data, and interaction state, and compare against the committed baseline. Focus on unintended changes to layout, wrapping, overflow, component order, responsive behavior, and interaction states; do not mistake intended color/type/radius/elevation changes for layout regressions.
+The representative routes/states below were manually reviewed against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` at 375px and 1280px on 2026-10-14 before styling and again after E-02 on 2026-10-15. The reviewer reported no notable existing layout issues and no notable unintended changes to layout structure, breakpoints, widths, spacing geometry, navigation, control dimensions, focus behavior, or overflow. Dialog behavior and keyboard focus were verified where specified. On 2026-10-19, the user reported the corrective side-by-side baseline comparison passed at both widths after restoring the 16px root basis; the prior application-wide shrinkage is no longer present. Future styling phases should check the same route/state at both widths, using the same app mode, representative data, and interaction state, and compare against the committed baseline. Focus on unintended changes to layout, wrapping, overflow, component order, responsive behavior, and interaction states; do not mistake intended color/type/radius/elevation changes for layout regressions.
 
 | Representative route / state | Route-specific checks | 375px baseline | 1280px baseline | 375px after styling | 1280px after styling |
 | --- | --- | --- | --- | --- | --- |
@@ -35,9 +35,13 @@ T-03.2 applies the Figma Light colors through four direct legacy-variable mappin
 
 ### T-03.3 typography application
 
-The global typography application uses the existing Figma-derived CSS variables in `index.css` for the root body text, `h1`, `h2`, and `code`, and in `App.css` for `.eyebrow`, `.user-details dt`, `.nav-group h3`, `.nav-link.active`, `.settings-metric-value`, and `.settings-metric-label`. The active navigation link retains its existing weight through the Body/Strong weight token. IBM Plex Sans is selected through the existing variables for body, headings, and labels; IBM Plex Mono is selected for code and data values. Both retain the configured fallback stacks. The only intended visual differences are approved typeface, weight, size, line-height, and letter-spacing changes; natural wrapping/reflow is expected where font metrics differ. No layout or spacing adjustments were made.
+The global typography application uses the existing Figma-derived CSS variables in `index.css` for body text, `h1`, `h2`, and `code`, and in `App.css` for `.eyebrow`, `.user-details dt`, `.nav-group h3`, `.nav-link.active`, `.settings-metric-value`, and `.settings-metric-label`. The active navigation link retains its existing weight through the Body/Strong weight token. IBM Plex Sans is used for body/headings/labels; IBM Plex Mono is used for code/data styles. Both retain the configured fallback stacks.
 
-**Verification status:** Complete based on the user's report: `git diff --check` passed; frontend tests passed (40/40); typecheck passed; lint passed with 6 warnings and 0 errors; production build passed; representative-route comparison passed at 375px and 1280px; dialog and keyboard-focus behavior passed. No unintended layout, overflow, navigation, control-size, or interaction regressions were observed. The user did not report specific natural text reflow; no problematic wrapping or clipping was reported. These results apply to T-03.3 and are distinct from the earlier E-02 and T-03.2 comparisons.
+**Regression discovered:** Comparing the exact pre-styling baseline commit side-by-side revealed that T-03.3 had set `:root` font-size to Body/Default's 14px. Baseline uses a 16px root font shorthand, and changing the root size altered the `rem` basis across the application, shrinking rem-based geometry. Earlier T-03.3 verification therefore does not establish layout preservation.
+
+**Correction:** `:root` now uses `--font-size-root-legacy: 16px`, preserving the baseline rem basis without a literal font-size in `index.css`; `body` receives Body/Default's 14px size and existing IBM Plex family/weight/line-height/letter-spacing tokens. Figma typography tokens continue on headings, code, and the listed shell styles. This retains 14px body typography without redefining the root rem unit. The 16px compatibility value records the existing pre-styling basis; it is not a Figma typography token.
+
+**Verification status:** Complete based on the user's 2026-10-19 report: `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings and 0 errors), production build, and side-by-side baseline comparisons at 375px and 1280px all passed. Computed root and body font sizes are 16px and 14px, respectively, and the user confirmed the application-wide shrinkage is gone and rem geometry is restored. No specific natural text reflow observation was supplied; the comparison passed without a reported clipping, overflow, or structural regression. Earlier checks made against the regressed root basis are superseded.
 
 ### T-03.4 radius and elevation application
 
@@ -49,11 +53,17 @@ The intended visible differences are updated corner curvature on the mapped App.
 
 ### T-03.5 spacing-token publication
 
-The shared spacing tokens were already present in `tokens.css` at the exported values: `--space-2`, `--space-4`, `--space-8`, `--space-12`, `--space-16`, `--space-20`, `--space-24`, `--space-32`, `--space-40`, `--space-48`, and `--space-64`. Tailwind now exposes matching named spacing keys (`space-2` through `space-64`) mapped to those properties. Existing legacy Tailwind spacing keys remain unchanged.
+The shared spacing tokens were already present in `tokens.css` at the exported values: `--space-2`, `--space-4`, `--space-8`, `--space-12`, `--space-16`, `--space-20`, `--space-24`, `--space-32`, `--space-40`, `--space-48`, and `--space-64`. Tailwind exposes matching named spacing keys mapped to those properties; legacy Tailwind keys remain unchanged.
 
-App.css was audited against the root's 14px font size. None of its distinct rem spacing values (`0.25`, `0.35`, `0.4`, `0.45`, `0.5`, `0.6`, `0.65`, `0.75`, `0.8`, `0.9`, `1`, `1.1`, `1.25`, `1.5`, `2`, `3`, and `4rem`) computes to an exported spacing-token value. No App.css spacing declarations were replaced, and no visual change is expected from this task.
+**Audit correction:** The prior spacing audit incorrectly used a 14px root size because of the T-03.3 regression. With `--font-size-root-legacy: 16px`, exact matches were identified and replaced in `App.css`: `0.25rem` (4px)→`--space-4`, `0.5rem` (8px)→`--space-8`, `0.75rem` (12px)→`--space-12`, `1rem` (16px)→`--space-16`, `1.25rem` (20px)→`--space-20`, `1.5rem` (24px)→`--space-24`, `2rem` (32px)→`--space-32`, `3rem` (48px)→`--space-48`, and `4rem` (64px)→`--space-64`. Computed lengths are unchanged under the 16px root. Non-matching values such as `0.35rem`, `0.4rem`, `0.45rem`, `0.6rem`, `0.65rem`, `0.8rem`, `0.9rem`, and `1.1rem` remain literal. Existing layout dimensions expressed in rem (for example, workspace column widths) were not treated as spacing-token candidates.
 
-**Verification status:** Complete based on the user's report: `git diff --check` passed; frontend tests passed (40/40); typecheck passed; lint passed with 6 warnings and 0 errors; production build passed; representative bounding-box/geometry spot-checks passed at 375px and 1280px. No unintended changes to widths, spacing geometry, wrapping, clipping, overflow, or component dimensions were observed. The exported Figma spacing values are available through the deterministic Tailwind named keys. App.css spacing remains unchanged because its audited literals do not exactly match exported token lengths at the current 14px root size.
+**Verification status:** Complete based on the user's 2026-10-19 report: `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings and 0 errors), production build, and side-by-side baseline comparisons at 375px and 1280px passed. The user confirmed the exact-match substitutions preserve their prior computed pixel lengths under the 16px root. Earlier geometry checks made against the regressed root basis are superseded.
+
+### Root-size regression correction and verification gate
+
+The application source now preserves the committed baseline's 16px root rem basis using `--font-size-root-legacy` in `tokens.css`; the Figma Body/Default 14px size applies to `body`, not `:root`. The exact-match `App.css` spacing substitutions above reference existing exported spacing tokens, so their computed lengths match the original rem values with the corrected root. No page layout, dimensions, breakpoints, component structure, or behavior was intentionally changed in this correction.
+
+The user supplied fresh verification on 2026-10-19: `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings and 0 errors), production build, computed root/body sizes of 16px/14px, and passing side-by-side comparisons against the baseline at 375px and 1280px. T-03.3 and T-03.5 are complete. T-04.2 remains paused and was not resumed.
 
 ### T-04.1 App.css/index.css color literal mapping
 
@@ -62,6 +72,16 @@ In `App.css`, the primary button's literal white text color now uses the approve
 The radial gradient remains unchanged because Foundations do not supply a gradient equivalent (R-14). Unmatched warning roles, generic shadows, and other existing values are also retained rather than guessed. Source review found no hex/rgb/hsl color literals in either target stylesheet; the only code change is the primary button text color declaration, with no layout properties changed.
 
 **Verification status:** Complete based on the user's report: `git diff --check` passed; frontend tests passed (40/40); typecheck passed; lint passed with 6 warnings and 0 errors; production build passed. The runtime CSS change replaces a literal white with `--text-on-inverse`, which resolves to the same `#FFFFFF` in Light mode. Source review confirms no hex/rgb/hsl literals remain in App.css or index.css. The gradient, warning, generic shadow, and compatibility values lacking an approved Figma mapping remain unchanged.
+
+### T-04.2 reusable UI primitive token mappings
+
+Tailwind now exposes canonical utilities for `text-on-inverse`, `bg-scrim`, `bg-inverse-subtle-light`, and `accent-strong`; the existing `ring` utility also resolves directly to `--accent-strong`. Button's default variant uses `text-on-inverse` and the exported primary-button hover token `bg-inverse-subtle-light`. Button, Input, Select, and Textarea focus rings explicitly use `accent-strong`. DialogOverlay uses `bg-scrim`; DialogContent already used the approved dialog elevation utility and radius from T-03.4. CopyButton inherits Button's styles.
+
+The destructive button's white foreground and `/90` hover remain because no approved on-error or destructive-hover token is exported. Alert's positive/negative/warning alpha-border treatments and existing `dark:` variant declarations remain unchanged: warning has no Figma token and no exact matching role mapping was approved. Card's generic `shadow-elevation` remains because its legacy shadow has no matching exported elevation role. Dialog's Radix structure/behavior and animation classes are unchanged.
+
+Expected visual changes are the approved Dialog scrim opacity from the Figma token, primary button hover using the exported hover token, and input/select/textarea focus indicators using `accent-strong`; Button's existing ring token resolves to that same accent. No component variant, API, dimension, padding, markup, or layout class was intentionally changed.
+
+**Verification status:** Pending. This environment cannot run `git diff --check`, frontend tests, typecheck, lint, production build, or browser accessibility checks. Verify keyboard focus visibility on Button/Input/Select/Textarea/Dialog close, Dialog focus trapping, and Escape dismissal before marking T-04.2 complete.
 
 The user reports that the representative route comparison against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` passed at 375px and 1280px, including dialog and keyboard-focus behavior. Expected changes were limited to the four Light color roles; no unintended layout, overflow, navigation, control-size, or interaction regressions were observed.
 
@@ -168,6 +188,7 @@ The exact legacy-variable mapping and candidate status are recorded in `existing
 - [x] E-02 frontend tests, typecheck, lint, production build, and `git diff --check` reported passing by the user; lint reports 6 warnings and 0 errors.
 - [x] Repository-wide CSS custom-property search completed; compatibility properties remain referenced and were retained.
 - [x] Record E-02 post-change comparison of the representative route/state matrix against the baseline commit at both 375px and 1280px.
+- [x] T-03.3/T-03.5 corrective verification: user-reported passing automated checks, computed root/body sizes (16px/14px), and side-by-side baseline comparison at 375px and 1280px on 2026-10-19.
 - [x] No-application-code-change condition for T-01.3/E-01 — satisfied; E-02 token infrastructure changes are limited to the planned CSS/Tailwind foundation.
 
-The source-wide styling audit, pre-styling baseline checks, E-02 comparison, and T-03.2 Light-color comparison are **complete**. T-01.3, E-01, and E-02 are complete. T-03.2's automated checks and representative-route comparison at 375px and 1280px are complete; no notable unintended changes were observed. T-03.3 and later E-03 tasks have not started.
+The source-wide styling audit, pre-styling baseline checks, E-02 comparison, and T-03.2 Light-color comparison are **complete**. T-01.3, E-01, E-02, and E-03 are complete. T-03.3 and T-03.5 corrective verification passed on 2026-10-19 after restoring the 16px root rem basis; T-04.2 remains paused.
