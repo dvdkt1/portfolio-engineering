@@ -12,7 +12,7 @@ Executing agents keep this block current. It is the entry point for any agent re
 - Current effort: E-04
 - Completed efforts: E-01, E-02, E-03
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-04.3 — tokenise audited feature components and Markdown prose; do not start until explicitly directed
+- Next recommended task: T-04.5 — Tokenise Dashboard and profile feature styling; do not begin until separately directed
 - Last updated: 2026-10-19
 
 | Effort | Title | Tasks | Done | Status |
@@ -20,7 +20,7 @@ Executing agents keep this block current. It is the entry point for any agent re
 | E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 5 | done |
-| E-04 | Remove hard-coded visual values from shared layers | 4 | 2 | in-progress |
+| E-04 | Remove hard-coded visual values from shared layers | 7 | 3 | in-progress |
 | E-05 | Remaining four themes | 4 | 0 | pending |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
 | E-07 | Theme selection and persistence (deferred) | 4 | 0 | blocked |
@@ -376,18 +376,16 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-04.3: Tokenise feature components and Markdown prose
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-01.3, T-02.2
 - **Files:**
   - `apps/frontend/tailwind.config.ts` (modified — token-driven typography theme)
-  - `apps/frontend/src/components/MarkdownViewer.tsx` (modified — `prose-slate` → token prose)
-  - Feature files listed in the T-01.3 audit (e.g. `HelpTooltip.tsx`, `SecurityMasterPage.tsx`, Journal components) (modified)
-  - `packages/ui/src/NotYetImplemented.tsx` (modified only if the audit finds literals)
-- **Intent:** Replace audited literal color/shadow classes with semantic token classes. Split into additional tasks (T-04.5+) if the audit lists more than ~10 files.
+  - `apps/frontend/src/components/MarkdownViewer.tsx`, `HelpTooltip.tsx`, `HelpTopicLink.tsx` (modified)
+- **Intent:** First bounded feature pass: replace Markdown `prose-slate` with token-driven prose and migrate approved color/shadow/focus-token usages in HelpTooltip and HelpTopicLink. The audit found 19 files with feature-level styling findings, including audit-only retained dispositions, exceeding the ~10-file threshold. Related work is split into T-04.5 through T-04.7; the user approved the split on 2026-10-19. This execution is limited to these three Help/Markdown components and the Tailwind token config.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) — Do: "use semantic token names in components". [0017](../ADRs/0017-standardize-data-grid-list-behaviors.md) — grid behaviors must not change.
-- **Verify:** Audit re-run clean for touched files; standard checks pass (watch TD-016 source-regex tests in `SecurityMasterPage.test.tsx`; update only if a class-name assertion breaks, not behavior assertions).
-- **Notes:** Browser/source review during T-04.2 found feature-level controls using raw HTML elements and legacy/custom styling. These are outside the shared primitive-tokenization task and should be handled in this feature-component pass, not pulled into T-04.2.
+- **Verify:** Audit re-run clean for touched files; standard checks pass; Markdown colors are token-driven; HelpTooltip/HelpTopicLink focus is visible and HelpTooltip elevation matches its established popover role.
+- **Notes:** Browser/source review during T-04.2 found feature-level controls using raw HTML elements and legacy/custom styling. The user approved the split into Help/Markdown, Dashboard/placeholder and profile, Journal, and AI/Security Master passes on 2026-10-19. In the Help/Markdown batch, `MarkdownViewer` replaces `prose-slate` with `prose`; Tailwind typography colors now use canonical text and border tokens, while code/pre retain `--color-text-strong` and `--color-surface-code` compatibility values because Figma defines no code-surface token. The non-empty Markdown panel background now uses `bg-subtle`; the empty-state `bg-surface-muted` remains because there is no direct Figma surface-muted mapping. `HelpTooltip` maps focus to `accent.strong`, Learn more to `text.link`, and its anchored tooltip shadow to `elevation.2-popover`; its unmatched surface remains unchanged. `HelpTopicLink` uses `bg.subtle`, `bg.selected` on hover, `text.link` for prose links, and `accent.strong` for focus; its action-colored hover border remains because no matching border-hover token is defined. No element semantics, dimensions, spacing, routing, or behavior changed. User-reported verification on 2026-10-19: `git diff --check`, frontend tests, typecheck, lint (existing warnings only), production build, Markdown token-driven prose styling and code readability, HelpTooltip elevation/focus/link styling, HelpTopicLink hover/focus/navigation, and 375px/1280px geometry comparisons all pass. T-04.3 is complete; T-04.5 is next and has not started.
 
 ### T-04.4: Theme the Markdown editor surface (conditional)
 
@@ -399,6 +397,55 @@ Diffs to `.css` files and `className` strings may change only: color, background
 - **Intent:** If the editor engine injects hard-coded colors, map its theme hooks to tokens inside the owned wrapper. Cancel this task with a reason if the audit finds none.
 - **ADRs:** [0007](../ADRs/0007-use-cwl-editor-behind-an-owned-markdown-editor.md), [0012](../ADRs/0012-defer-wysiwyg-engine-selection-behind-an-owned-markdown-editor.md) — keep engine specifics behind the owned editor.
 - **Verify:** Editor text, caret, selection, and gutter read correctly in Light and (after E-05) every theme.
+- **Notes:**
+
+### T-04.5: Tokenise Dashboard and profile feature styling
+
+- **Status:** pending
+- **Owner:** frontend coding
+- **Depends on:** T-04.3
+- **Files:**
+  - `apps/frontend/src/PlaceholderPage.tsx` (audit-only for inherited Dashboard/placeholder styling unless a direct mapped literal is found)
+  - `apps/frontend/src/components/ConfigurationErrorPanel.tsx`
+  - `apps/frontend/src/components/EmptyProfileAlert.tsx`
+  - `apps/frontend/src/components/ProfilePicker.tsx`
+  - `apps/frontend/src/components/ProfileSwitcher.tsx`
+  - `apps/frontend/src/InvestorProfilePage.tsx`
+  - `packages/ui/src/NotYetImplemented.tsx`
+- **Intent:** Replace approved color/shadow literals and legacy visual classes in Dashboard/Placeholder and profile/configuration flows. Preserve raw-control semantics, form behavior, layout, and dimensions. Retain warning/info, unmatched shadows, and alpha roles without approved equivalents.
+- **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md), [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md).
+- **Verify:** Standard checks pass; verify visible focus on migrated native controls; rerun related UI tests. Do not invent warning, info, or unmatched shadow tokens.
+- **Notes:**
+
+### T-04.6: Tokenise Journal feature styling
+
+- **Status:** pending
+- **Owner:** frontend coding
+- **Depends on:** T-04.5
+- **Files:**
+  - `apps/frontend/src/JournalPage.tsx`
+  - `apps/frontend/src/components/JournalReviewTable.tsx`
+  - `apps/frontend/src/components/JournalAnalysisPanel.tsx`
+- **Intent:** Replace approved literal color/shadow/focus styling only. Preserve Journal editor resize/storage behavior, URL state, table dimensions/overflow, responsive preview grid, and feature behavior. Retain unmatched warning, emphasis, and alpha roles.
+- **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md), [0017](../ADRs/0017-standardize-data-grid-list-behaviors.md), [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md).
+- **Verify:** Standard checks and Journal tests pass; compare table and editor geometry; preserve keyboard focus and row/table behavior.
+- **Notes:**
+
+### T-04.7: Tokenise AI and Security Master feature styling
+
+- **Status:** pending
+- **Owner:** frontend coding
+- **Depends on:** T-04.6
+- **Files:**
+  - `apps/frontend/src/components/AiConnectionForm.tsx`
+  - `apps/frontend/src/components/AiConnectionList.tsx`
+  - `apps/frontend/src/components/AiProviderCatalog.tsx` (audit retained opacity/state treatment)
+  - `apps/frontend/src/YourAiPage.tsx`
+  - `apps/frontend/src/components/HelpRefreshControl.tsx`
+  - `apps/frontend/src/SecurityMasterPage.tsx`
+- **Intent:** Replace approved color/shadow classes and resolve undefined semantic utilities only where mappings are established. Preserve state announcements, status text, filter/URL behavior, table horizontal scrolling, dimensions, and feature behavior. Leave warning and unmatched roles unchanged.
+- **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md), [0017](../ADRs/0017-standardize-data-grid-list-behaviors.md), [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md).
+- **Verify:** Re-run feature styling audit and standard checks; related tests pass, including TD-016 assertions in `SecurityMasterPage.test.tsx`. Update class-name assertions only if necessary for intended style changes; retain behavior assertions.
 - **Notes:**
 
 ---
@@ -582,6 +629,8 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | R-24 | T-04.1 verification was pending because automated checks were unavailable in the implementation environment. | User-reported `git diff --check`, frontend tests (40/40), typecheck, lint (6 warnings, 0 errors), and production build all pass; source review confirms no hex/rgb/hsl literals remain in App.css/index.css and the diff is limited to color styling. | frontend coding | resolved 2026-10-15 |
 | R-25 | T-04.2 primitive token mappings initially had a Tailwind color-key prefix mismatch that prevented requested semantic utilities from generating. | Resolved 2026-10-19: utility-neutral color keys now generate the requested classes. User reports generated CSS and Light-theme Button values, all standard checks, keyboard focus, Dialog behavior, and 375px/1280px geometry comparisons pass. | frontend coding | resolved 2026-10-19 |
 | R-26 | Baseline comparison found the T-03.3 root font-size change from 16px to 14px shrank rem-based application geometry. The previous T-03.5 spacing audit and route geometry verification used that incorrect root basis. | Resolved 2026-10-19: the 16px root rem basis is preserved through `--font-size-root-legacy`, Body/Default 14px applies to `body`, and App.css exact-match spacing substitutions preserve computed lengths. The user reports fresh standard checks, computed font sizes, and 375px/1280px baseline comparison all pass. T-03.3 and T-03.5 are complete; T-04.2 remains paused independently. | frontend coding / user | resolved 2026-10-19 |
+| R-27 | T-04.3's feature styling audit identifies 19 files with potential tokenization work or explicit retention dispositions, exceeding the plan's approximately ten-file task-size guidance. | Resolved 2026-10-19: the user approved splitting work into Help/Markdown (T-04.3), Dashboard/Placeholder and profile (T-04.5), Journal (T-04.6), and AI/Security Master (T-04.7). Execute only the explicitly assigned batch. | frontend coding | resolved 2026-10-19 |
+| R-28 | T-04.3 Help/Markdown source changes were awaiting automated frontend checks and browser review. | Resolved 2026-10-19: user reports `git diff --check`, frontend tests, typecheck, lint (existing warnings only), production build, token-driven Markdown prose/code readability, HelpTooltip elevation/focus/link styling, HelpTopicLink hover/focus/navigation, and 375px/1280px geometry checks all pass. | frontend coding | resolved 2026-10-19 |
 
 ## Revisions
 
@@ -617,3 +666,6 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-10-19 | T-04.2 scope confirmation | User-reported browser/source review confirmed the task updates shared UI primitives only. Feature-level raw HTML controls and legacy/custom styling are out of scope for T-04.2 and are recorded for the T-04.3 feature-component pass. T-04.2 verification remains pending; no T-04.3 implementation started. |
 | 2026-10-19 | T-04.2 Tailwind utility key correction | Browser verification found Tailwind prepended the utility family to semantic color keys that already included `bg-`/`text-`, so requested Button foreground/background utilities were absent. Renamed all newly prefixed T-04.2 keys to their utility-neutral tokens while preserving CSS variable values. Required CSS-build/browser and standard checks remain pending; T-04.3 not started. |
 | 2026-10-19 | T-04.2 verification | Recorded user-reported passing `git diff --check`, frontend tests (40/40), typecheck, lint (6 existing warnings and 0 errors), production build, generated semantic utility checks, Light-theme Primary Button rendering, keyboard focus, Dialog scrim/focus trap/Escape dismissal, and 375px/1280px geometry comparisons. Marked T-04.2 done; T-04.3 is next and was not started. |
+| 2026-10-19 | T-04.3 audit and task split | The feature styling audit identified 19 files with potential token work or explicit retention dispositions, above the approximately ten-file threshold. Split the work into Help/Markdown, Dashboard/profile, Journal, and AI/Security Master passes. Paused before implementation for user review of the split. |
+| 2026-10-19 | T-04.3 Help/Markdown tokenization | Replaced Help tooltip elevation/focus and Help link colors/hover/focus with approved semantic utilities; replaced Markdown `prose-slate` with token-driven prose colors while retaining legacy code-surface values without Figma mappings. No layout, spacing, dimensions, markup semantics, routing, or behavior changed. Verification remains pending; no later split task started. |
+| 2026-10-19 | T-04.3 verification | Recorded user-reported passing `git diff --check`, frontend tests, typecheck, lint (existing warnings only), production build, Markdown prose/code readability, HelpTooltip elevation/focus/link styling, HelpTopicLink hover/focus/navigation, and 375px/1280px geometry comparisons. Marked T-04.3 done; T-04.5 is next and was not started. |

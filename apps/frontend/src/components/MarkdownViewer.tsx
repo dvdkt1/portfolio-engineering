@@ -34,7 +34,7 @@ export function MarkdownViewer({
     <div
       role="region"
       {...accessibleNameProps}
-      className="min-h-48 overflow-x-auto break-words rounded border border-border-subtle bg-surface-default p-4 text-text-primary prose prose-slate max-w-none"
+      className="min-h-48 overflow-x-auto break-words rounded border border-border-subtle bg-subtle p-4 text-text-primary prose max-w-none"
     >
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}

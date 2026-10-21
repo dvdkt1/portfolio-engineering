@@ -42,7 +42,7 @@ export function HelpTooltip({
         aria-expanded={open}
         aria-describedby={open ? id : undefined}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-border-subtle text-sm text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-border-subtle text-sm text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong"
       >
         ?
       </button>
@@ -50,11 +50,11 @@ export function HelpTooltip({
         <span
           id={id}
           role="tooltip"
-          className="absolute left-0 top-8 z-10 w-64 rounded-md border border-border-subtle bg-surface-default p-3 text-sm text-text-primary shadow-lg"
+          className="absolute left-0 top-8 z-10 w-64 rounded-md border border-border-subtle bg-surface-default p-3 text-sm text-text-primary shadow-elevation-popover"
         >
           <span>{text}</span>
           {learnMoreKey ? (
-            <Link className="mt-2 block text-action-primary underline" to={helpTopicPath(learnMoreKey)}>
+            <Link className="mt-2 block text-text-link underline" to={helpTopicPath(learnMoreKey)}>
               Learn more
             </Link>
           ) : null}

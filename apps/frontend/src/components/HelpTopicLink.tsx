@@ -10,7 +10,7 @@ export function HelpTopicLink({ entry }: HelpTopicLinkProps) {
     <li>
       <Link
         to={`/help/${encodeURIComponent(entry.key)}`}
-        className="block rounded-md border border-border-subtle bg-surface-default p-3 text-text-primary transition hover:border-action-primary hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="block rounded-md border border-border-subtle bg-subtle p-3 text-text-primary transition hover:border-action-primary hover:bg-selected focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong"
       >
         <span className="font-semibold text-text-strong">{entry.title ?? entry.key}</span>
         {entry.parentKey ? (
