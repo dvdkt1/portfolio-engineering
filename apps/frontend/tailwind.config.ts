@@ -2,7 +2,11 @@ import type { Config } from 'tailwindcss'
 
 const config = {
   darkMode: ['class'],
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+    '../../packages/ui/src/**/*.{js,ts,jsx,tsx}',
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -13,6 +17,7 @@ const config = {
         'text-primary': 'var(--color-text-primary)',
         'text-strong': 'var(--color-text-strong)',
         'text-muted': 'var(--color-text-muted)',
+        'text-secondary': 'var(--text-secondary)',
         'text-link': 'var(--text-link)',
         'on-inverse': 'var(--text-on-inverse)',
         'bg-canvas': 'var(--color-bg-canvas)',

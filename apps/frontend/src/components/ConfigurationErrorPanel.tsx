@@ -40,7 +40,7 @@ export const ConfigurationErrorPanel: React.FC<ConfigurationErrorPanelProps> = (
               </svg>
             </div>
             <div>
-              <CardTitle className="text-xl font-bold text-text-strong">
+              <CardTitle className="text-xl font-bold text-text-primary">
                 Initialization & Configuration Error
               </CardTitle>
               <CardDescription className="text-sm text-text-muted">
@@ -56,7 +56,7 @@ export const ConfigurationErrorPanel: React.FC<ConfigurationErrorPanelProps> = (
           </Alert>
 
           <div className="space-y-3">
-            <h3 className="text-sm font-medium text-text-strong">
+            <h3 className="text-sm font-medium text-text-primary">
               How to Resolve This Issue:
             </h3>
             <ol className="list-decimal space-y-2.5 pl-5 text-sm text-text-muted">

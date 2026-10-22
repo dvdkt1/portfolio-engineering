@@ -164,7 +164,7 @@ export function InvestorProfilePage() {
             </div>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               onClick={() => {
                 populateForm(profile)
                 setIsEditing(true)
@@ -177,17 +177,17 @@ export function InvestorProfilePage() {
 
           <div className="space-y-4">
             <div>
-              <span className="font-semibold text-gray-700">Preferred Name: </span>
+              <span className="font-semibold text-text-secondary">Preferred Name: </span>
               <span>{profile.preferredName || 'Not specified'}</span>
             </div>
 
             <div>
-              <span className="font-semibold text-gray-700">Experience Level: </span>
+              <span className="font-semibold text-text-secondary">Experience Level: </span>
               <span>{profile.experienceLevel || 'Not specified'}</span>
             </div>
 
             <div>
-              <span className="font-semibold text-gray-700">Account / Portfolio Context: </span>
+              <span className="font-semibold text-text-secondary">Account / Portfolio Context: </span>
               <span>
                 {profile.portfolioContext && profile.portfolioContext.length > 0
                   ? profile.portfolioContext.map((id) => PORTFOLIO_CONTEXT_OPTIONS.find((opt) => opt.id === id)?.label || id).join(', ')
@@ -196,15 +196,15 @@ export function InvestorProfilePage() {
             </div>
 
             <div>
-              <span className="font-semibold text-gray-700">Primary Objective: </span>
+              <span className="font-semibold text-text-secondary">Primary Objective: </span>
               <span>{selectedObjectiveObj?.title || profile.primaryObjective || 'Not specified'}</span>
               {selectedObjectiveObj?.description && (
-                <p className="text-sm text-gray-600 mt-1">{selectedObjectiveObj.description}</p>
+                <p className="text-sm text-text-secondary mt-1">{selectedObjectiveObj.description}</p>
               )}
             </div>
 
             <div>
-              <span className="font-semibold text-gray-700">Option Strategies: </span>
+              <span className="font-semibold text-text-secondary">Option Strategies: </span>
               <span>
                 {profile.strategyPresets && profile.strategyPresets.length > 0
                   ? profile.strategyPresets
@@ -216,8 +216,8 @@ export function InvestorProfilePage() {
 
             {profile.customStrategyDescription && (
               <div>
-                <span className="font-semibold text-gray-700 block mb-1">Custom Strategy Description & Overlay:</span>
-                <div className="bg-gray-50 p-3 rounded text-sm whitespace-pre-wrap font-mono">
+                <span className="font-semibold text-text-secondary block mb-1">Custom Strategy Description & Overlay:</span>
+                <div className="bg-subtle p-3 rounded text-sm whitespace-pre-wrap font-mono">
                   {profile.customStrategyDescription}
                 </div>
               </div>
@@ -225,8 +225,8 @@ export function InvestorProfilePage() {
 
             {profile.freeformAiContext && (
               <div>
-                <span className="font-semibold text-gray-700 block mb-1">Free-Form Additional AI Context:</span>
-                <div className="bg-gray-50 p-3 rounded text-sm whitespace-pre-wrap font-mono">
+                <span className="font-semibold text-text-secondary block mb-1">Free-Form Additional AI Context:</span>
+                <div className="bg-subtle p-3 rounded text-sm whitespace-pre-wrap font-mono">
                   {profile.freeformAiContext}
                 </div>
               </div>
@@ -235,18 +235,18 @@ export function InvestorProfilePage() {
         </div>
       ) : (
         <form onSubmit={handleSave} className="status-panel space-y-6">
-          <div className="flex justify-between items-center pb-2 border-b">
+          <div className="flex justify-between items-center pb-2 border-b border-border-subtle">
             <div>
               <p className="eyebrow">Personal Trading Context</p>
               <h3 className="text-xl font-bold">Edit Investor Profile</h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-text-secondary">
                 All fields are 100% voluntary. The AI will use this context to personalize its analysis of your journal entries.
               </p>
             </div>
             {profile && (
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 onClick={() => setIsEditing(false)}
               >
                 Cancel
@@ -256,7 +256,7 @@ export function InvestorProfilePage() {
 
           {/* Section 1: Identity & Experience */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-lg border-b pb-1">1. Identity & Experience</h4>
+            <h4 className="font-semibold text-lg border-b border-border-subtle pb-1">1. Identity & Experience</h4>
             <div>
               <label htmlFor="preferredName" className="block text-sm font-medium mb-1">
                 Preferred Name / Handle
@@ -264,12 +264,12 @@ export function InvestorProfilePage() {
               <input
                 id="preferredName"
                 type="text"
-                className="input text-input w-full max-w-md"
+                className="input text-input w-full max-w-md focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 placeholder="e.g. Alex"
                 value={preferredName}
                 onChange={(e) => setPreferredName(e.target.value)}
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-text-muted mt-1">
                 How the app and AI address you in conversation and coaching notes.
               </p>
             </div>
@@ -280,7 +280,7 @@ export function InvestorProfilePage() {
               </label>
               <select
                 id="experienceLevel"
-                className="input select-input w-full max-w-md"
+                className="input select-input w-full max-w-md focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 value={experienceLevel}
                 onChange={(e) => setExperienceLevel(e.target.value as ExperienceLevel | '')}
               >
@@ -289,7 +289,7 @@ export function InvestorProfilePage() {
                 <option value="INTERMEDIATE">Intermediate</option>
                 <option value="EXPERIENCED">Experienced</option>
               </select>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-text-muted mt-1">
                 Helps the AI adjust its coaching depth and inline terminology explanations.
               </p>
             </div>
@@ -303,6 +303,7 @@ export function InvestorProfilePage() {
                       type="checkbox"
                       checked={portfolioContext.includes(opt.id)}
                       onChange={() => handlePortfolioContextToggle(opt.id)}
+                      className="accent-accent-strong focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     />
                     <span>{opt.label}</span>
                   </label>
@@ -313,25 +314,25 @@ export function InvestorProfilePage() {
 
           {/* Section 2: Primary Investment Objective */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-lg border-b pb-1">2. Primary Investment Objective</h4>
-            <p className="text-xs text-gray-500">
+            <h4 className="font-semibold text-lg border-b border-border-subtle pb-1">2. Primary Investment Objective</h4>
+            <p className="text-xs text-text-muted">
               Why we ask this: AI uses your primary goal to highlight trades or thesis points that diverge from your intended direction.
             </p>
 
             <div className="space-y-2">
               {catalogs?.objectives.map((obj) => (
-                <label key={obj.id} className="flex items-start space-x-2 text-sm p-2 rounded hover:bg-gray-50 border">
+                <label key={obj.id} className="flex items-start space-x-2 text-sm p-2 rounded hover:bg-selected border border-border-subtle">
                   <input
                     type="radio"
                     name="primaryObjective"
                     value={obj.id}
                     checked={primaryObjective === obj.id}
                     onChange={(e) => setPrimaryObjective(e.target.value)}
-                    className="mt-1"
+                    className="mt-1 accent-accent-strong focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   />
                   <div>
                     <span className="font-medium block">{obj.title}</span>
-                    <span className="text-gray-600 block text-xs">{obj.description}</span>
+                    <span className="text-text-secondary block text-xs">{obj.description}</span>
                     {obj.educationalHint && (
                       <span className="text-blue-600 block text-xs italic mt-0.5">{obj.educationalHint}</span>
                     )}
@@ -343,21 +344,21 @@ export function InvestorProfilePage() {
 
           {/* Section 3: Strategies & Custom Description */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-lg border-b pb-1">3. Strategies & Custom Description</h4>
+            <h4 className="font-semibold text-lg border-b border-border-subtle pb-1">3. Strategies & Custom Description</h4>
             <div>
               <span className="block text-sm font-medium mb-1">Standard Options Strategies You Trade</span>
               <div className="space-y-2">
                 {catalogs?.strategies.map((strat) => (
-                  <label key={strat.id} className="flex items-start space-x-2 text-sm p-2 rounded hover:bg-gray-50 border">
+                  <label key={strat.id} className="flex items-start space-x-2 text-sm p-2 rounded hover:bg-selected border border-border-subtle">
                     <input
                       type="checkbox"
                       checked={strategyPresets.includes(strat.id)}
                       onChange={() => handleStrategyPresetToggle(strat.id)}
-                      className="mt-1"
+                      className="mt-1 accent-accent-strong focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     />
                     <div>
                       <span className="font-medium block">{strat.title}</span>
-                      <span className="text-gray-600 block text-xs">{strat.description}</span>
+                      <span className="text-text-secondary block text-xs">{strat.description}</span>
                     </div>
                   </label>
                 ))}
@@ -371,7 +372,7 @@ export function InvestorProfilePage() {
                 </label>
                 <button
                   type="button"
-                  className="text-xs text-blue-600 underline"
+                  className="text-xs text-blue-600 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   onClick={() => setShowStrategyPreview((prev) => !prev)}
                 >
                   {showStrategyPreview ? 'Edit' : 'Preview'}
@@ -379,20 +380,20 @@ export function InvestorProfilePage() {
               </div>
 
               {showStrategyPreview ? (
-                <div className="bg-gray-50 p-3 rounded text-sm whitespace-pre-wrap border min-h-[100px]">
+                <div className="bg-subtle p-3 rounded text-sm whitespace-pre-wrap border border-border-subtle min-h-[100px]">
                   {customStrategyDescription || 'Nothing to preview.'}
                 </div>
               ) : (
                 <textarea
                   id="customStrategyDescription"
                   rows={4}
-                  className="input textarea-input w-full font-mono text-sm"
+                  className="input textarea-input w-full font-mono text-sm focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   placeholder="e.g. I sell deep ITM covered calls on high-conviction value stocks for downside protection, using a buy/write/decide overlay at expiration."
                   value={customStrategyDescription}
                   onChange={(e) => setCustomStrategyDescription(e.target.value)}
                 />
               )}
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-text-muted mt-1">
                 Describe your specific setup, entry criteria, or strategy overlays in your own words.
               </p>
             </div>
@@ -400,7 +401,7 @@ export function InvestorProfilePage() {
 
           {/* Section 4: Free-Form Additional Context */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-lg border-b pb-1">4. Free-Form Additional AI Context</h4>
+            <h4 className="font-semibold text-lg border-b border-border-subtle pb-1">4. Free-Form Additional AI Context</h4>
             <div>
               <div className="flex justify-between items-center mb-1">
                 <label htmlFor="freeformAiContext" className="block text-sm font-medium">
@@ -408,7 +409,7 @@ export function InvestorProfilePage() {
                 </label>
                 <button
                   type="button"
-                  className="text-xs text-blue-600 underline"
+                  className="text-xs text-blue-600 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   onClick={() => setShowAiContextPreview((prev) => !prev)}
                 >
                   {showAiContextPreview ? 'Edit' : 'Preview'}
@@ -416,20 +417,20 @@ export function InvestorProfilePage() {
               </div>
 
               {showAiContextPreview ? (
-                <div className="bg-gray-50 p-3 rounded text-sm whitespace-pre-wrap border min-h-[100px]">
+                <div className="bg-subtle p-3 rounded text-sm whitespace-pre-wrap border border-border-subtle min-h-[100px]">
                   {freeformAiContext || 'Nothing to preview.'}
                 </div>
               ) : (
                 <textarea
                   id="freeformAiContext"
                   rows={4}
-                  className="input textarea-input w-full font-mono text-sm"
+                  className="input textarea-input w-full font-mono text-sm focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   placeholder="e.g. This is a tax-advantaged Roth IRA account. I never use margin or leverage. My main focus this quarter is keeping position size under 15%."
                   value={freeformAiContext}
                   onChange={(e) => setFreeformAiContext(e.target.value)}
                 />
               )}
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-text-muted mt-1">
                 Passed to the AI when analyzing journal entries. Use this space for any personal guidelines, life context, tax considerations, or rules.
               </p>
             </div>
@@ -438,7 +439,7 @@ export function InvestorProfilePage() {
           <div className="pt-4 border-t flex justify-end space-x-3">
             <button
               type="submit"
-              className="btn btn-primary"
+              className="btn btn-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               disabled={saving}
             >
               {saving ? 'Saving...' : 'Save Investor Profile'}

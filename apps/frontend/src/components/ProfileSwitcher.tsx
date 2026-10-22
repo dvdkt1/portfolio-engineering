@@ -66,7 +66,7 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
   if (appMode === 'hosted') {
     return (
       <div className="flex flex-wrap items-center gap-2">
-        <div className="flex items-center space-x-2 rounded-full border border-border-subtle bg-surface-default px-3 py-1.5 text-xs text-text-strong">
+        <div className="flex items-center space-x-2 rounded-full border border-border-subtle bg-surface-default px-3 py-1.5 text-xs text-text-primary">
           <div className="flex h-6 w-6 items-center justify-center rounded-full bg-action-primary text-white font-medium">
             {currentDisplayName.charAt(0).toUpperCase()}
           </div>
@@ -88,7 +88,7 @@ export const ProfileSwitcher: React.FC<ProfileSwitcherProps> = ({
         variant="outline"
         size="sm"
         onClick={() => setIsOpen(true)}
-        className="flex items-center space-x-2 border-border-subtle bg-surface-default hover:bg-surface-muted text-text-strong shadow-xs"
+        className="flex items-center space-x-2 border-border-subtle bg-surface-default hover:bg-surface-muted text-text-primary shadow-xs"
       >
         <div className="flex h-6 w-6 items-center justify-center rounded-full bg-action-primary/10 text-action-primary font-bold text-xs">
           {currentDisplayName.charAt(0).toUpperCase()}

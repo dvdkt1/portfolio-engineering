@@ -75,7 +75,7 @@ export function EmptyProfileAlert() {
             You haven't set up your Personal Investor Profile yet.{' '}
             <Link
               to="/workspace/settings/profile"
-              className="font-semibold underline text-amber-900 hover:text-amber-950"
+              className="font-semibold underline text-text-link hover:text-text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               Set up your profile
             </Link>{' '}
@@ -87,7 +87,7 @@ export function EmptyProfileAlert() {
         type="button"
         onClick={handleDismiss}
         aria-label="Dismiss alert"
-        className="text-amber-700 hover:text-amber-900 text-sm font-semibold ml-4 px-2 py-1 rounded"
+        className="text-amber-700 hover:text-amber-900 text-sm font-semibold ml-4 px-2 py-1 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       >
         ✕
       </button>

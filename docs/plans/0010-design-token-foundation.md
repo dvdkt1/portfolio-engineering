@@ -12,15 +12,15 @@ Executing agents keep this block current. It is the entry point for any agent re
 - Current effort: E-04
 - Completed efforts: E-01, E-02, E-03
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-04.5 — Tokenise Dashboard and profile feature styling; do not begin until separately directed
-- Last updated: 2026-10-19
+- Next recommended task: T-04.6 — Tokenise Journal feature styling; do not begin until separately directed
+- Last updated: 2026-10-22
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
 | E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 5 | done |
-| E-04 | Remove hard-coded visual values from shared layers | 7 | 3 | in-progress |
+| E-04 | Remove hard-coded visual values from shared layers | 7 | 4 | in-progress |
 | E-05 | Remaining four themes | 4 | 0 | pending |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
 | E-07 | Theme selection and persistence (deferred) | 4 | 0 | blocked |
@@ -401,7 +401,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-04.5: Tokenise Dashboard and profile feature styling
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-04.3
 - **Files:**
@@ -411,11 +411,13 @@ Diffs to `.css` files and `className` strings may change only: color, background
   - `apps/frontend/src/components/ProfilePicker.tsx`
   - `apps/frontend/src/components/ProfileSwitcher.tsx`
   - `apps/frontend/src/InvestorProfilePage.tsx`
+  - `apps/frontend/src/App.css` (modified — directly mappable Dashboard button styling)
+  - `apps/frontend/tailwind.config.ts` (modified — supporting-text semantic utility and shared-package content scan)
   - `packages/ui/src/NotYetImplemented.tsx`
-- **Intent:** Replace approved color/shadow literals and legacy visual classes in Dashboard/Placeholder and profile/configuration flows. Preserve raw-control semantics, form behavior, layout, and dimensions. Retain warning/info, unmatched shadows, and alpha roles without approved equivalents.
+- **Intent:** Replace approved color/shadow literals and legacy visual classes in Dashboard/Placeholder and profile/configuration flows, including directly mappable Dashboard `primary-button`/`secondary-button` styling. `PlaceholderPage.tsx` remains audit-only unless a directly mapped literal or legacy visual class is found. Preserve raw-control semantics, form behavior, layout, spacing, and dimensions. Retain warning/info, unmatched shadows, and alpha roles without approved equivalents.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md), [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md).
 - **Verify:** Standard checks pass; verify visible focus on migrated native controls; rerun related UI tests. Do not invent warning, info, or unmatched shadow tokens.
-- **Notes:**
+- **Notes:** Started after the T-04.3 source change was confirmed committed as `97b4d6e` ("Tokenize help and markdown styling"). User explicitly included the Dashboard Glossary/Training Hub buttons in this task's bounded scope. Implemented the approved Dashboard primary-button mapping to `bg.inverse`/`text.on-inverse`; mapped secondary-button text to `text.primary`; tokenized profile text, panel surfaces, selected-row fills, semantic borders, and approved link colors; and added `accent.strong` focus indicators to migrated native controls. Tailwind now scans `packages/ui` so the shared `NotYetImplemented` semantic utility classes are emitted. Warning/info palettes, generic success/error colors, alpha roles, and unmatched card shadows/surfaces remain unchanged: the exported positive/negative status colors are described for investment gains/losses, with no approved generic UI-state mapping. `PlaceholderPage.tsx` was audited and remains unchanged; its Dashboard buttons are styled in `App.css`. User-reported verification on 2026-10-22: `git diff --check`, frontend tests (40/40), targeted profile tests (3/3; rerun with `TSX_TSCONFIG_PATH` after the first invocation did not load `tsconfig.app.json`), typecheck, lint (6 existing warnings and 0 errors), production build, generated semantic utility checks (`text.link`, `text.secondary`, `hover:bg.selected`, and `focus-visible:ring-accent.strong`), Dashboard/Profile browser review, native keyboard focus, preserved interactions, and 375px/1280px geometry all pass. Marked T-04.5 complete; T-04.6 is next and was not started.
 
 ### T-04.6: Tokenise Journal feature styling
 

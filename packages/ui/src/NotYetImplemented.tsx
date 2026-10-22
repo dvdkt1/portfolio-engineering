@@ -47,14 +47,14 @@ export function NotYetImplemented({
       aria-label={`${featureName} is not yet implemented`}
     >
       <div className="mb-4">
-        <h3 className="mb-2 text-lg font-semibold text-gray-900">
-          {featureName} <span className="text-sm font-normal text-gray-600">(coming soon)</span>
+        <h3 className="mb-2 text-lg font-semibold text-text-primary">
+          {featureName} <span className="text-sm font-normal text-text-muted">(coming soon)</span>
         </h3>
-        <p className="text-gray-700">{description}</p>
+        <p className="text-text-secondary">{description}</p>
       </div>
 
       <div className="space-y-3 border-t border-amber-200 pt-4">
-        <p className="text-sm font-medium text-gray-900">Interested in this feature?</p>
+        <p className="text-sm font-medium text-text-primary">Interested in this feature?</p>
         <ul className="space-y-2">
           {allLinks.map((link, index) => (
             <li key={index}>
@@ -63,7 +63,7 @@ export function NotYetImplemented({
                 target="_blank"
                 rel="noopener noreferrer"
                 title={link.title}
-                className="inline-flex items-center gap-2 rounded px-2 py-1 text-sm text-action-primary hover:underline focus:outline-none focus:ring-2 focus:ring-action-primary focus:ring-offset-2"
+                className="inline-flex items-center gap-2 rounded px-2 py-1 text-sm text-text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 {link.label}
                 <span aria-hidden="true">→</span>

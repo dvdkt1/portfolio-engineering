@@ -375,14 +375,20 @@
 }
 
 .primary-button {
-  background: var(--color-action-primary);
-  border-color: var(--color-action-primary);
+  background: var(--bg-inverse);
+  border-color: var(--bg-inverse);
   color: var(--text-on-inverse);
 }
 
 .secondary-button {
   background: var(--color-surface-default);
-  color: var(--color-text-strong);
+  color: var(--text-primary);
+}
+
+.primary-button:focus-visible,
+.secondary-button:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
 }
 
 @media (min-width: 768px) {

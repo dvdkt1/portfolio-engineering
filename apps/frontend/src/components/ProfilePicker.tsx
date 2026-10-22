@@ -191,13 +191,13 @@ export const ProfilePicker: React.FC<ProfilePickerProps> = ({
               {profiles.map((profile) => (
                 <div
                   key={profile.id}
-                  className="group relative flex flex-col justify-between rounded-lg border border-border-subtle bg-surface-default p-4 text-left transition-all hover:border-action-primary hover:shadow-md"
+                  className="group relative flex flex-col justify-between rounded-lg border border-border-subtle bg-subtle p-4 text-left transition-all hover:border-action-primary hover:shadow-md"
                 >
                   <button
                     type="button"
                     onClick={() => handleSelect(profile.id)}
                     disabled={selectingId !== null}
-                    className="flex w-full flex-col items-start focus:outline-none disabled:opacity-50"
+                    className="flex w-full flex-col items-start focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50"
                   >
                     <div className="flex w-full items-center justify-between">
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-action-primary/10 text-action-primary font-semibold text-lg group-hover:bg-action-primary group-hover:text-white transition-colors">
@@ -205,7 +205,7 @@ export const ProfilePicker: React.FC<ProfilePickerProps> = ({
                       </div>
                     </div>
                     <div className="mt-3">
-                      <p className="font-semibold text-text-strong group-hover:text-action-primary">
+                      <p className="font-semibold text-text-primary group-hover:text-action-primary">
                         {profile.displayName}
                       </p>
                       <p className="text-xs text-text-muted truncate max-w-[180px]">
