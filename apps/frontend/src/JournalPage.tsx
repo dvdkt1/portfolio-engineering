@@ -747,7 +747,7 @@ export function JournalPage() {
             onClick={() => navigate('/workspace/journal?mode=day&date=' + today)}
             aria-pressed={mode === 'day' && date === today}
             disabled={!apiClient}
-            className={`px-4 py-2 rounded font-medium transition-colors ${mode === 'day' && date === today ? 'bg-action-primary text-white' : 'bg-surface-muted text-text-primary hover:bg-surface-emphasis'}`}
+            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${mode === 'day' && date === today ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary hover:bg-surface-emphasis'}`}
           >
             Today
           </button>
@@ -755,7 +755,7 @@ export function JournalPage() {
             onClick={() => navigate('/workspace/journal?mode=week&weekStart=' + currentWeekStart)}
             aria-pressed={mode === 'week'}
             disabled={!apiClient}
-            className={`px-4 py-2 rounded font-medium transition-colors ${mode === 'week' ? 'bg-action-primary text-white' : 'bg-surface-muted text-text-primary hover:bg-surface-emphasis'}`}
+            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${mode === 'week' ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary hover:bg-surface-emphasis'}`}
           >
             Week
           </button>
@@ -763,7 +763,7 @@ export function JournalPage() {
             onClick={() => navigate('/workspace/journal?mode=month&month=' + month)}
             aria-pressed={mode === 'month'}
             disabled={!apiClient}
-            className={`px-4 py-2 rounded font-medium transition-colors ${mode === 'month' ? 'bg-action-primary text-white' : 'bg-surface-muted text-text-primary hover:bg-surface-emphasis'}`}
+            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${mode === 'month' ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary hover:bg-surface-emphasis'}`}
           >
             Month
           </button>
@@ -771,7 +771,7 @@ export function JournalPage() {
             onClick={() => navigate('/workspace/journal?mode=all')}
             aria-pressed={mode === 'all'}
             disabled={!apiClient}
-            className={`px-4 py-2 rounded font-medium transition-colors ${mode === 'all' ? 'bg-action-primary text-white' : 'bg-surface-muted text-text-primary hover:bg-surface-emphasis'}`}
+            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${mode === 'all' ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary hover:bg-surface-emphasis'}`}
           >
             All
           </button>
@@ -1042,21 +1042,21 @@ function JournalDayView({
             <button
               onClick={() => setEditorMode('focus')}
               aria-pressed={editorMode === 'focus'}
-              className={`rounded px-3 py-1 text-sm font-medium transition-colors ${editorMode === 'focus' ? 'bg-action-primary text-white' : 'bg-surface-muted text-text-primary'}`}
+              className={`rounded px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${editorMode === 'focus' ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary'}`}
             >
               Focus
             </button>
             <button
               onClick={() => setEditorMode('live-preview')}
               aria-pressed={editorMode === 'live-preview'}
-              className={`rounded px-3 py-1 text-sm font-medium transition-colors ${editorMode === 'live-preview' ? 'bg-action-primary text-white' : 'bg-surface-muted text-text-primary'}`}
+              className={`rounded px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${editorMode === 'live-preview' ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary'}`}
             >
               Live preview
             </button>
             <button
               onClick={() => setEditorMode('reading')}
               aria-pressed={editorMode === 'reading'}
-              className={`rounded px-3 py-1 text-sm font-medium transition-colors ${editorMode === 'reading' ? 'bg-action-primary text-white' : 'bg-surface-muted text-text-primary'}`}
+              className={`rounded px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${editorMode === 'reading' ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary'}`}
             >
               Reading view
             </button>
@@ -1089,7 +1089,7 @@ function JournalDayView({
               onChange={(event) => setUnsavedDraft(event.target.value)}
               onPointerUp={saveEditorHeight}
               placeholder="Write your journal entry here in Markdown..."
-              className="w-full min-h-48 resize-y rounded border border-border-subtle bg-surface-default p-4 font-mono text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-action-primary"
+              className="w-full min-h-48 resize-y rounded border border-border-subtle bg-surface-default p-4 font-mono text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent-strong"
               disabled={isSaving}
               style={{ height: `${editorHeight}px` }}
             />
@@ -1118,7 +1118,7 @@ function JournalDayView({
           <button
             onClick={() => onSave(content)}
             disabled={isSaving || !canSave}
-            className={`px-4 py-2 rounded font-medium transition-colors ${canSave && !isSaving ? 'bg-action-primary text-white hover:opacity-90 cursor-pointer' : 'bg-surface-muted text-text-muted cursor-not-allowed opacity-50'}`}
+            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${canSave && !isSaving ? 'bg-inverse text-on-inverse hover:bg-inverse-subtle-light cursor-pointer' : 'bg-surface-muted text-text-muted cursor-not-allowed opacity-50'}`}
           >
             {isSaving ? 'Saving...' : 'Save'}
           </button>
@@ -1130,7 +1130,7 @@ function JournalDayView({
           <button
             onClick={onDownload}
             disabled={entries.length === 0}
-            className={`px-4 py-2 rounded font-medium transition-colors ${entries.length > 0 ? 'bg-surface-muted text-text-primary hover:bg-surface-emphasis cursor-pointer' : 'bg-surface-muted text-text-muted cursor-not-allowed opacity-50'}`}
+            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${entries.length > 0 ? 'bg-surface-muted text-text-primary hover:bg-surface-emphasis cursor-pointer' : 'bg-surface-muted text-text-muted cursor-not-allowed opacity-50'}`}
           >
             Download as Markdown
           </button>

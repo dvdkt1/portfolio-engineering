@@ -90,7 +90,7 @@ export function JournalReviewTable({
                       : allVisibleEntriesSelected
                   }
                   aria-label={`Select all entries in this ${scope}`}
-                  className="h-4 w-4 accent-action-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-primary focus-visible:ring-offset-2"
+                  className="h-4 w-4 accent-action-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2"
                 />
               </th>
               <th className="px-4 py-3 text-left font-semibold text-text-strong">Date</th>
@@ -112,7 +112,7 @@ export function JournalReviewTable({
                       onChange={() => toggleEntry(entry.localDate)}
                       disabled={isExportingSelection}
                       aria-label={`Select entry for ${formatDateForDisplay(entry.localDate)}`}
-                      className="h-4 w-4 accent-action-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-primary focus-visible:ring-offset-2"
+                      className="h-4 w-4 accent-action-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2"
                     />
                   </td>
                   <td className="px-4 py-3 text-text-primary">

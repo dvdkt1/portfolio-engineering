@@ -12,15 +12,15 @@ Executing agents keep this block current. It is the entry point for any agent re
 - Current effort: E-04
 - Completed efforts: E-01, E-02, E-03
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-04.6 — Tokenise Journal feature styling; do not begin until separately directed
-- Last updated: 2026-10-22
+- Next recommended task: T-04.7 — Tokenise AI and Security Master feature styling; do not begin until separately directed
+- Last updated: 2026-10-29
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
 | E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 5 | done |
-| E-04 | Remove hard-coded visual values from shared layers | 7 | 4 | in-progress |
+| E-04 | Remove hard-coded visual values from shared layers | 7 | 5 | in-progress |
 | E-05 | Remaining four themes | 4 | 0 | pending |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
 | E-07 | Theme selection and persistence (deferred) | 4 | 0 | blocked |
@@ -421,7 +421,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-04.6: Tokenise Journal feature styling
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-04.5
 - **Files:**
@@ -431,7 +431,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 - **Intent:** Replace approved literal color/shadow/focus styling only. Preserve Journal editor resize/storage behavior, URL state, table dimensions/overflow, responsive preview grid, and feature behavior. Retain unmatched warning, emphasis, and alpha roles.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md), [0017](../ADRs/0017-standardize-data-grid-list-behaviors.md), [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md).
 - **Verify:** Standard checks and Journal tests pass; compare table and editor geometry; preserve keyboard focus and row/table behavior.
-- **Notes:**
+- **Notes:** Replaced paired `bg-action-primary`/`text-white` styling on Journal's active content-mode, scope, and Save controls with `bg.inverse`/`text.on-inverse`; the Save hover now uses the exported `bg.inverse-subtle-light` role. Added `accent.strong` visible focus rings to raw Journal editor-mode/scope/save/download controls, the editor, and the review-table selection checkboxes. `JournalAnalysisPanel` had no direct literal/legacy color or shadow mapping to apply; its shared controls already inherit primitive token styling. Warning, success/error status colors, alpha backgrounds, `surface-muted`/`surface-emphasis`, action-colored checkbox fill, and generic shadows remain unchanged because no approved role mapping applies. URL, storage, editor sizing, table structure, and responsive grid logic were not changed. User-reported verification on 2026-10-29: `git diff --check`, frontend tests (40/40), typecheck, lint (6 existing warnings and 0 errors), production build, generated `bg.inverse`, `text.on-inverse`, `hover:bg.inverse-subtle-light`, and `focus-visible:ring-accent.strong` utilities, plus browser checks for Journal active controls, Save default/hover/focus, native keyboard focus, editor resizing/persisted sizing, URL state/navigation, table selection/row actions/overflow, responsive preview grid, and 375px/1280px geometry all pass. Intentionally retained unmatched roles were accepted. Marked T-04.6 complete; T-04.7 is next and was not started.
 
 ### T-04.7: Tokenise AI and Security Master feature styling
 
