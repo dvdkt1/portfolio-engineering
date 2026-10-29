@@ -12,7 +12,7 @@ Executing agents keep this block current. It is the entry point for any agent re
 - Current effort: E-04
 - Completed efforts: E-01, E-02, E-03
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-04.7 — Tokenise AI and Security Master feature styling; do not begin until separately directed
+- Next recommended task: Resolve the conditional Markdown editor audit/disposition in T-04.4; then proceed to T-05.1
 - Last updated: 2026-10-29
 
 | Effort | Title | Tasks | Done | Status |
@@ -20,7 +20,7 @@ Executing agents keep this block current. It is the entry point for any agent re
 | E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 5 | done |
-| E-04 | Remove hard-coded visual values from shared layers | 7 | 5 | in-progress |
+| E-04 | Remove hard-coded visual values from shared layers | 7 | 6 | in-progress |
 | E-05 | Remaining four themes | 4 | 0 | pending |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
 | E-07 | Theme selection and persistence (deferred) | 4 | 0 | blocked |
@@ -435,7 +435,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-04.7: Tokenise AI and Security Master feature styling
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-04.6
 - **Files:**
@@ -443,12 +443,12 @@ Diffs to `.css` files and `className` strings may change only: color, background
   - `apps/frontend/src/components/AiConnectionList.tsx`
   - `apps/frontend/src/components/AiProviderCatalog.tsx` (audit retained opacity/state treatment)
   - `apps/frontend/src/YourAiPage.tsx`
-  - `apps/frontend/src/components/HelpRefreshControl.tsx`
+  - `apps/frontend/src/HelpRefreshControl.tsx`
   - `apps/frontend/src/SecurityMasterPage.tsx`
 - **Intent:** Replace approved color/shadow classes and resolve undefined semantic utilities only where mappings are established. Preserve state announcements, status text, filter/URL behavior, table horizontal scrolling, dimensions, and feature behavior. Leave warning and unmatched roles unchanged.
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md), [0017](../ADRs/0017-standardize-data-grid-list-behaviors.md), [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md).
 - **Verify:** Re-run feature styling audit and standard checks; related tests pass, including TD-016 assertions in `SecurityMasterPage.test.tsx`. Update class-name assertions only if necessary for intended style changes; retain behavior assertions.
-- **Notes:**
+- **Notes:** Re-ran the scoped styling audit. Replaced only Security Master and Help Refresh anchor link foregrounds with the configured `text-text-link` utility (`text.link`) and added visible accent focus rings; preserved URLs, handlers, return paths, and markup. The focus classes use `focus-visible:ring-ring`, which generates the verified `ring-ring` utility mapped to `var(--accent-strong)`; the initially attempted `focus-visible:ring-accent-strong` class did not generate CSS and was corrected without changing the semantic focus color. `SecurityFieldError` still references undefined `text-text-danger`: no Figma token establishes a generic form-error color, and mapping it to financial `status.negative` would violate the task's status semantics, so it remains unresolved rather than receiving an invented mapping. `AiConnectionForm` uses shared Input/Select/Button primitives for focus; its generic error role remains. `AiConnectionList` generic success/error messages remain on existing state utilities. Help refresh warning styling, `AiProviderCatalog` opacity/planned state, and other existing unmatched status/surface/shadow roles remain unchanged. No TD-016 assertions were edited; table/layout and behavioral structures were preserved. On 2026-10-29, the user reported `git diff --check`, frontend tests (40/40), typecheck, lint (6 existing warnings and 0 errors), and production build passing; generated `text.link` and focus-ring utilities were confirmed, with `ring-ring` mapped to `var(--accent-strong)`. Browser verification passed for Security Master links/focus, filters and URL behavior, return paths, table overflow and row actions, forms/validation/delete dialog, Help Refresh interactions/announcements, AI connection/provider flows, and representative 375px/1280px geometry. T-04.7 is complete. T-04.4 remains the next unresolved task; no later task has started.
 
 ---
 

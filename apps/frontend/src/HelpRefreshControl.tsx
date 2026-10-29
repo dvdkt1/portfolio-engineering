@@ -93,11 +93,11 @@ export function HelpRefreshControl() {
             <AlertDescription>
               Help content could not be refreshed. Existing help remains available. If something
               looks wrong,{' '}
-              <a className="text-action-primary underline" href={GITHUB_ISSUES_URL} target="_blank" rel="noopener noreferrer">
+              <a className="text-text-link underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background" href={GITHUB_ISSUES_URL} target="_blank" rel="noopener noreferrer">
                 create a GitHub issue
               </a>{' '}
               or{' '}
-              <a className="text-action-primary underline" href={POS_SUBREDDIT_URL} target="_blank" rel="noopener noreferrer">
+              <a className="text-text-link underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background" href={POS_SUBREDDIT_URL} target="_blank" rel="noopener noreferrer">
                 report it on the P/OS subreddit
               </a>
               .
