@@ -9,10 +9,10 @@
 
 Executing agents keep this block current. It is the entry point for any agent resuming this plan.
 
-- Current effort: E-04
-- Completed efforts: E-01, E-02, E-03
+- Current effort: E-05
+- Completed efforts: E-01, E-02, E-03, E-04
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: Resolve the conditional Markdown editor audit/disposition in T-04.4; then proceed to T-05.1
+- Next recommended task: T-05.1 — Dark / Orchid theme (not started)
 - Last updated: 2026-10-29
 
 | Effort | Title | Tasks | Done | Status |
@@ -20,7 +20,7 @@ Executing agents keep this block current. It is the entry point for any agent re
 | E-01 | Design inputs, decisions, and baseline | 4 | 4 | done |
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 5 | done |
-| E-04 | Remove hard-coded visual values from shared layers | 7 | 6 | in-progress |
+| E-04 | Remove hard-coded visual values from shared layers | 7 | 6 | done |
 | E-05 | Remaining four themes | 4 | 0 | pending |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
 | E-07 | Theme selection and persistence (deferred) | 4 | 0 | blocked |
@@ -389,15 +389,17 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-04.4: Theme the Markdown editor surface (conditional)
 
-- **Status:** pending
+- **Status:** cancelled
 - **Owner:** frontend coding
 - **Depends on:** T-01.3
 - **Files:**
-  - Owned Markdown editor wrapper identified by the T-01.3 audit (modified, if any)
+  - `apps/frontend/src/JournalPage.tsx` (audit only)
+  - `packages/ui/src/NotYetImplemented.tsx` (audit only)
+  - `apps/frontend/package.json` (dependency audit only)
 - **Intent:** If the editor engine injects hard-coded colors, map its theme hooks to tokens inside the owned wrapper. Cancel this task with a reason if the audit finds none.
 - **ADRs:** [0007](../ADRs/0007-use-cwl-editor-behind-an-owned-markdown-editor.md), [0012](../ADRs/0012-defer-wysiwyg-engine-selection-behind-an-owned-markdown-editor.md) — keep engine specifics behind the owned editor.
 - **Verify:** Editor text, caret, selection, and gutter read correctly in Light and (after E-05) every theme.
-- **Notes:**
+- **Notes:** Cancelled after the required audit found no WYSIWYG/editor engine or owned editor wrapper to theme. ADR 0012 confirms that no engine was installed and the Journal uses direct Markdown authoring, an owned read-only `MarkdownViewer`, and the shared planned-feature placeholder for deferred WYSIWYG. The active editor in `JournalPage.tsx` is a native `<textarea>` with app-authored `bg-surface-default`, `text-text-primary`, `border-border-subtle`, and `focus:ring-accent-strong` classes; its resizable height/persistence is app-managed. No editor-engine DOM, classes, inline colors, caret/selection styling, gutter, or custom placeholder styling were found. Browser-native caret/selection/placeholder rendering is not an engine hook, so no token mapping or code change is applicable. The T-04.3 Markdown preview was not changed. WYSIWYG-specific Light/theme checks are not applicable; this cancellation makes no claim that a browser appearance check of the existing native textarea was performed.
 
 ### T-04.5: Tokenise Dashboard and profile feature styling
 
@@ -671,3 +673,4 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-10-19 | T-04.3 audit and task split | The feature styling audit identified 19 files with potential token work or explicit retention dispositions, above the approximately ten-file threshold. Split the work into Help/Markdown, Dashboard/profile, Journal, and AI/Security Master passes. Paused before implementation for user review of the split. |
 | 2026-10-19 | T-04.3 Help/Markdown tokenization | Replaced Help tooltip elevation/focus and Help link colors/hover/focus with approved semantic utilities; replaced Markdown `prose-slate` with token-driven prose colors while retaining legacy code-surface values without Figma mappings. No layout, spacing, dimensions, markup semantics, routing, or behavior changed. Verification remains pending; no later split task started. |
 | 2026-10-19 | T-04.3 verification | Recorded user-reported passing `git diff --check`, frontend tests, typecheck, lint (existing warnings only), production build, Markdown prose/code readability, HelpTooltip elevation/focus/link styling, HelpTopicLink hover/focus/navigation, and 375px/1280px geometry comparisons. Marked T-04.3 done; T-04.5 is next and was not started. |
+| 2026-10-29 | T-04.4 conditional editor audit | Confirmed the Journal uses a native Markdown textarea and the shared placeholder for deferred WYSIWYG; ADR 0012 and the frontend manifest confirm no editor engine or owned engine wrapper exists. No engine styles require token mapping, so cancelled T-04.4 with reason and closed E-04. T-05.1 remains pending and was not started. |
