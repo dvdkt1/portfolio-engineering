@@ -194,6 +194,10 @@ The exact legacy-variable mapping and candidate status are recorded in `existing
 
 ## Verification and task disposition
 
+### T-05.1 final verification complete (2026-11-10)
+
+The user confirms frontend tests, typecheck, lint and production build pass on the current implementation. Final Dark / Orchid browser QA passes after the `color-scheme: dark` correction, including the browser-native scrollbar and native controls, as well as app-authored surfaces, text, navigation, Button states and focus/hover states. This supersedes the pending verification recorded below. T-05.1 is complete; E-05 is 1/4 complete. T-05.2 Pathfinder is the next recommended task but remains pending and has not started. No application changes were made for this completion update.
+
 ### T-05.1 final native color-scheme decision (2026-11-10)
 
 User-reported final Dark / Orchid browser QA passes app-authored surfaces, text, navigation, Button states, focus/hover and native controls; the remaining Light scrollbar is browser-owned. Applied approved `color-scheme: dark` in `[data-theme="dark-orchid"]`. Default/Light retains `color-scheme: light` in `themes.css`. Removed only the duplicate `color-scheme: light` from the later `index.css` `:root` rule, which otherwise wins at equal specificity and prevents the Dark declaration from taking effect.

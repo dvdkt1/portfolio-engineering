@@ -11,8 +11,8 @@ Executing agents keep this block current. It is the entry point for any agent re
 
 - Current effort: E-05
 - Completed efforts: E-01, E-02, E-03, E-04
-- Blocked tasks: T-05.1 (final app-authored browser QA passed; approved native color-scheme applied, tests/build and post-change scrollbar check pending), T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: Run frontend tests/build and confirm Dark / Orchid native scrollbar after the color-scheme correction; do not begin T-05.2
+- Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
+- Next recommended task: T-05.2 Pathfinder (pending; not started)
 - Last updated: 2026-11-10
 
 | Effort | Title | Tasks | Done | Status |
@@ -21,7 +21,7 @@ Executing agents keep this block current. It is the entry point for any agent re
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 5 | done |
 | E-04 | Remove hard-coded visual values from shared layers | 7 | 6 | done |
-| E-05 | Remaining four themes | 4 | 0 | in-progress |
+| E-05 | Remaining four themes | 4 | 1 | in-progress |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
 | E-07 | Theme selection and persistence (deferred) | 4 | 0 | blocked |
 
@@ -464,7 +464,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-05.1: Dark / Orchid theme
 
-- **Status:** blocked
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-04.1, T-04.2, T-04.3
 - **Files:**
@@ -483,6 +483,8 @@ Diffs to `.css` files and `className` strings may change only: color, background
   - 2026-11-01 legacy Dashboard Secondary correction: applied confirmed Button 455:49 mappings to `.secondary-button`: default `bg.subtle` / `text.primary` / `border.muted`, enabled hover `bg.selected`, disabled `bg.disabled` / `text.disabled` / `border.muted`. Existing 2px `accent.strong` focus outline remains. Added exact contract assertions for these states. No primary-button, geometry, markup, click/disabled behavior, routing or `color-scheme` changes. This supersedes prior retention of the legacy secondary surface. Commands/browser verification remain unavailable and pending; T-05.1 is incomplete, T-05.2 not started.
 
   - 2026-11-10 native mode decision: user reports final Dark / Orchid browser QA passed for app-authored surfaces/text/navigation/Button/focus/hover and native controls, with only the browser scrollbar remaining Light. Applied the explicitly approved `color-scheme: dark` to the Dark / Orchid theme and retained default/Light `color-scheme: light`. Removed the later duplicate Light declaration in `index.css` because its equal-specificity `:root` rule would override the theme block. Contract now requires the dark native mode, allows that declaration alongside exact exported tokens/aliases, preserves the Light assertion, and rejects a global override in `index.css`. No token values, layout, routing or component behavior changed; generic hero styling remains retained without inventing a mapping. The exact-selector test-helper fix from the preceding correction is also awaiting execution. No command runner is available, so frontend tests/build have not been run and T-05.1 cannot yet be marked complete under the user's conditional approval. Confirm the scrollbar and native controls after this change; T-05.2 remains pending and unstarted.
+
+  - 2026-11-10 final verification: user confirms frontend tests, typecheck, lint and production build pass on the current implementation. Final browser QA also passes after the `color-scheme: dark` correction, including Dark / Orchid scrollbar and native controls, in addition to the previously confirmed app-authored surfaces, text, navigation, Button states and focus/hover behavior. This supersedes earlier pending verification notes; T-05.1 is done. E-05 is 1/4 complete. T-05.2 Pathfinder is next but remains pending and unstarted.
 
 ### T-05.2: Pathfinder theme
 
