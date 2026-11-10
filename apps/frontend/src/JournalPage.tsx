@@ -741,13 +741,13 @@ export function JournalPage() {
   return (
     <div className="p-4 space-y-4">
       <header>
-        <h2 className="text-2xl font-bold text-text-strong mb-4">Journal</h2>
+        <h2 className="text-2xl font-bold text-text-primary mb-4">Journal</h2>
         <div className="flex gap-2 flex-wrap" role="group" aria-label="Journal time scope">
           <button
             onClick={() => navigate('/workspace/journal?mode=day&date=' + today)}
             aria-pressed={mode === 'day' && date === today}
             disabled={!apiClient}
-            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${mode === 'day' && date === today ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary hover:bg-surface-emphasis'}`}
+            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${mode === 'day' && date === today ? 'bg-inverse text-on-inverse' : 'bg-subtle text-text-primary hover:bg-selected'}`}
           >
             Today
           </button>
@@ -755,7 +755,7 @@ export function JournalPage() {
             onClick={() => navigate('/workspace/journal?mode=week&weekStart=' + currentWeekStart)}
             aria-pressed={mode === 'week'}
             disabled={!apiClient}
-            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${mode === 'week' ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary hover:bg-surface-emphasis'}`}
+            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${mode === 'week' ? 'bg-inverse text-on-inverse' : 'bg-subtle text-text-primary hover:bg-selected'}`}
           >
             Week
           </button>
@@ -763,7 +763,7 @@ export function JournalPage() {
             onClick={() => navigate('/workspace/journal?mode=month&month=' + month)}
             aria-pressed={mode === 'month'}
             disabled={!apiClient}
-            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${mode === 'month' ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary hover:bg-surface-emphasis'}`}
+            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${mode === 'month' ? 'bg-inverse text-on-inverse' : 'bg-subtle text-text-primary hover:bg-selected'}`}
           >
             Month
           </button>
@@ -771,7 +771,7 @@ export function JournalPage() {
             onClick={() => navigate('/workspace/journal?mode=all')}
             aria-pressed={mode === 'all'}
             disabled={!apiClient}
-            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${mode === 'all' ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary hover:bg-surface-emphasis'}`}
+            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${mode === 'all' ? 'bg-inverse text-on-inverse' : 'bg-subtle text-text-primary hover:bg-selected'}`}
           >
             All
           </button>
@@ -805,7 +805,7 @@ export function JournalPage() {
         >
           <div className="min-w-52">
             <label
-              className="mb-1 block text-sm font-medium text-text-strong"
+              className="mb-1 block text-sm font-medium text-text-primary"
               htmlFor="journal-chosen-date"
             >
               Choose a date
@@ -847,7 +847,7 @@ export function JournalPage() {
         ) : null}
 
         {hasInvalidWeekLocation ? (
-          <div className="rounded-lg border-2 border-state-error bg-surface-default p-6" role="alert">
+          <div className="rounded-lg border-2 border-state-error bg-subtle p-6" role="alert">
             <h3 className="text-lg font-semibold text-state-error">This Week link is invalid</h3>
             <p className="mt-2 text-text-muted">
               Use one Sunday start date in the form YYYY-MM-DD. Open the current Week to continue.
@@ -861,23 +861,23 @@ export function JournalPage() {
             </Button>
           </div>
         ) : !apiClient ? (
-          <div className="rounded-lg border border-border-subtle bg-surface-default p-6">
-            <h3 className="text-lg font-semibold text-text-strong">Not authenticated</h3>
+          <div className="rounded-lg border border-border-subtle bg-subtle p-6">
+            <h3 className="text-lg font-semibold text-text-primary">Not authenticated</h3>
             <p className="text-text-muted mt-2">Please sign in to use the journal.</p>
           </div>
         ) : currentLoadError && !isContentCurrent ? (
-          <div className="rounded-lg border-2 border-state-error bg-surface-default p-6" role="alert">
+          <div className="rounded-lg border-2 border-state-error bg-subtle p-6" role="alert">
             <h3 className="text-lg font-semibold text-state-error">Error loading journal</h3>
             <p className="text-text-muted mt-2">{currentLoadError}</p>
           </div>
         ) : !isContentCurrent ? (
-          <div className="rounded-lg border border-border-subtle bg-surface-default p-6">
+          <div className="rounded-lg border border-border-subtle bg-subtle p-6">
             <p className="text-text-muted">Loading journal content...</p>
           </div>
         ) : (
           <>
             {currentLoadError ? (
-              <div className="mb-4 rounded-lg border border-state-error bg-surface-default p-4" role="alert">
+              <div className="mb-4 rounded-lg border border-state-error bg-subtle p-4" role="alert">
                 <p className="font-medium text-state-error">Unable to refresh journal content.</p>
                 <p className="mt-1 text-sm text-text-muted">{currentLoadError}</p>
               </div>
@@ -1035,28 +1035,28 @@ function JournalDayView({
   
   return (
     <div className="space-y-6">
-      <div className="rounded-lg border border-border-subtle bg-surface-default p-6">
+      <div className="rounded-lg border border-border-subtle bg-subtle p-6">
         <div className="mb-4 flex items-center justify-between flex-wrap gap-4">
-          <h3 className="text-lg font-semibold text-text-strong">{displayDate}</h3>
+          <h3 className="text-lg font-semibold text-text-primary">{displayDate}</h3>
           <div className="flex flex-wrap gap-2" role="group" aria-label="Journal content mode">
             <button
               onClick={() => setEditorMode('focus')}
               aria-pressed={editorMode === 'focus'}
-              className={`rounded px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${editorMode === 'focus' ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary'}`}
+              className={`rounded px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${editorMode === 'focus' ? 'bg-inverse text-on-inverse' : 'bg-subtle text-text-primary'}`}
             >
               Focus
             </button>
             <button
               onClick={() => setEditorMode('live-preview')}
               aria-pressed={editorMode === 'live-preview'}
-              className={`rounded px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${editorMode === 'live-preview' ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary'}`}
+              className={`rounded px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${editorMode === 'live-preview' ? 'bg-inverse text-on-inverse' : 'bg-subtle text-text-primary'}`}
             >
               Live preview
             </button>
             <button
               onClick={() => setEditorMode('reading')}
               aria-pressed={editorMode === 'reading'}
-              className={`rounded px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${editorMode === 'reading' ? 'bg-inverse text-on-inverse' : 'bg-surface-muted text-text-primary'}`}
+              className={`rounded px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${editorMode === 'reading' ? 'bg-inverse text-on-inverse' : 'bg-subtle text-text-primary'}`}
             >
               Reading view
             </button>
@@ -1079,7 +1079,7 @@ function JournalDayView({
         <div className={editorMode === 'live-preview' ? 'grid gap-4 lg:grid-cols-2' : undefined}>
           {showsEditor ? (
             <div>
-            <label className="mb-2 block text-sm font-medium text-text-strong" htmlFor="journal-entry-content">
+            <label className="mb-2 block text-sm font-medium text-text-primary" htmlFor="journal-entry-content">
               Journal entry (Markdown)
             </label>
             <textarea
@@ -1089,7 +1089,7 @@ function JournalDayView({
               onChange={(event) => setUnsavedDraft(event.target.value)}
               onPointerUp={saveEditorHeight}
               placeholder="Write your journal entry here in Markdown..."
-              className="w-full min-h-48 resize-y rounded border border-border-subtle bg-surface-default p-4 font-mono text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent-strong"
+              className="w-full min-h-48 resize-y rounded border border-border-subtle bg-subtle p-4 font-mono text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-ring"
               disabled={isSaving}
               style={{ height: `${editorHeight}px` }}
             />
@@ -1098,7 +1098,7 @@ function JournalDayView({
           {showsViewer ? (
             <div>
               {editorMode === 'live-preview' ? (
-                <p className="mb-2 text-sm font-medium text-text-strong">Live preview</p>
+                <p className="mb-2 text-sm font-medium text-text-primary">Live preview</p>
               ) : null}
               <MarkdownViewer
                 value={content}
@@ -1118,7 +1118,7 @@ function JournalDayView({
           <button
             onClick={() => onSave(content)}
             disabled={isSaving || !canSave}
-            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${canSave && !isSaving ? 'bg-inverse text-on-inverse hover:bg-inverse-subtle-light cursor-pointer' : 'bg-surface-muted text-text-muted cursor-not-allowed opacity-50'}`}
+            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${canSave && !isSaving ? 'bg-inverse text-on-inverse hover:bg-inverse-subtle-light cursor-pointer' : 'bg-subtle text-text-muted cursor-not-allowed opacity-50'}`}
           >
             {isSaving ? 'Saving...' : 'Save'}
           </button>
@@ -1130,7 +1130,7 @@ function JournalDayView({
           <button
             onClick={onDownload}
             disabled={entries.length === 0}
-            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong ${entries.length > 0 ? 'bg-surface-muted text-text-primary hover:bg-surface-emphasis cursor-pointer' : 'bg-surface-muted text-text-muted cursor-not-allowed opacity-50'}`}
+            className={`px-4 py-2 rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${entries.length > 0 ? 'bg-subtle text-text-primary hover:bg-selected cursor-pointer' : 'bg-subtle text-text-muted cursor-not-allowed opacity-50'}`}
           >
             Download as Markdown
           </button>
@@ -1206,7 +1206,7 @@ function JournalWeekView({
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h3 className="text-lg font-semibold text-text-strong">
+        <h3 className="text-lg font-semibold text-text-primary">
           {formatWeekRangeForDisplay(weekStart)}
         </h3>
         <div className="flex flex-wrap gap-2" aria-label="Week navigation">

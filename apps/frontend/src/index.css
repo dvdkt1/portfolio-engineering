@@ -11,7 +11,6 @@
   font-weight: var(--typography-body-default-font-weight);
   line-height: var(--typography-body-default-line-height);
   letter-spacing: var(--typography-body-default-letter-spacing);
-  color-scheme: light;
   color: var(--color-text-primary);
   background: var(--color-bg-canvas);
   font-synthesis: none;
@@ -43,7 +42,7 @@ body {
 h1,
 h2 {
   margin: 0 0 0.75rem;
-  color: var(--color-text-strong);
+  color: var(--text-primary);
 }
 
 h1 {

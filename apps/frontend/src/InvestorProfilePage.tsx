@@ -164,7 +164,7 @@ export function InvestorProfilePage() {
             </div>
             <button
               type="button"
-              className="btn btn-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="btn btn-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               onClick={() => {
                 populateForm(profile)
                 setIsEditing(true)
@@ -246,7 +246,7 @@ export function InvestorProfilePage() {
             {profile && (
               <button
                 type="button"
-                className="btn btn-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="btn btn-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 onClick={() => setIsEditing(false)}
               >
                 Cancel
@@ -264,7 +264,7 @@ export function InvestorProfilePage() {
               <input
                 id="preferredName"
                 type="text"
-                className="input text-input w-full max-w-md focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="input text-input w-full max-w-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 placeholder="e.g. Alex"
                 value={preferredName}
                 onChange={(e) => setPreferredName(e.target.value)}
@@ -280,7 +280,7 @@ export function InvestorProfilePage() {
               </label>
               <select
                 id="experienceLevel"
-                className="input select-input w-full max-w-md focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="input select-input w-full max-w-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 value={experienceLevel}
                 onChange={(e) => setExperienceLevel(e.target.value as ExperienceLevel | '')}
               >
@@ -303,7 +303,7 @@ export function InvestorProfilePage() {
                       type="checkbox"
                       checked={portfolioContext.includes(opt.id)}
                       onChange={() => handlePortfolioContextToggle(opt.id)}
-                      className="accent-accent-strong focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                      className="accent-accent-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     />
                     <span>{opt.label}</span>
                   </label>
@@ -328,7 +328,7 @@ export function InvestorProfilePage() {
                     value={obj.id}
                     checked={primaryObjective === obj.id}
                     onChange={(e) => setPrimaryObjective(e.target.value)}
-                    className="mt-1 accent-accent-strong focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    className="mt-1 accent-accent-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   />
                   <div>
                     <span className="font-medium block">{obj.title}</span>
@@ -354,7 +354,7 @@ export function InvestorProfilePage() {
                       type="checkbox"
                       checked={strategyPresets.includes(strat.id)}
                       onChange={() => handleStrategyPresetToggle(strat.id)}
-                      className="mt-1 accent-accent-strong focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                      className="mt-1 accent-accent-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     />
                     <div>
                       <span className="font-medium block">{strat.title}</span>
@@ -372,7 +372,7 @@ export function InvestorProfilePage() {
                 </label>
                 <button
                   type="button"
-                  className="text-xs text-blue-600 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="text-xs text-blue-600 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   onClick={() => setShowStrategyPreview((prev) => !prev)}
                 >
                   {showStrategyPreview ? 'Edit' : 'Preview'}
@@ -387,7 +387,7 @@ export function InvestorProfilePage() {
                 <textarea
                   id="customStrategyDescription"
                   rows={4}
-                  className="input textarea-input w-full font-mono text-sm focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="input textarea-input w-full font-mono text-sm focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   placeholder="e.g. I sell deep ITM covered calls on high-conviction value stocks for downside protection, using a buy/write/decide overlay at expiration."
                   value={customStrategyDescription}
                   onChange={(e) => setCustomStrategyDescription(e.target.value)}
@@ -409,7 +409,7 @@ export function InvestorProfilePage() {
                 </label>
                 <button
                   type="button"
-                  className="text-xs text-blue-600 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="text-xs text-blue-600 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   onClick={() => setShowAiContextPreview((prev) => !prev)}
                 >
                   {showAiContextPreview ? 'Edit' : 'Preview'}
@@ -424,7 +424,7 @@ export function InvestorProfilePage() {
                 <textarea
                   id="freeformAiContext"
                   rows={4}
-                  className="input textarea-input w-full font-mono text-sm focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="input textarea-input w-full font-mono text-sm focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   placeholder="e.g. This is a tax-advantaged Roth IRA account. I never use margin or leverage. My main focus this quarter is keeping position size under 15%."
                   value={freeformAiContext}
                   onChange={(e) => setFreeformAiContext(e.target.value)}
@@ -439,7 +439,7 @@ export function InvestorProfilePage() {
           <div className="pt-4 border-t flex justify-end space-x-3">
             <button
               type="submit"
-              className="btn btn-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="btn btn-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               disabled={saving}
             >
               {saving ? 'Saving...' : 'Save Investor Profile'}

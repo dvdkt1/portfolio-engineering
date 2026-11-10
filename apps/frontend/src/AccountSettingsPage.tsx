@@ -158,11 +158,11 @@ export const AccountSettingsPage: React.FC<AccountSettingsPageProps> = ({
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <p className="text-xs text-text-muted">Display Name</p>
-              <p className="text-base font-semibold text-text-strong">{currentProfile.displayName}</p>
+              <p className="text-base font-semibold text-text-primary">{currentProfile.displayName}</p>
             </div>
             <div>
               <p className="text-xs text-text-muted">Email Address</p>
-              <p className="text-base font-semibold text-text-strong">
+              <p className="text-base font-semibold text-text-primary">
                 {currentProfile.email || '(Local profile)'}
               </p>
             </div>

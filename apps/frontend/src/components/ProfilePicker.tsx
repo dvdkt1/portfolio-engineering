@@ -154,10 +154,10 @@ export const ProfilePicker: React.FC<ProfilePickerProps> = ({
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-surface-muted p-4 sm:p-6 lg:p-8">
+    <div className="flex min-h-screen items-center justify-center bg-bg-canvas p-4 sm:p-6 lg:p-8">
       <Card className="w-full max-w-xl shadow-lg">
         <CardHeader className="text-center space-y-1">
-          <CardTitle className="text-2xl font-bold text-text-strong">
+          <CardTitle className="text-2xl font-bold text-text-primary">
             Who is using Portfolio Engineering?
           </CardTitle>
           <CardDescription>
@@ -197,7 +197,7 @@ export const ProfilePicker: React.FC<ProfilePickerProps> = ({
                     type="button"
                     onClick={() => handleSelect(profile.id)}
                     disabled={selectingId !== null}
-                    className="flex w-full flex-col items-start focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50"
+                    className="flex w-full flex-col items-start focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50"
                   >
                     <div className="flex w-full items-center justify-between">
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-action-primary/10 text-action-primary font-semibold text-lg group-hover:bg-action-primary group-hover:text-white transition-colors">
@@ -274,7 +274,7 @@ export const ProfilePicker: React.FC<ProfilePickerProps> = ({
             <div className="space-y-1">
               <label
                 htmlFor="displayName"
-                className="text-xs font-medium text-text-strong"
+                className="text-xs font-medium text-text-primary"
               >
                 Display Name <span className="text-state-error">*</span>
               </label>
@@ -291,7 +291,7 @@ export const ProfilePicker: React.FC<ProfilePickerProps> = ({
             <div className="space-y-1">
               <label
                 htmlFor="email"
-                className="text-xs font-medium text-text-strong"
+                className="text-xs font-medium text-text-primary"
               >
                 Email Address <span className="text-text-muted">(Optional)</span>
               </label>

@@ -52,7 +52,7 @@ function ConnectionRow({
       : null
 
   return (
-    <li className="grid gap-3 rounded border border-border-subtle bg-surface-default p-4">
+    <li className="grid gap-3 rounded border border-border-subtle bg-subtle p-4">
       <div>
         <h4>{connection.label}</h4>
         <p className="text-sm text-text-muted">

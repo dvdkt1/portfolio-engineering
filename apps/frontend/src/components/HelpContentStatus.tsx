@@ -18,7 +18,7 @@ export function HelpContentStatus({ metadata, status }: HelpContentStatusProps) 
         : 'Help content availability is limited.'
 
   return (
-    <p role="status" className="rounded-md border border-border-subtle bg-surface-muted p-3 text-sm text-text-muted">
+    <p role="status" className="rounded-md border border-border-subtle bg-subtle p-3 text-sm text-text-muted">
       {message}
     </p>
   )

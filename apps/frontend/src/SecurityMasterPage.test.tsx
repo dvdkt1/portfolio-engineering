@@ -23,7 +23,7 @@ test('Security Master list heading uses a compact page-title size', () => {
 })
 
 test('Security Master result rows have a subtle hover highlight', () => {
-  assert.match(pageSource, /<tr key=\{item\.id\} className="border-b border-border-subtle transition-colors hover:bg-surface-muted">/)
+  assert.match(pageSource, /<tr key=\{item\.id\} className="border-b border-border-subtle transition-colors hover:bg-selected">/)
 })
 
 test('Security Master filters align in one desktop row and Exchange uses a dropdown', () => {
@@ -66,7 +66,7 @@ test('Security detail uses label/value columns, bold labels, preserves descripti
   assert.match(pageSource, /<Detail label="Description" value=\{record\.description\} preserveWhitespace \/>/)
   assert.match(pageSource, /whitespace-pre-wrap break-words/)
   assert.match(pageSource, /<dt className="text-sm font-semibold text-text-primary">/)
-  assert.match(pageSource, /<div className="grid grid-cols-\[minmax\(6rem,7rem\)_minmax\(0,1fr\)\] items-start gap-x-3 rounded-md px-3 py-2 transition-colors hover:bg-surface-muted sm:grid-cols-\[8rem_minmax\(0,1fr\)\]">/)
+  assert.match(pageSource, /<div className="grid grid-cols-\[minmax\(6rem,7rem\)_minmax\(0,1fr\)\] items-start gap-x-3 rounded-md px-3 py-2 transition-colors hover:bg-selected sm:grid-cols-\[8rem_minmax\(0,1fr\)\]">/)
   assert.match(pageSource, /<dt className="text-sm font-semibold text-text-primary">\{label\}<\/dt>\s*<dd/)
   assert.doesNotMatch(pageSource, /fullWidth|md:col-span-2/)
 

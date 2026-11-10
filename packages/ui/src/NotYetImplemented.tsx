@@ -63,7 +63,7 @@ export function NotYetImplemented({
                 target="_blank"
                 rel="noopener noreferrer"
                 title={link.title}
-                className="inline-flex items-center gap-2 rounded px-2 py-1 text-sm text-text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="inline-flex items-center gap-2 rounded px-2 py-1 text-sm text-text-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 {link.label}
                 <span aria-hidden="true">→</span>

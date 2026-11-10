@@ -23,7 +23,7 @@ export function MarkdownViewer({
       <div
         role="region"
         {...accessibleNameProps}
-        className="min-h-48 overflow-x-auto break-words rounded border border-border-subtle bg-surface-muted p-4 text-sm text-text-muted"
+        className="min-h-48 overflow-x-auto break-words rounded border border-border-subtle bg-subtle p-4 text-sm text-text-muted"
       >
         {emptyMessage}
       </div>

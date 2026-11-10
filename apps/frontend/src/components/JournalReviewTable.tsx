@@ -76,8 +76,8 @@ export function JournalReviewTable({
       <div className="overflow-x-auto rounded-lg border border-border-subtle">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border-subtle bg-surface-muted">
-              <th className="w-12 px-4 py-3 text-left font-semibold text-text-strong">
+            <tr className="border-b border-border-subtle bg-subtle">
+              <th className="w-12 px-4 py-3 text-left font-semibold text-text-primary">
                 <input
                   ref={selectAllCheckboxRef}
                   type="checkbox"
@@ -90,12 +90,12 @@ export function JournalReviewTable({
                       : allVisibleEntriesSelected
                   }
                   aria-label={`Select all entries in this ${scope}`}
-                  className="h-4 w-4 accent-action-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2"
+                  className="h-4 w-4 accent-action-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 />
               </th>
-              <th className="px-4 py-3 text-left font-semibold text-text-strong">Date</th>
-              <th className="px-4 py-3 text-left font-semibold text-text-strong">Entry Preview</th>
-              <th className="px-4 py-3 text-left font-semibold text-text-strong">Actions</th>
+              <th className="px-4 py-3 text-left font-semibold text-text-primary">Date</th>
+              <th className="px-4 py-3 text-left font-semibold text-text-primary">Entry Preview</th>
+              <th className="px-4 py-3 text-left font-semibold text-text-primary">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -103,7 +103,7 @@ export function JournalReviewTable({
               entries.map((entry) => (
                 <tr
                   key={entry.id}
-                  className="border-b border-border-subtle transition-colors hover:bg-surface-emphasis"
+                  className="border-b border-border-subtle transition-colors hover:bg-selected"
                 >
                   <td className="px-4 py-3">
                     <input
@@ -112,7 +112,7 @@ export function JournalReviewTable({
                       onChange={() => toggleEntry(entry.localDate)}
                       disabled={isExportingSelection}
                       aria-label={`Select entry for ${formatDateForDisplay(entry.localDate)}`}
-                      className="h-4 w-4 accent-action-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2"
+                      className="h-4 w-4 accent-action-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     />
                   </td>
                   <td className="px-4 py-3 text-text-primary">

@@ -19,7 +19,7 @@ export const ConfigurationErrorPanel: React.FC<ConfigurationErrorPanelProps> = (
   instructions = DEFAULT_INSTRUCTIONS,
 }) => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-surface-muted p-4 sm:p-6 lg:p-8">
+    <div className="flex min-h-screen items-center justify-center bg-bg-canvas p-4 sm:p-6 lg:p-8">
       <Card className="w-full max-w-2xl border-state-error/30 shadow-lg">
         <CardHeader className="space-y-2">
           <div className="flex items-center space-x-3">

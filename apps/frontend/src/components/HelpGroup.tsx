@@ -8,8 +8,8 @@ interface HelpGroupProps {
 
 export function HelpGroup({ name, entries }: HelpGroupProps) {
   return (
-    <section aria-labelledby={`help-group-${name.toLowerCase()}`} className="rounded-lg border border-border-subtle bg-surface-muted p-4">
-      <h2 id={`help-group-${name.toLowerCase()}`} className="text-lg font-semibold text-text-strong">
+    <section aria-labelledby={`help-group-${name.toLowerCase()}`} className="rounded-lg border border-border-subtle bg-subtle p-4">
+      <h2 id={`help-group-${name.toLowerCase()}`} className="text-lg font-semibold text-text-primary">
         {name}
       </h2>
       {entries.length === 0 ? (

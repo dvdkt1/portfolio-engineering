@@ -348,7 +348,7 @@ export const JournalAnalysisPanel = forwardRef<
       <CardContent className="space-y-4">
         <p
           id="journal-analysis-disclaimer"
-          className="rounded-md border border-state-warning/50 bg-surface-muted p-3 text-sm text-text-primary"
+          className="rounded-md border border-state-warning/50 bg-subtle p-3 text-sm text-text-primary"
         >
           {disclaimer}
         </p>
@@ -365,7 +365,7 @@ export const JournalAnalysisPanel = forwardRef<
         {hasUnsavedChanges ? (
           <p
             id="journal-analysis-unsaved-helper"
-            className="rounded-md border border-border-subtle bg-surface-muted p-3 text-sm text-text-muted"
+            className="rounded-md border border-border-subtle bg-subtle p-3 text-sm text-text-muted"
           >
             {unsavedHelperText}
           </p>
@@ -380,7 +380,7 @@ export const JournalAnalysisPanel = forwardRef<
           <div className="min-w-0">
             <label
               htmlFor="journal-analysis-connection"
-              className="mb-1 block text-sm font-medium text-text-strong"
+              className="mb-1 block text-sm font-medium text-text-primary"
             >
               AI connection
             </label>
@@ -479,7 +479,7 @@ export const JournalAnalysisPanel = forwardRef<
           aria-labelledby="journal-analysis-result-title"
           className="space-y-2"
         >
-          <h4 id="journal-analysis-result-title" className="text-sm font-semibold text-text-strong">
+          <h4 id="journal-analysis-result-title" className="text-sm font-semibold text-text-primary">
             Analysis result
           </h4>
           <MarkdownViewer

@@ -139,24 +139,24 @@ export const DeleteProfileDialog: React.FC<DeleteProfileDialogProps> = ({
               </AlertDescription>
             </Alert>
 
-            <div className="rounded-md border border-border-subtle bg-surface-muted p-3 text-sm space-y-1">
+            <div className="rounded-md border border-border-subtle bg-subtle p-3 text-sm space-y-1">
               <div className="flex justify-between">
                 <span className="text-text-muted">Display Name:</span>
-                <span className="font-medium text-text-strong">{profile.displayName}</span>
+                <span className="font-medium text-text-primary">{profile.displayName}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-text-muted">Email:</span>
-                <span className="font-medium text-text-strong">{profile.email}</span>
+                <span className="font-medium text-text-primary">{profile.email}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-text-muted">Journal Entries:</span>
-                <span className="font-medium text-text-strong">
+                <span className="font-medium text-text-primary">
                   {profile.journalEntryCount ?? 0} entries
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-text-muted">Investor Profile:</span>
-                <span className="font-medium text-text-strong">
+                <span className="font-medium text-text-primary">
                   {profile.hasInvestorProfile ? 'Configured' : 'Not configured'}
                 </span>
               </div>
@@ -170,7 +170,7 @@ export const DeleteProfileDialog: React.FC<DeleteProfileDialogProps> = ({
             <div className="space-y-2">
               <label
                 htmlFor="confirm-delete-input"
-                className="text-sm font-medium text-text-strong"
+                className="text-sm font-medium text-text-primary"
               >
                 Type &quot;{profile.displayName}&quot; or &quot;{profile.email}&quot; to confirm:
               </label>
