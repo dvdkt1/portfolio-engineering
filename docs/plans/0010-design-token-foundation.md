@@ -12,8 +12,8 @@ Executing agents keep this block current. It is the entry point for any agent re
 - Current effort: E-05
 - Completed efforts: E-01, E-02, E-03, E-04
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-05.2 Pathfinder (pending; not started)
-- Last updated: 2026-11-10
+- Next recommended task: T-05.3 Warm / Orchid (pending; not started)
+- Last updated: 2026-11-16
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
@@ -21,7 +21,7 @@ Executing agents keep this block current. It is the entry point for any agent re
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 5 | done |
 | E-04 | Remove hard-coded visual values from shared layers | 7 | 6 | done |
-| E-05 | Remaining four themes | 4 | 1 | in-progress |
+| E-05 | Remaining four themes | 4 | 2 | in-progress |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
 | E-07 | Theme selection and persistence (deferred) | 4 | 0 | blocked |
 
@@ -488,15 +488,16 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-05.2: Pathfinder theme
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-05.1
 - **Files:**
   - `apps/frontend/src/styles/themes.css` (modified)
+  - `apps/frontend/src/styles/tokens.test.ts` (modified)
 - **Intent:** Add `[data-theme="pathfinder"]`.
 - **ADRs:** as T-05.1
 - **Verify:** as T-05.1
-- **Notes:**
+- **Notes:** 2026-11-10: implemented all 29 exported Pathfinder semantic colors under the approved `pathfinder` slug using `design-tokens.json`, preserving icon references as canonical CSS aliases and the exact exported scrim alpha. Included the same four approved compatibility aliases as Light/Dark (`color-text-primary`, `color-text-muted`, `color-bg-canvas`, `color-border-subtle`) so legacy consumers resolve Pathfinder values. Shared elevation, typography, spacing, dimensions, routing, component behavior and unmatched legacy roles are unchanged; no theme-specific component branches or later-theme work. Extended the existing runtime contract checks through a shared Dark/Pathfinder test loop to verify exact export values, variable-set parity and approved aliases while preserving Dark's approved native mode. Pathfinder has no theme-specific `color-scheme`; default Light browser scheme remains effective. User-confirmed final verification on 2026-11-16: frontend `git diff --check`, tests, typecheck, lint and production build pass; browser QA passes across representative routes/shared controls, focus/hover/selected/disabled states and 375px/1280px geometry. Native controls and scrollbar render appropriately with the existing Light/default scheme. T-05.2 is done; E-05 is 2/4 complete. T-05.3 is next and remains pending.
 
 ### T-05.3: Warm / Orchid theme
 
@@ -619,6 +620,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 | ID | Item | Impact | Owning agent | Blocks |
 | --- | --- | --- | --- | --- |
+| R-30 | Pathfinder runtime is implemented but this environment has no command/browser execution tools. Native color-scheme remains undecided. | Run token/frontend tests, typecheck, lint, build and baseline browser checks including native controls/scrollbars before closing T-05.2; do not infer a native mode from the palette. | frontend coding / user | T-05.2 |
 | R-29 | User-supplied Button 455:49 and settings 539:1232 / 539:1300 definitions resolve shared Button states and the overview surface. Generic hero treatment still lacks a matching reference. | Button and overview corrections applied; retain generic hero gradient pending its reference. Fresh automated/generated-CSS/browser verification remains required before closing T-05.1. | uxd / frontend coding | T-05.1 |
 | R-1 | Figma MCP was unavailable, but the user supplied direct exports and T-01.1 is complete. | No longer blocks inventory. Export limitations are captured separately in R-10. | uxd | resolved 2026-10-13 |
 | R-2 | No spec exists; plan created under user override. Theme selection/persistence needs a spec. | E-07 cannot be planned concretely; plan/spec number pairing. | business-requirements | T-07.1–T-07.4 |

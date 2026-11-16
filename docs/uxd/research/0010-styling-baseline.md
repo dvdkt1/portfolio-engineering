@@ -194,6 +194,18 @@ The exact legacy-variable mapping and candidate status are recorded in `existing
 
 ## Verification and task disposition
 
+### T-05.2 Pathfinder verification complete (2026-11-16)
+
+User confirms frontend `git diff --check`, tests, typecheck, lint and production build pass. Browser QA passes with `data-theme="pathfinder"` across representative routes and shared controls, including focus, hover, selected and disabled states at 375px and 1280px. Native controls and scrollbar render appropriately using the existing Light/default browser color scheme; Pathfinder retains no theme-specific `color-scheme`. T-05.2 is done; E-05 is 2/4 complete. T-05.3 Warm / Orchid is next but remains pending and has not started.
+
+### T-05.2 Pathfinder implementation (2026-11-10)
+
+Added `[data-theme="pathfinder"]` to `themes.css` with all 29 canonical colors from the Pathfinder entry in [the exported inventory](../flows/design-tokens.json). Icon references remain aliases to the corresponding text properties; the scrim uses the exact exported alpha. Included only the four established compatibility aliases (`--color-text-primary` to `--text-primary`, `--color-text-muted` to `--text-muted`, `--color-bg-canvas` to `--bg-page`, `--color-border-subtle` to `--border-subtle`), matching the existing themes. No component, layout, spacing, routing, shared elevation or unmatched legacy-role changes.
+
+The runtime contract test now checks Dark / Orchid and Pathfinder through the same export/variable-set/alias assertions. It preserves the approved Dark native mode and requires Pathfinder's color-scheme declaration to remain absent. Default Light native mode is currently effective for Pathfinder; that is not a confirmed Pathfinder native-mode decision. Browser-owned native controls and scrollbars must be checked separately before setting a mode.
+
+Automated/browser tools are unavailable here. Verification pending: `git diff --check`, frontend tests (including the token contract), typecheck, lint and production build. Set the root `data-theme` to `pathfinder` manually; inspect representative baseline routes (Dashboard, Help/Markdown, Journal, profile/settings, Your AI and Security Master), Button default/hover/focus/disabled states, Input/Select/Textarea/Card/Dialog, HelpTooltip, selected navigation and keyboard focus. Verify text/caret/selection readability, dialog scrim and focus behavior, native controls and scrollbars separately, preserved interactions and geometry at 375px/1280px, and Light/Dark regression spot-checks. T-05.2 remains incomplete pending verification; E-05 remains 1/4 complete. Warm / Orchid, High Contrast and theme switching have not started.
+
 ### T-05.1 final verification complete (2026-11-10)
 
 The user confirms frontend tests, typecheck, lint and production build pass on the current implementation. Final Dark / Orchid browser QA passes after the `color-scheme: dark` correction, including the browser-native scrollbar and native controls, as well as app-authored surfaces, text, navigation, Button states and focus/hover states. This supersedes the pending verification recorded below. T-05.1 is complete; E-05 is 1/4 complete. T-05.2 Pathfinder is the next recommended task but remains pending and has not started. No application changes were made for this completion update.
