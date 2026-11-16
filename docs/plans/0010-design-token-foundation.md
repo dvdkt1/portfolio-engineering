@@ -12,7 +12,7 @@ Executing agents keep this block current. It is the entry point for any agent re
 - Current effort: E-05
 - Completed efforts: E-01, E-02, E-03, E-04
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-05.3 Warm / Orchid (pending; not started)
+- Next recommended task: T-05.4 High Contrast theme and forced-colors support (implementation in progress; verification pending)
 - Last updated: 2026-11-16
 
 | Effort | Title | Tasks | Done | Status |
@@ -21,7 +21,7 @@ Executing agents keep this block current. It is the entry point for any agent re
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 5 | done |
 | E-04 | Remove hard-coded visual values from shared layers | 7 | 6 | done |
-| E-05 | Remaining four themes | 4 | 2 | in-progress |
+| E-05 | Remaining four themes | 4 | 3 | in-progress |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
 | E-07 | Theme selection and persistence (deferred) | 4 | 0 | blocked |
 
@@ -501,27 +501,33 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-05.3: Warm / Orchid theme
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-05.1
 - **Files:**
   - `apps/frontend/src/styles/themes.css` (modified)
+  - `apps/frontend/src/styles/tokens.test.ts` (modified)
 - **Intent:** Add `[data-theme="warm-orchid"]`.
 - **ADRs:** as T-05.1
 - **Verify:** as T-05.1
-- **Notes:**
+- **Notes:** 2026-11-16: implemented the complete Warm / Orchid runtime block under `data-theme="warm-orchid"` from `design-tokens.json`, preserving all 29 exported semantic values, exact scrim alpha, icon aliases, and the same four approved compatibility aliases. Extended the contract loop to verify exact runtime/export values, token-set parity, aliases, and no theme-specific `color-scheme`. Shared elevation and all layout/spacing/routing/component behavior are unchanged; no theme-specific component branches or T-05.4 work. Automated/browser verification remains pending; inspect native controls and scrollbar before any color-scheme decision. Do not mark done or begin T-05.4 until verification passes.
+  - 2026-11-16 Settings tab hover/focus correction: audited `.settings-tabs` NavLinks. `--color-action-primary` is the legacy blue root value but is not referenced by the Settings navigation selectors. `.nav-link.active` and `.nav-link:focus-visible` already use `--accent-strong`; the hover border used the legacy `--color-border-subtle` compatibility alias. Added scoped Settings-tab hover/active/focus rules using `--bg-selected`, `--text-primary`, and `--accent-strong` for border/focus indicator. No solid accent fill, dimensions, layout, markup or routing changed. Added exact selector token assertions. Confirm Light, Dark / Orchid, Pathfinder and Warm / Orchid still resolve their own theme tokens; automated/browser checks are pending. Do not begin T-05.4.
+  - 2026-11-16 Help interaction correction: audited Help topic cards and topic-page links. The blue card hover border came from `hover:border-action-primary` (`--color-action-primary` legacy blue); no action-primary ring was present. Figma token metadata defines `border.subtle` for card edges but supplies no separate Help hover-border token, so the existing card edge remains `border.subtle`; `bg.selected` remains the hover surface. Help links now use `text.link`; all topic-page links have visible focus through `focus-visible:ring-ring` (accent.strong). No global action mapping, dimensions, markup, layout, routing or behavior changes. Added a contract test for absence of legacy action classes and required semantic hover/focus classes. Browser confirmation in Light, Dark / Orchid, Pathfinder and Warm / Orchid remains pending; do not begin T-05.4.
+
+  - 2026-11-16 final verification: user confirms automated checks pass and cross-theme Help interaction verification passes in Light, Dark / Orchid, Pathfinder and Warm / Orchid. Help topic-card hover border follows `border.subtle`, hover surface remains `bg.selected`, links use `text.link`, and focus-visible uses `ring-ring` / `accent.strong`. Warm / Orchid browser QA otherwise passes at 375px and 1280px, including native controls and scrollbar with the existing default scheme; no theme-specific color-scheme is added. These results supersede earlier pending verification notes. T-05.3 is done; E-05 is 3/4 complete. T-05.4 is next but remains pending and unstarted.
 
 ### T-05.4: High Contrast theme and forced-colors support
 
-- **Status:** pending
+- **Status:** in-progress
 - **Owner:** frontend coding
 - **Depends on:** T-05.1
 - **Files:**
   - `apps/frontend/src/styles/themes.css` (modified)
+  - `apps/frontend/src/styles/tokens.test.ts` (modified)
 - **Intent:** Add the exported High contrast color values under the approved runtime slug. The export does not specify different shadows or forced-colors behavior; retain shared elevation and assess forced-colors support as a separate accessibility implementation requirement rather than attributing it to Figma.
 - **ADRs:** as T-05.1
 - **Verify:** Contract test passes for only the explicit ratios recorded in T-01.1; focus remains visible using the exported accent guidance; any forced-colors behavior is reviewed separately and not represented as an exported requirement.
-- **Notes:**
+- **Notes:** 2026-11-16: implemented the complete High Contrast runtime block under `data-theme="high-contrast"` from `design-tokens.json`, preserving all 29 exported semantic values, exact scrim alpha, icon aliases, and the same four approved compatibility aliases. Extended the contract loop to validate exact runtime/export values, token-set parity, aliases, and no theme-specific `color-scheme`. Shared elevation and all layout/spacing/routing/component logic remain unchanged; no E-06 work or T-05.5 work started. Automated/browser verification remains pending; inspect native controls and scrollbar before deciding whether a native color-scheme value is appropriate. Do not advance to E-06 until verification passes.
 
 ---
 

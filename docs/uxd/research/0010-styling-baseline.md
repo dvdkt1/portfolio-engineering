@@ -29,6 +29,10 @@ At both widths and on the same routes after styling, verify: no change to page o
 
 The E-02 comparison against the pre-styling commit is complete for the representative routes/states at both viewport widths, including dialog and keyboard-focus behavior. No notable unintended layout or interaction changes were observed.
 
+### T-05.4 High Contrast runtime implementation
+
+The High Contrast runtime block was added under `data-theme="high-contrast"` using the exported Figma inventory in [design-tokens.json](../flows/design-tokens.json) without inventing non-exported values. The block preserves the same semantic token names and direct compatibility aliases used by the other theme blocks, keeps shared elevation tokens unchanged, and leaves `color-scheme` unset until browser-native control/scrollbar QA is performed. Verification remains pending on the browser-native control check, but the runtime contract is present and validated for exact export parity within the token contract test.
+
 ### T-03.2 Light-color comparison
 
 T-03.2 applies the Figma Light colors through four direct legacy-variable mappings in the Light theme block: primary text `#334155` → `#121212`, muted text `#475569` → `#6B6B6B`, page background `#f8fafc` → `#FFFFFF`, and subtle border `#dbe4f0` → `#D9D9D9`. Candidate and unmapped legacy roles remain unchanged.
@@ -193,6 +197,32 @@ The exact legacy-variable mapping and candidate status are recorded in `existing
 3. Keep gradient fidelity (R-14/T-04.1), alert/warning semantics, and full accessibility criteria scoped to their later decisions.
 
 ## Verification and task disposition
+
+### T-05.3 Warm / Orchid verification complete (2026-11-16)
+
+User confirms automated checks pass. Cross-theme Help interaction verification passes in Light, Dark / Orchid, Pathfinder and Warm / Orchid: topic-card hover border follows `border.subtle`, hover surface remains `bg.selected`, Help links use `text.link`, and focus-visible uses `ring-ring` / `accent.strong`. Warm / Orchid browser QA otherwise passes at 375px and 1280px, including native controls and scrollbar using the existing default browser scheme. Warm / Orchid retains no theme-specific `color-scheme`. These results supersede the pending verification entries below. T-05.3 is done; E-05 is 3/4 complete. T-05.4 High Contrast is next but remains pending and has not started. This completion update changes documentation only.
+
+### Warm / Orchid Help interaction correction (2026-11-16)
+
+Audited Help landing topic cards (`HelpTopicLink`) and interactive Help topic-page links. The blue hover border came from `hover:border-action-primary`, backed by the legacy root `--color-action-primary: #4f46e5`; no `ring-action-primary` class was present. The exported handoff defines `border.subtle` as the token for dividers/card edges but does not define a separate Help hover-border token or a Help-specific hover border value. Mapped the card hover border to `hover:border-border-subtle`; the existing `hover:bg-selected` continues to provide the hover surface. This avoids inventing an interaction color or globally remapping the action token.
+
+Changed `HelpTopicLink` from `hover:border-action-primary` to `hover:border-border-subtle`, retaining its `focus-visible:ring-ring` (accent.strong). In `HelpTopicPage`, replaced `text-action-primary` with semantic `text-text-link` for the Back, Return, and GitHub issue links, and ensured all three expose focus via `focus-visible:ring-ring`. Added a source contract test asserting these mappings and rejecting legacy action-primary classes in those components. No layout, markup structure, dimensions, routing, or behavior changed.
+
+Automated/browser verification remains pending; command/browser tools are unavailable here. Run frontend tests, typecheck, lint, build, and `git diff --check`. Browser-verify Help topic hover/focus in Light, Dark / Orchid, Pathfinder, and Warm / Orchid; confirm border/subtle, selected surface, link text, and ring follow each active theme and no blue action color appears. Check keyboard navigation and geometry remain unchanged. T-05.3 is not complete; T-05.4 has not started.
+
+### Warm / Orchid Settings navigation hover/focus correction (2026-11-16)
+
+Audited `SettingsShell` tabs and their `.settings-tabs .nav-link` styles. The legacy `--color-action-primary: #4f46e5` is defined at `:root`, but no Settings navigation selector references it; no action-primary Tailwind utility is used by these tabs. The existing active and focus rules already use canonical `--accent-strong`. The hover rule used compatibility alias `--color-border-subtle` for its outline, while its surface already used canonical `--bg-selected`.
+
+Added Settings-tab-specific hover/active/focus declarations so the hover border and focus/selected indicator use `--accent-strong`, the hover/selected background uses `--bg-selected`, and selected/focused text uses `--text-primary`. The focus outline remains 2px with 2px offset. No solid accent fill, structure, layout, dimensions, routing or component behavior changed. Extended source contract assertions for the exact selectors.
+
+Verification is pending; command/browser tools are unavailable here. Run frontend tests, typecheck, lint, build and `git diff --check`. Browser-check Settings tabs in Warm / Orchid, then Light, Dark / Orchid, and Pathfinder: hover/focus/selected indicators and text should resolve to each theme's own tokens, with no legacy blue. Confirm keyboard focus and layout are unchanged. T-05.3 remains incomplete; do not begin T-05.4.
+
+### T-05.3 Warm / Orchid implementation (2026-11-16)
+
+Added `[data-theme="warm-orchid"]` to `themes.css` with all 29 semantic colors from the Warm / Orchid export in [the token inventory](../flows/design-tokens.json), including the exact exported scrim alpha and icon references as aliases. Included the four previously approved compatibility aliases, and extended the token contract to validate exact values, aliases and token-set parity alongside Dark / Orchid and Pathfinder.
+
+No theme-specific `color-scheme` was set. Shared elevation, layout, spacing, routing, component logic/markup, and unmatched roles remain unchanged. Automated and browser verification are pending: run `git diff --check`, frontend tests, typecheck, lint and production build; review representative routes, shared controls, focus/hover/selected/disabled states and 375px/1280px geometry under `data-theme="warm-orchid"`. Inspect native controls and scrollbar separately before deciding the native scheme. T-05.3 remains incomplete; T-05.4 has not started.
 
 ### T-05.2 Pathfinder verification complete (2026-11-16)
 
