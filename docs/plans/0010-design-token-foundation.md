@@ -9,11 +9,11 @@
 
 Executing agents keep this block current. It is the entry point for any agent resuming this plan.
 
-- Current effort: E-05
-- Completed efforts: E-01, E-02, E-03, E-04
+- Current effort: E-06
+- Completed efforts: E-01, E-02, E-03, E-04, E-05
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-05.4 High Contrast theme and forced-colors support (implementation in progress; verification pending)
-- Last updated: 2026-11-16
+- Next recommended task: T-06.1 Cross-theme accessibility pass (pending; not started)
+- Last updated: 2026-11-23
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
@@ -21,7 +21,7 @@ Executing agents keep this block current. It is the entry point for any agent re
 | E-02 | Token layer structure (no visual change) | 4 | 4 | done |
 | E-03 | Light theme, typography, radius, elevation values | 5 | 5 | done |
 | E-04 | Remove hard-coded visual values from shared layers | 7 | 6 | done |
-| E-05 | Remaining four themes | 4 | 3 | in-progress |
+| E-05 | Remaining four themes | 4 | 4 | done |
 | E-06 | Accessibility verification and drift review | 2 | 0 | pending |
 | E-07 | Theme selection and persistence (deferred) | 4 | 0 | blocked |
 
@@ -518,7 +518,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-05.4: High Contrast theme and forced-colors support
 
-- **Status:** in-progress
+- **Status:** done
 - **Owner:** frontend coding
 - **Depends on:** T-05.1
 - **Files:**
@@ -527,7 +527,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 - **Intent:** Add the exported High contrast color values under the approved runtime slug. The export does not specify different shadows or forced-colors behavior; retain shared elevation and assess forced-colors support as a separate accessibility implementation requirement rather than attributing it to Figma.
 - **ADRs:** as T-05.1
 - **Verify:** Contract test passes for only the explicit ratios recorded in T-01.1; focus remains visible using the exported accent guidance; any forced-colors behavior is reviewed separately and not represented as an exported requirement.
-- **Notes:** 2026-11-16: implemented the complete High Contrast runtime block under `data-theme="high-contrast"` from `design-tokens.json`, preserving all 29 exported semantic values, exact scrim alpha, icon aliases, and the same four approved compatibility aliases. Extended the contract loop to validate exact runtime/export values, token-set parity, aliases, and no theme-specific `color-scheme`. Shared elevation and all layout/spacing/routing/component logic remain unchanged; no E-06 work or T-05.5 work started. Automated/browser verification remains pending; inspect native controls and scrollbar before deciding whether a native color-scheme value is appropriate. Do not advance to E-06 until verification passes.
+- **Notes:** 2026-11-16: implemented the complete High Contrast runtime block under `data-theme="high-contrast"` from `design-tokens.json`, preserving all 29 exported semantic values, exact scrim alpha, icon aliases, and the same four approved compatibility aliases. Extended the contract loop to validate exact runtime/export values, token-set parity, aliases, and no theme-specific `color-scheme`. Shared elevation and all layout/spacing/routing/component logic remain unchanged. On 2026-11-23, the user confirmed automated checks pass and browser QA passes at 375px and 1280px across representative routes, shared controls, hover/focus/selected/disabled states, native controls, and scrollbar behavior. T-05.4 is done; E-05 is complete at 4/4 themes. E-06 is next and remains pending; no E-06 work started.
 
 ---
 

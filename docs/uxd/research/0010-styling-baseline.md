@@ -31,7 +31,7 @@ The E-02 comparison against the pre-styling commit is complete for the represent
 
 ### T-05.4 High Contrast runtime implementation
 
-The High Contrast runtime block was added under `data-theme="high-contrast"` using the exported Figma inventory in [design-tokens.json](../flows/design-tokens.json) without inventing non-exported values. The block preserves the same semantic token names and direct compatibility aliases used by the other theme blocks, keeps shared elevation tokens unchanged, and leaves `color-scheme` unset until browser-native control/scrollbar QA is performed. Verification remains pending on the browser-native control check, but the runtime contract is present and validated for exact export parity within the token contract test.
+The High Contrast runtime block was added under `data-theme="high-contrast"` using the exported Figma inventory in [design-tokens.json](../flows/design-tokens.json) without inventing non-exported values. The block preserves the same semantic token names and direct compatibility aliases used by the other theme blocks and keeps shared elevation tokens unchanged. On 2026-11-23, the user confirmed automated checks pass and browser QA passes at 375px and 1280px across representative routes, shared controls, hover/focus/selected/disabled states, native controls, and scrollbar behavior. No theme-specific `color-scheme` was added. T-05.4 is verified complete; E-05 is complete at 4/4 themes. E-06 cross-theme accessibility and drift review is next and has not started.
 
 ### T-03.2 Light-color comparison
 
