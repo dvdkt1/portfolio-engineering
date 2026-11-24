@@ -31,7 +31,42 @@ The E-02 comparison against the pre-styling commit is complete for the represent
 
 ### T-05.4 High Contrast runtime implementation
 
-The High Contrast runtime block was added under `data-theme="high-contrast"` using the exported Figma inventory in [design-tokens.json](../flows/design-tokens.json) without inventing non-exported values. The block preserves the same semantic token names and direct compatibility aliases used by the other theme blocks and keeps shared elevation tokens unchanged. On 2026-11-23, the user confirmed automated checks pass and browser QA passes at 375px and 1280px across representative routes, shared controls, hover/focus/selected/disabled states, native controls, and scrollbar behavior. No theme-specific `color-scheme` was added. T-05.4 is verified complete; E-05 is complete at 4/4 themes. E-06 cross-theme accessibility and drift review is next and has not started.
+The High Contrast runtime block was added under `data-theme="high-contrast"` using the exported Figma inventory in [design-tokens.json](../flows/design-tokens.json) without inventing non-exported values. The block preserves the same semantic token names and direct compatibility aliases used by the other theme blocks and keeps shared elevation tokens unchanged. On 2026-11-23, the user confirmed automated checks pass and browser QA passes at 375px and 1280px across representative routes, shared controls, hover/focus/selected/disabled states, native controls, and scrollbar behavior. No theme-specific `color-scheme` was added. T-05.4 is verified complete; E-05 is complete at 4/4 themes. T-06.1 started on 2026-11-23; see its audit findings below.
+
+### T-06.1 Cross-theme accessibility audit (2026-11-23)
+
+This audit distinguishes the explicit requirements recorded in the supplied export metadata from broader accessibility criteria. It does not assert full WCAG conformance. Contrast ratios below were calculated from the exact exported sRGB hex values using relative luminance, with the Figma-described pairings and thresholds. Only those documented pairings are claimed as verified; this is not a full text/background matrix.
+
+| Theme | `text.primary` / `text.secondary` on `bg.highlight` (minimum; Figma ≥5:1) | Positive / negative status text on matching subtle chip (minimum; Figma ≥5:1) | `accent.strong` on page / subtle / selected (minimum; Figma ≥3:1) |
+| --- | ---: | ---: | ---: |
+| Light | 7.81:1 | 5.78:1 | 18.24:1 |
+| Dark / Orchid | 7.60:1 | 5.77:1 | 5.25:1 |
+| Pathfinder | 7.73:1 | 5.50:1 | 5.22:1 |
+| Warm / Orchid | 5.80:1 | 5.15:1 | 5.72:1 |
+| High Contrast | 12.47:1 | 8.22:1 | 9.85:1 |
+
+All explicit Figma pairings pass their stated 5:1 / 3:1 criteria in all five themes. The existing token contract test asserts 4.5:1 for the text/status pairs, reflecting the separate UXD clarification recorded in Plan 0010 R-18; that test threshold is weaker than the export descriptions. The exact exported values nevertheless pass the stricter 5:1 criteria in this audit. The contract test should not be described as asserting the export's 5:1 threshold.
+
+Source review confirms workspace primary navigation uses named `<nav>` landmarks and ordinary `NavLink` anchors, which are reachable with native Tab/Shift+Tab and activate with Enter; `.nav-link:focus-visible` specifies a 2px `accent.strong` outline. Shared Button uses a 2px `ring-ring` focus-visible ring, and Tailwind maps `ring` to `var(--accent-strong)`; Settings focus styling uses the same accent. The established focus treatment therefore consumes the theme token whose contrast passes the explicit 3:1 backgrounds above. Previous user-reported browser QA covered theme-specific visual focus/hover/selected/disabled states, including the 2026-11-23 High Contrast check. Keyboard traversal was not independently exercised in a browser during this audit.
+
+**T-06.3 correction and verification:** The root Settings controls are routed destinations, not an in-page tab widget. [SettingsShell.tsx](../../../apps/frontend/src/SettingsShell.tsx) now exposes them as ordinary links within the existing labelled navigation landmark, removes `tablist`/`tab` roles, and uses React Router `NavLink` current-destination semantics. Active links retain the existing `.nav-link.active` visual treatment; URLs, destinations, layout, focus CSS, and router history behavior are unchanged. Server-rendered assertions cover navigation semantics, current-link state, destinations, and nested Your AI current-section behavior. On 2026-11-23, the user confirmed automated checks pass and browser verification in all five themes at 375px and 1280px: Tab/Shift+Tab works, Enter activates destinations, current destination semantics are present, active styling is preserved, and focus-visible treatment is clear. The Settings semantics blocker is resolved; no arrow-key tab behavior was added.
+
+The shared Dialog is built on Radix Dialog primitives, with a tokenized scrim/surface and semantic title/description. On 2026-11-23, the user confirmed direct keyboard verification across all five themes: representative Dialog traversal and control focus are clear, and Enter/Escape behavior passes for the existing implementation.
+
+Connection states in the reviewed AI settings UI include text labels/group headings and status/error messages in addition to color. The current reviewed routes do not render investment gain/loss figures; the export's separate rule to pair gains with ▲/`+` and losses with ▼/`−` therefore has no current live data presentation to validate and remains a requirement for any future gain/loss UI.
+
+| Audit area | Finding |
+| --- | --- |
+| Export-documented contrast pairs | Pass for all five themes at the exact thresholds shown above. |
+| Theme focus token and visible focus styling | Source-confirmed; user-reported browser QA confirms clear visible focus in all five themes. |
+| Workspace navigation | Pass: user-reported Tab/Shift+Tab traversal, Enter activation, current-route styling, and visible focus in all five themes. |
+| Settings root sections | Pass: ordinary routed-link semantics and current destination state; automated checks and user-reported keyboard/focus/active-state browser verification pass across all themes at both viewport widths. |
+| Your AI Settings subnavigation | Uses native navigation links rather than tab roles; source structure is appropriate. |
+| Dialog | Pass: user-reported keyboard traversal and visible control focus in all five themes; Enter/Escape behavior works as expected. |
+| Non-color status/gain/loss cues | Connection state is text-labeled; no current gain/loss figures were found in reviewed routes. Figma sign/triangle pairing remains a future-surface requirement. |
+| Broader WCAG considerations | Not comprehensively evaluated; no overall conformance claim is made. |
+
+T-06.1 is complete based on the export-pair calculations and user-reported direct browser verification across all five themes. The Settings ARIA mismatch was resolved as routed navigation. No broader tab-widget or arrow-key behavior was added. This audit does not claim full WCAG conformance; E-06 governance drift review remains a separate, unstarted T-06.2 task.
 
 ### T-03.2 Light-color comparison
 
