@@ -66,7 +66,64 @@ Connection states in the reviewed AI settings UI include text labels/group headi
 | Non-color status/gain/loss cues | Connection state is text-labeled; no current gain/loss figures were found in reviewed routes. Figma sign/triangle pairing remains a future-surface requirement. |
 | Broader WCAG considerations | Not comprehensively evaluated; no overall conformance claim is made. |
 
-T-06.1 is complete based on the export-pair calculations and user-reported direct browser verification across all five themes. The Settings ARIA mismatch was resolved as routed navigation. No broader tab-widget or arrow-key behavior was added. This audit does not claim full WCAG conformance; E-06 governance drift review remains a separate, unstarted T-06.2 task.
+T-06.1 is complete based on the export-pair calculations and user-reported direct browser verification across all five themes. The Settings ARIA mismatch was resolved as routed navigation. No broader tab-widget or arrow-key behavior was added. This audit does not claim full WCAG conformance; T-06.2 is a separate governance review, completed on 2026-11-24 as documented below.
+
+### T-06.2 Governance and styling-drift review (2026-11-24, partial)
+
+Reviewed [ADR 0005](../../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md), [ADR 0018](../../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md), Plan 0010 migration notes/exceptions, `tokens.test.ts`, all five runtime blocks (as represented in `themes.css`), shared token definitions, `index.css`, `App.css`, and selected shared Button/Dialog, Settings, navigation, Investor Profile, Journal, and AI connection sources.
+
+**Concrete drift identified:** `App.css` still contains `.settings-tabs [role='tablist'] { margin: 0; }`. T-06.3 correctly removed the `tablist` role because these are routed links, so this selector no longer matches the current markup. It is an obsolete no-op styling rule; remove only this selector under focused task T-06.4, without adding replacement layout styling.
+
+**T-06.4 cleanup:** Removed the obsolete `.settings-tabs [role='tablist'] { margin: 0; }` rule from `App.css`, with no replacement rule. Source inspection confirms the Settings navigation in `SettingsShell.tsx` contains ordinary routed links and no `tablist` role, and `App.css` contains no remaining `[role='tablist']` selector. No other selector or styling changed. T-06.2 remains blocked pending the baseline diff and requested automated commands; T-06.2 was not resumed by this cleanup.
+
+Within the files reviewed, the five runtime themes use the same semantic token vocabulary and the contract-test source explicitly compares theme token sets and exact exported values. The test source also guards against `focus-visible:ring-accent-strong` / `focus:ring-accent-strong`, verifies the shared `ring` mapping, and enumerates current legacy surface/text utility exceptions. Current production CSS uses focus outlines/rings backed by `accent.strong`; the different CSS outline and Tailwind ring mechanisms are intentional implementations of that same token, not separate colors. No theme-specific component branch or routing/data/API logic change was identified in the limited source samples reviewed. This is not a substitute for the unrun tests or a repository-wide diff audit.
+
+Legacy raw/compatibility colors noted during this partial review—including informational/educational blue, generic success/error/warning states, the code surface, and the canvas decorative gradient—are previously documented unmapped exceptions. Their semantic roles are not established by Figma exports, so they are intentionally preserved rather than guessed. No duplicate runtime theme block or new competing styling system was apparent in the inspected sources. The contract test's parity assertion is source-inspected only; it was not executed in this environment.
+
+**Verification limitation at the initial partial review:** This execution environment has file-view/edit tools but no command runner. The exact source diff against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` and the commands below were not run in that review:
+
+```sh
+git diff --check
+corepack pnpm --filter @portfolio-engineering/frontend test
+corepack pnpm --filter @portfolio-engineering/frontend typecheck
+corepack pnpm --filter @portfolio-engineering/frontend lint
+corepack pnpm --filter @portfolio-engineering/frontend build
+```
+
+In the resumed review below, the user reported running these commands but did not provide pass/fail outcomes. T-06.2 remains blocked until the full baseline comparison and exact check outcomes are available, and any resulting findings are resolved or explicitly accepted. This task did not inspect or begin E-07.
+
+### T-06.2 resumed governance review (2026-11-24)
+
+The review resumed after T-06.4. Source inspection confirms the obsolete `.settings-tabs [role='tablist']` rule is removed, with no remaining `[role='tablist']` selector in `App.css`; Settings remains ordinary routed navigation. No application code was changed during this review.
+
+The five `themes.css` blocks were inspected alongside `tokens.css`, `index.css`, `tailwind.config.ts`, and `tokens.test.ts`. The runtime blocks visibly share the same 29 semantic color properties and four established compatibility aliases; shared elevation definitions remain in `tokens.css`, not duplicated per theme. The contract test asserts theme-token parity and exact exported values, checks the shared ring mapping to `accent.strong`, and restricts identified residual surface/text utilities to documented legacy exceptions. These test assertions were source-inspected but not executed here. Existing informational/status/code/gradient literals remain as previously documented exceptions without an authoritative semantic mapping; they are not classified as migration drift.
+
+No new concrete governance violation was identified in the bounded source review. The complete styling-related diff against baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a` could not be inspected with the available file-view/edit tools. Consequently, this review cannot conclusively rule out migration-introduced raw colors, theme-specific hard-coded component colors/branches, layout or structure changes, routing/data-flow/behavior changes, or other obsolete styling outside the inspected sources. The user reports that the standard frontend checks were run; pass/fail results were not included and could not be independently retrieved:
+
+```sh
+git diff --check
+corepack pnpm --filter @portfolio-engineering/frontend test
+corepack pnpm --filter @portfolio-engineering/frontend typecheck
+corepack pnpm --filter @portfolio-engineering/frontend lint
+corepack pnpm --filter @portfolio-engineering/frontend build
+```
+
+At the time of this resumed-review entry, T-06.2 remained blocked pending the baseline comparison and check outcomes. That blocker was resolved by the final local verification recorded below; T-06.4 was complete and E-07 had not started.
+
+### T-06.2 final governance closeout (2026-11-24)
+
+The user reports a complete comparison of the current working tree against pre-styling baseline commit `dad2b60716fdadf9df342405c9f7d404a0daf44a`. This review includes the later T-06.3 Settings navigation semantics, Help semantic-token correction, and T-06.4 obsolete-selector cleanup.
+
+**Governance findings:**
+
+- No migration-introduced routing or URL changes, state/data-flow changes, or component behavior changes.
+- No grid/flex-direction, breakpoint, or structural changes. Spacing substitutions preserve their previous computed geometry where applicable; Figma typography and radius changes are intentional styling-foundation changes, not layout drift.
+- No component-level theme branching and no new hard-coded production TS/TSX color literals. Theme-specific runtime definitions remain centralized in the shared theme layer.
+- Settings remains native routed navigation. Its obsolete `[role='tablist']` CSS rule was removed under T-06.4.
+- Help topic-card hover uses `border.subtle` and `bg.selected`, not legacy action-primary blue.
+- Previously documented legacy styling exceptions without authoritative semantic mappings remain intentionally preserved.
+
+No unresolved styling-governance violations remain. The user reports these standard checks pass: `git diff --check`; frontend tests 46/46; typecheck; lint with 6 existing warnings and 0 errors; production build with only the existing >500 kB chunk-size warning. T-06.2 is done and E-06 is complete at 4/4. T-06.4 remains complete. E-07 theme selection/persistence was not started and remains deferred pending its specification.
 
 ### T-03.2 Light-color comparison
 

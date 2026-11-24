@@ -9,11 +9,11 @@
 
 Executing agents keep this block current. It is the entry point for any agent resuming this plan.
 
-- Current effort: E-06
-- Completed efforts: E-01, E-02, E-03, E-04, E-05
+- Current effort: None (E-06 complete; E-07 deferred)
+- Completed efforts: E-01, E-02, E-03, E-04, E-05, E-06
 - Blocked tasks: T-07.3, T-07.4 (deferred until a theme-preference spec exists; see R-2)
-- Next recommended task: T-06.2 Governance drift review (pending; not started)
-- Last updated: 2026-11-23
+- Next recommended task: None; E-07 remains deferred pending its theme-preference specification
+- Last updated: 2026-11-24
 
 | Effort | Title | Tasks | Done | Status |
 | --- | --- | --- | --- | --- |
@@ -22,7 +22,7 @@ Executing agents keep this block current. It is the entry point for any agent re
 | E-03 | Light theme, typography, radius, elevation values | 5 | 5 | done |
 | E-04 | Remove hard-coded visual values from shared layers | 7 | 6 | done |
 | E-05 | Remaining four themes | 4 | 4 | done |
-| E-06 | Accessibility verification and drift review | 3 | 2 | in-progress |
+| E-06 | Accessibility verification and drift review | 4 | 4 | done |
 | E-07 | Theme selection and persistence (deferred) | 4 | 0 | blocked |
 
 ## Summary
@@ -553,14 +553,20 @@ Diffs to `.css` files and `className` strings may change only: color, background
 
 ### T-06.2: Governance drift review
 
-- **Status:** pending
+- **Status:** done
 - **Owner:** governance
 - **Depends on:** T-06.1
 - **Files:** none (read-only)
 - **Intent:** Confirm the diff respects the layout-preservation rule, touches no routing/data/API logic, adds no competing token system, and matches ADR [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md) and [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md).
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md), [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md)
 - **Verify:** Governance report with no unresolved findings; manually compare the representative routes at 375px and 1280px against the recorded pre-styling baseline for structural/layout drift. Screenshots are optional review evidence unless requested.
-- **Notes:**
+- **Notes:** Initial review (superseded by the final local verification below): 2026-11-24 source/plan review could not inspect the exact Git diff against baseline `dad2b60716fdadf9df342405c9f7d404a0daf44a` or run the requested frontend commands in this file-view/edit-only environment. Reviewed ADR 0005/0018, task dispositions, token contract source, theme blocks, shared tokens, `index.css`, `App.css`, Button/Dialog primitives, and representative Settings/navigation/feature components. The review identified the now-removed `.settings-tabs [role='tablist']` rule; T-06.4 removed it. Other observed legacy roles (e.g. info/success/error utilities and code surfaces) are documented exceptions without approved semantic replacements and were preserved. No application code was changed in this review.
+
+  2026-11-24 resumed review: manually inspected the five runtime blocks, shared token definitions, Tailwind token consumers, token contract-test assertions, and documented legacy exceptions. The runtime themes share the same 29 semantic color properties and four established aliases; shared elevation definitions remain outside theme blocks. The earlier limited review could not inspect the full baseline diff and left T-06.2 blocked pending local verification.
+
+  2026-11-24 final local verification (user-reported): compared the current working tree, including T-06.3, the Help semantic-token correction, and T-06.4, against baseline `dad2b60716fdadf9df342405c9f7d404a0daf44a`. The review found no migration-introduced routing/URL, state/data-flow, component behavior, grid/flex direction, breakpoint, or structural changes; spacing substitutions preserve prior computed geometry where applicable. Figma typography/radius changes are intentional styling-foundation changes. No component-level theme branching or new hard-coded production TS/TSX color literals were found; theme-specific runtime values remain centralized. Settings remains native routed navigation, the obsolete Settings tablist selector is removed, and Help topic-card hover uses `border.subtle` / `bg.selected` rather than legacy action-primary blue. Documented legacy exceptions without authoritative mappings remain intentionally preserved. No unresolved governance violation remains.
+
+  Standard checks reported passing: `git diff --check`; frontend tests 46/46; typecheck; lint with 6 existing warnings and 0 errors; production build with only the existing >500 kB chunk-size warning. T-06.2 and E-06 are complete. E-07 remains deferred pending its theme-preference specification.
 
 ### T-06.3: Represent Settings sections as routed navigation
 
@@ -575,6 +581,18 @@ Diffs to `.css` files and `className` strings may change only: color, background
 - **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md), [0004](../ADRs/0004-use-react-router-for-frontend-navigation.md)
 - **Verify:** Automated semantic coverage passes; browser keyboard testing confirms native Tab/Shift+Tab and Enter behavior, current destination, and visible focus at 375px and 1280px in all five themes. No arrow-key tab behavior is required. Resume T-06.1 checks after this task.
 - **Notes:** Added and implemented 2026-11-23. Replaced tablist/tab roles with ordinary routed links. React Router `NavLink` supplies `aria-current="page"` and its active class, preserving `.nav-link.active` without custom state or keyboard behavior. Added SSR assertions for active/inactive links and nested Your AI selection, and registered the test in the frontend script. User-confirmed automated checks pass. Browser verification passes in all five themes at 375px and 1280px: Tab/Shift+Tab, Enter activation, current destination, active styling, and visible focus. T-06.3 is done; the Settings navigation semantics blocker in T-06.1 is resolved. No arrow-key tab behavior was added. T-06.2 has not started.
+
+### T-06.4: Remove obsolete Settings tablist selector
+
+- **Status:** done
+- **Owner:** frontend coding
+- **Depends on:** T-06.3
+- **Files:**
+  - `apps/frontend/src/App.css` (remove only the no-longer-matching `[role='tablist']` margin rule)
+- **Intent:** Remove the stale `.settings-tabs [role='tablist']` selector left behind after Settings sections became ordinary routed navigation links. Do not replace it with a new rule or alter spacing/layout.
+- **ADRs:** [0005](../ADRs/0005-adopt-tailwind-css-and-shadcn-ui-for-frontend-ui.md), [0018](../ADRs/0018-use-figma-semantic-tokens-for-frontend-themes.md)
+- **Verify:** Frontend tests, typecheck, lint, build and `git diff --check` pass; 375px/1280px Settings comparison shows no layout or visual change. Repeat T-06.2 baseline/source audit afterward.
+- **Notes:** Implemented 2026-11-24. Removed only `.settings-tabs [role='tablist'] { margin: 0; }` from `App.css`; no replacement selector or styling was added. Source inspection confirms `SettingsShell.tsx` now uses ordinary routed links with no tablist role, and `App.css` has no remaining `[role='tablist']` selector. Layout, spacing, markup, routing, behavior, and unrelated CSS are unchanged. No automated commands were run; T-06.2 remains blocked and was not resumed.
 
 ---
 
@@ -643,6 +661,7 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | R-30 | Pathfinder runtime is implemented but this environment has no command/browser execution tools. Native color-scheme remains undecided. | Run token/frontend tests, typecheck, lint, build and baseline browser checks including native controls/scrollbars before closing T-05.2; do not infer a native mode from the palette. | frontend coding / user | T-05.2 |
 | R-29 | User-supplied Button 455:49 and settings 539:1232 / 539:1300 definitions resolve shared Button states and the overview surface. Generic hero treatment still lacks a matching reference. | Button and overview corrections applied; retain generic hero gradient pending its reference. Fresh automated/generated-CSS/browser verification remains required before closing T-05.1. | uxd / frontend coding | T-05.1 |
 | R-31 | T-06.1 source audit found the Settings root route links used `role="tablist"`/`role="tab"` without required tab interactions. T-06.3 replaced them with routed links, and user-confirmed checks pass. | Resolved: Settings navigation semantics and keyboard behavior pass in all five themes at both target widths. | frontend coding / user | resolved 2026-11-23 |
+| R-32 | T-06.2 initially lacked local baseline-diff evidence and standard check results in the review environment. | Resolved 2026-11-24: user reports complete comparison against `dad2b60716fdadf9df342405c9f7d404a0daf44a` and passing standard checks; findings and outcomes are recorded under T-06.2 and in the styling baseline. | governance / user | resolved 2026-11-24 |
 | R-1 | Figma MCP was unavailable, but the user supplied direct exports and T-01.1 is complete. | No longer blocks inventory. Export limitations are captured separately in R-10. | uxd | resolved 2026-10-13 |
 | R-2 | No spec exists; plan created under user override. Theme selection/persistence needs a spec. | E-07 cannot be planned concretely; plan/spec number pairing. | business-requirements | T-07.1–T-07.4 |
 | R-3 | Some Figma tokens have exact CSS syntax names; the rest use ADR 0018's deterministic flattened-path rule. | Canonical names now fixed; only exact code-syntax names may be called Figma-specified. | user / adr-architect | resolved by ADR 0018 (2026-10-13) |
@@ -713,4 +732,6 @@ Diffs to `.css` files and `className` strings may change only: color, background
 | 2026-11-23 | T-06.1 accessibility audit | Calculated the Figma-documented contrast pairs from exported values; all five themes pass the stated 5:1 text/status and 3:1 accent criteria. Source review found incomplete tab semantics on Settings root route links and found that cross-theme keyboard navigation/Dialog behavior still needs direct browser verification. Recorded results and scope limits in the styling baseline; no application code changed. T-06.1 is blocked; added T-06.3 for the Settings tab interaction model. T-06.2 was not started. |
 | 2026-11-23 | T-06.3 Settings navigation semantics | Replaced the Settings root `tablist`/`tab` roles with ordinary routed navigation links, preserving all destinations and styling while explicitly retaining the active class and React Router's current-link semantics. Added server-rendered tests and registered them in the frontend test script. Automated and browser commands are unavailable here; T-06.3 remains blocked pending execution and five-theme keyboard verification. T-06.2 was not started. |
 | 2026-11-23 | T-06.3 verification | Recorded user confirmation that automated checks pass and Settings navigation passes at 375px/1280px in all five themes for Tab/Shift+Tab, Enter, current-destination semantics, active styling, and visible focus. Marked T-06.3 done and resolved the Settings semantics blocker. T-06.1 remains blocked on direct workspace-navigation and Dialog keyboard checks; T-06.2 was not started. |
-| 2026-11-23 | T-06.1 verification complete | Recorded user-confirmed cross-theme keyboard verification for workspace navigation and representative Dialog interactions in all five themes. Combined with documented contrast calculations and the resolved Settings link semantics, T-06.1 is done. T-06.2 is next and remains unstarted. |
+| 2026-11-24 | T-06.2 partial governance review | Reviewed ADR 0005/0018, recorded styling-task dispositions, token contract source, themes/tokens, global CSS, shared Button/Dialog, and selected feature/navigation components. Identified the obsolete Settings tablist selector; added focused T-06.4. The exact Git baseline diff and required frontend commands cannot be run with available tools, so T-06.2 is blocked and E-06 remains open. No application code changed; E-07 remains deferred. |
+| 2026-11-23 | T-06.1 verification complete | Recorded user-confirmed cross-theme keyboard verification for workspace navigation and representative Dialog interactions in all five themes. Combined with documented contrast calculations and the resolved Settings link semantics, T-06.1 is done. T-06.2 was next and remained unstarted at that point. |
+| 2026-11-24 | T-06.2 final governance closeout | Recorded user-reported full working-tree comparison against the pre-styling baseline, no unresolved governance violations, and passing `git diff --check`, 46 frontend tests, typecheck, lint (6 existing warnings, 0 errors), and production build (existing chunk-size warning only). Marked T-06.2 and E-06 complete; E-07 remains deferred pending its specification. |
